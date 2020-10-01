@@ -5,3 +5,10 @@ import store from './store'
 
 
 createApp(App).use(store).use(router).mount('#app')
+
+// Development purpose !!! thinks this not works with this version
+/*app.mixin({
+    created() {
+        console.log('[created] ' + this.$options.name)
+    },
+});*/

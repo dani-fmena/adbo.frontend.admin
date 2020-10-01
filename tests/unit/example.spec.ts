@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
-import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from '@/components/DefaultComponent.vue'
 
 
 /*describe('HelloWorld.vue', () => {
