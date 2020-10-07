@@ -1,27 +1,27 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import Default from '../views/Default.vue'
-import Dashboard from '../views/Dashboard.vue'
-import BasePage from '../layout/BasePage.vue'
-import BaseDashboard from '../layout/BaseDashboard.vue'
+import { DefaultView, DashboardView, LoginView } from '../views'
+import { BasePageLay, BaseDashboardLay } from '../layout'
+import { PathStrings } from './paths-strings'
+
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: '/',
-        name: 'Login',
-        component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue'),
-        meta: { layout: BaseDashboard }
+        path: PathStrings.path_login,
+        name: PathStrings.pname_login,
+        component: LoginView,
+        meta: { layout: BasePageLay }
     },
     {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: Dashboard,
-        meta: { layout: BasePage }
+        path: PathStrings.path_dashboard,
+        name: PathStrings.pname_dashboard,
+        component: DashboardView,
+        meta: { layout: BasePageLay }
     },
     {
         path: '/default',
         name: 'Default',
-        component: Default,
-        meta: { layout: BasePage }
+        component: DefaultView,
+        meta: { layout: BasePageLay }
     },
     {
         path: '/about',
@@ -29,8 +29,8 @@ const routes: Array<RouteRecordRaw> = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-        meta: { layout: BaseDashboard }
+        component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
+        meta: { layout: BaseDashboardLay }
     },
 ]
 

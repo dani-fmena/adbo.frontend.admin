@@ -1,9 +1,4 @@
 <template>
-    <div id="nav">
-        <router-link to="/dashboard">Dashboard</router-link> |
-        <router-link to="/about">About</router-link> |
-        <router-link to="/default">Default</router-link>
-    </div>
     <component :is="this.$route.meta.layout || 'div'">
         <router-view/>
     </component>
@@ -14,10 +9,7 @@
     import { defineComponent } from 'vue'
 
     export default defineComponent({
-        name: 'App',
-        mounted () {
-            document.body.classList.add('dark-edition')
-        },
+        name: 'Application',
     })
 </script>
 

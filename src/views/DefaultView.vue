@@ -7,17 +7,17 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    import HelloWorld from '@/components/DefaultComponent.vue' // @ is an alias to /src
+    import DefaultComponent from '@/components/DefaultComp.vue' // @ is an alias to /src
 
     export default defineComponent({
-        name: 'Default',
+        name: 'DefaultView',
         components: {
-            HelloWorld,
+            HelloWorld: DefaultComponent,
         },
     })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
