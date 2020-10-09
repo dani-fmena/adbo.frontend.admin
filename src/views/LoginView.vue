@@ -39,9 +39,9 @@
         },
         methods: {
 
-            //region ======== NAVIGATIONS ===========================================================
+            //region ======== NAVIGATION ============================================================
             goToDashboard (): void {
-                router.push({ name: PathStrings.name_dashboard })
+                router.push({ name: PathStrings.dashboard })
             },
             //endregion =============================================================================
 

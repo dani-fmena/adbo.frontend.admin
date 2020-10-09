@@ -1,10 +1,15 @@
 <template>
-    <div></div>
-    <div class="content">
-        <div>TOP NAV BAR</div>
-        <slot/>
+    <div class="main-panel">
+
+        <!-- CONTENT -->
+        <div class="content-page">
+            <slot />
+        </div>
+
+        <!-- FOOTER -->
+        <footer-content/>
+
     </div>
-    <footer-content/>
 </template>
 
 <script lang="ts">

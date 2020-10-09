@@ -5,9 +5,9 @@ export class PathStrings {
     static readonly path_default = '/default'
     static readonly path_about = '/about'
 
-    // PATHS NAMES
-    static readonly name_login = 'Login'
-    static readonly name_dashboard = 'Dashboard'
-    static readonly name_default = 'Default'
-    static readonly name_about = 'About'
+    // PATHS/RUTE NAMES
+    static readonly login = 'Login'
+    static readonly dashboard = 'Dashboard'
+    static readonly default = 'Default'
+    static readonly about = 'About'
 }

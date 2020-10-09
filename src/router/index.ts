@@ -7,30 +7,30 @@ import { PathStrings } from './paths-strings'
 const routes: Array<RouteRecordRaw> = [
     {
         path: PathStrings.path_login,
-        name: PathStrings.name_login,
+        name: PathStrings.login,
         component: LoginView,
         meta: { layout: BasePageLay }
     },
     {
         path: PathStrings.path_dashboard,
-        name: PathStrings.name_dashboard,
+        name: PathStrings.dashboard,
         component: DashboardView,
-        meta: { layout: BasePageLay }
+        meta: { layout: BaseDashboardLay }
     },
     {
         path: PathStrings.path_default,
-        name: PathStrings.name_default,
+        name: PathStrings.default,
         component: DefaultView,
         meta: { layout: BasePageLay }
     },
     {
         path: PathStrings.path_about,
-        name: PathStrings.name_about,
+        name: PathStrings.about,
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
-        meta: { layout: BaseDashboardLay }
+        meta: { layout: BasePageLay }
     },
 ]
 
