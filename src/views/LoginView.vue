@@ -19,7 +19,8 @@
         </form>
 
         <template v-slot:footer>
-            <button  type="submit" class="btn btn-fill btn-primary" @click.prevent="goToDashboard">Submit</button>
+            <base-button button-type="primary"> Submit </base-button>
+<!--            <button  type="submit" class="btn btn-fill btn-primary" @click.prevent="goToDashboard">Submit</button>-->
         </template>
 
     </card-comp>
@@ -27,21 +28,24 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue';
-    import { CardComp } from '../components'
-    import { PathStrings } from '../router/paths-strings'
+    import { CardComp, BaseButton } from '../components'
+    import { PathStrings } from '@/router/paths-strings'
     import router from '../router'
 
     export default defineComponent({
         name: 'LoginView',
         components: {
-            CardComp
+            CardComp,
+            BaseButton
         },
         methods: {
 
-            // navigation
-            goToDashboard() {
-                router.push({ name: PathStrings.pname_dashboard })
-            }
+            //region ======== NAVIGATIONS ===========================================================
+            goToDashboard (): void {
+                router.push({ name: PathStrings.name_dashboard })
+            },
+            //endregion =============================================================================
+
         }
     });
 </script>

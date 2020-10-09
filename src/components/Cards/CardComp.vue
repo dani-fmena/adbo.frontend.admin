@@ -1,7 +1,7 @@
 <template>
     <div class="card" :class="[cardType && `card-${cardType}`]">
 
-        <!-- CARD IMAGE-->
+        <!-- CARD IMAGE TOP-->
         <div class="card-img-top" v-if="$slots.image">
             <slot name="image"></slot>
         </div>
@@ -15,12 +15,20 @@
         </div>
 
         <!-- CARD BODY -->
-        <div class="card-body" v-if="$slots.default">
+        <div class="card-body" v-if="$slots.default" :class="bodyClasses">
             <slot></slot>
         </div>
 
+        <!-- CARD IMAGE BOTTOM-->
+        <div class="card-img-bottom" v-if="$slots['image-bottom']">
+            <slot name="image-bottom"></slot>
+        </div>
+
+        <!-- RAW CONTENT -->
+        <slot name="raw-content" v-if="$slots['raw-content']"></slot>
+
         <!-- CARD FOOTER -->
-        <div class="card-footer" v-if="$slots.footer">
+        <div class="card-footer" :class="footerClasses" v-if="$slots.footer">
             <slot name="footer"></slot>
         </div>
 
@@ -44,6 +52,7 @@
                 type: String,
                 description: "Card type (e.g user/primary/danger etc)"
             },
+
             // CLASSES PROPS
             headerClasses: {
                 type: [String, Object, Array],
