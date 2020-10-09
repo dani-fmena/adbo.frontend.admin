@@ -73,7 +73,7 @@
         methods: {
             //region ======== HANDLERS =============================================================
             handleClick (evt: Event) {
-                this.$emit('click', evt)
+                this.$emit('doClick', evt)
             },
             //endregion =============================================================================
         },

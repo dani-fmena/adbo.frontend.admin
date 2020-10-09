@@ -19,8 +19,7 @@
         </form>
 
         <template v-slot:footer>
-            <base-button button-type="primary"> Submit </base-button>
-<!--            <button  type="submit" class="btn btn-fill btn-primary" @click.prevent="goToDashboard">Submit</button>-->
+            <base-button block button-type="primary" @doClick.prevent="handleClick">Submit</base-button>
         </template>
 
     </card-comp>
@@ -46,6 +45,11 @@
             },
             //endregion =============================================================================
 
+            //region ======== HANDLERS ==============================================================
+            handleClick (): void {
+                this.goToDashboard()
+            },
+            //endregion =============================================================================
         }
     });
 </script>
