@@ -32,7 +32,7 @@
 
 
     export default defineComponent({
-        name: 'BaseButton',
+        name: 'BaseButtonComp',
         props: {
             round: Boolean,
             icon: Boolean,

@@ -19,7 +19,7 @@
         </form>
 
         <template v-slot:footer>
-            <base-button block button-type="primary" @doClick.prevent="handleClick">Submit</base-button>
+            <base-button-comp block button-type="primary" @doClick.prevent="handleClick">Submit</base-button-comp>
         </template>
 
     </card-comp>
@@ -27,7 +27,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue';
-    import { CardComp, BaseButton } from '../components'
+    import { CardComp, BaseButtonComp } from '../components'
     import { PathStrings } from '@/router/paths-strings'
     import router from '../router'
 
@@ -35,7 +35,7 @@
         name: 'LoginView',
         components: {
             CardComp,
-            BaseButton
+            BaseButtonComp
         },
         methods: {
 
