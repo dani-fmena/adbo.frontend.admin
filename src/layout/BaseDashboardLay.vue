@@ -1,8 +1,13 @@
 <template>
+
+    <!-- SIDEBAR -->
+    <side-bar-plug-comp>
+    </side-bar-plug-comp>
+
     <div class="main-panel">
 
         <!-- CONTENT -->
-        <div class="content-page">
+        <div class="content">
             <slot />
         </div>
 

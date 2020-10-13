@@ -6,7 +6,6 @@
     </div>
 
     <card-comp title="Login" card-type="auto-margin">
-
         <form>
             <div class="form-group has-label">
                 <label for="user"> Email address </label>
@@ -21,8 +20,8 @@
         <template v-slot:footer>
             <base-button-comp block button-type="primary" @doClick.prevent="handleClick">Submit</base-button-comp>
         </template>
-
     </card-comp>
+
 </template>
 
 <script lang="ts">

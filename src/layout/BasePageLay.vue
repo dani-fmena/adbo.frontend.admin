@@ -2,7 +2,7 @@
     <div class="main-panel">
         <div class="content-page">
 
-            <!-- Page Content -->
+            <!-- CONTENT -->
             <slot />
 
         </div>

@@ -1,5 +1,10 @@
 <template>
-    <h2>This is the dashboard</h2>
+    <div class="row">
+        <div class="col-12">
+            <h2>This is the dashboard</h2>
+        </div>
+    </div>
+
 </template>
 
 <script lang="ts">

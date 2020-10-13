@@ -1,21 +1,19 @@
 <template>
-    <component
-            :is="tag"
-            :button-type="tag === 'button' ? nativeType : ''"
-            class="btn"
-            :disabled="disabled || loading"
-            :class="[
-                {'btn-round': round},
-                {'btn-block': block},
-                {'btn-icon btn-fab': icon},
-                {[`btn-${buttonType}`]: buttonType},
-                {[`btn-${size}`]: size},
-                {'btn-simple': simple},
-                {'btn-link': link},
-            ]"
+    <component :is="tag"
+               :button-type="tag === 'button' ? nativeType : ''"
+                class="btn"
+                :disabled="disabled || loading"
+                :class="[
+                    {'btn-round': round},
+                    {'btn-block': block},
+                    {'btn-icon btn-fab': icon},
+                    {[`btn-${buttonType}`]: buttonType},
+                    {[`btn-${size}`]: size},
+                    {'btn-simple': simple},
+                    {'btn-link': link},
+                ]"
+               @click="handleClick">
 
-            @click="handleClick"
-    >
         <!-- loading slot  -->
         <slot name="loading">
             <i v-if="loading" class="fas fa-spinner fa-spin" />

@@ -11,6 +11,7 @@
     export default defineComponent({
         name: 'Application',
     })
+
 </script>
 
 
