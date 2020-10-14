@@ -22,11 +22,6 @@
                 this.toggleNavOpen()
             }
         }
-        /*mounted () {
-            //@ts-ignore
-            this.$watch('$sidebar.showSidebar', this.toggleNavOpen)
-            // FIXME fix this 👆🏽 , the click method change the object but the watch doesn't get fired
-        }*/
     })
 
 </script>

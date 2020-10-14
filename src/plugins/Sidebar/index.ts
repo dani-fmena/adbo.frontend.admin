@@ -1,9 +1,16 @@
+import { reactive } from 'vue'
 import SidebarPlugComp from './SidebarPlugComp.vue'
 import SidebarLinkPlugComp from './SidebarLinkPlugComp.vue'
-import { reactive } from 'vue'
+
+
+interface ISideBarStore {
+    showSidebar: boolean,
+    sidebarLinks: typeof SidebarLinkPlugComp[],
+    displaySidebar (value: boolean): void
+}
 
 // tiny internal plugin store
-const SidebarStore = reactive({
+const SidebarStore = reactive<ISideBarStore>({
     showSidebar: false,
     sidebarLinks: [],
     displaySidebar (value: boolean) {
