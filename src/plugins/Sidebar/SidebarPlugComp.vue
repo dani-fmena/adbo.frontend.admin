@@ -63,6 +63,7 @@
                 type: String,
                 default: 'success'
 
+                // FIXME i don't know why if we uncomment this, then the IDE/Typescript assist goes mad with the props
                 /*validator (value: string): boolean {
                     const acceptedValues = ['primary', 'info', 'success', 'warning', 'danger']
                     return acceptedValues.indexOf(value) !== -1

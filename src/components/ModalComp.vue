@@ -14,8 +14,7 @@
                 <div class="modal-header" :class="[headerClasses]" v-if="$slots.header">
                     <slot name="header"></slot>
                     <slot name="close-button">
-                        <button type="button" class="close" v-if="showClose" @click="handleClick" data-dismiss="modal"
-                                aria-label="Cerrar">
+                        <button type="button" class="close" v-if="showClose" @click="handleClick" data-dismiss="modal" aria-label="Close">
                             <i class="tim-icons icon-simple-remove"></i>
                         </button>
                     </slot>

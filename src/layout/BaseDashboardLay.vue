@@ -5,6 +5,9 @@
     </side-bar-plug-comp>
 
     <div class="main-panel">
+        <!-- NAV BAR -->
+        <base-top-nav-lay>
+        </base-top-nav-lay>
 
         <!-- CONTENT -->
         <div class="content">
@@ -20,11 +23,13 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
     import FooterContent from './FooterContentLay.vue'
+    import BaseTopNavLay from './BaseTopNavLay.vue'
 
     export default defineComponent({
         name: 'BaseDashboardLay',
         components: {
-            FooterContent
+            FooterContent,
+            BaseTopNavLay
         }
     })
 </script>
