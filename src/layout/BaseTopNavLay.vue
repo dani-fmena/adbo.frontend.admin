@@ -32,7 +32,7 @@
             <div class="collapse navbar-collapse show" v-show="showMenu">
                 <ul class="navbar-nav ml-auto">
 
-                    <!-- SEARCH COMPONENTS -->
+                    <!-- SEARCH COMPONENT -->
                     <div class="search-bar input-group" @click="searchModalVisible = true">
                         <button class="btn btn-link" id="search-button" data-toggle="modal" data-target="#searchModal">
                             <i class="tim-icons icon-zoom-split"></i>
@@ -48,6 +48,57 @@
                         </template>
                     </modal-comp>
 
+                    <!-- BUTTONS -->
+
+                    <!-- NOTIFICATIONS BTN DROPDOWN -->
+                    <dropdown-comp tag="li" class="nav-item" title-tag="a" :menu-on-right="true">
+                        <template v-slot:title>
+                            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="true">
+                                <div class="notification d-none d-lg-block d-xl-block"></div>
+                                <i class="tim-icons icon-sound-wave"></i>
+                                <p class="d-lg-none">
+                                    New Notifications
+                                </p>
+                            </a>
+                        </template>
+
+                        <!-- Notifications -->
+                        <li class="nav-link">
+                            <a href="#" class="nav-item dropdown-item">Mike John responded to your email</a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="#" class="nav-item dropdown-item">You have 5 more tasks</a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="#" class="nav-item dropdown-item">Another notification</a>
+                        </li>
+                    </dropdown-comp>
+
+                    <!--    -->
+                    <dropdown-comp tag="li" class="nav-item" title-tag="a" menu-classes="dropdown-navbar" :menu-on-right="true">
+                        <template v-slot:title>
+                            <a slot="title" href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="true">
+                                <div class="photo"><img src="../assets/imgs/anime3.png"></div>
+                                <b class="caret d-none d-lg-block d-xl-block"></b>
+                                <p class="d-lg-none">
+                                    Log out
+                                </p>
+                            </a>
+                        </template>
+
+                        <!-- Menu Links -->
+                        <li class="nav-link">
+                            <a href="#" class="nav-item dropdown-item">Profile</a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="#" class="nav-item dropdown-item">Settings</a>
+                        </li>
+                        <div class="dropdown-divider"></div>
+                        <li class="nav-link">
+                            <a href="#" class="nav-item dropdown-item">Log out</a>
+                        </li>
+                    </dropdown-comp>
+
                 </ul>
             </div>
 
@@ -57,7 +108,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    import { ModalComp } from '../components'
+    import { ModalComp, DropdownComp } from '../components'
 
 
     interface INavData {
@@ -70,7 +121,8 @@
     export default defineComponent({
         name: 'BaseTopNavLay',
         components: {
-            ModalComp
+            ModalComp,
+            DropdownComp
         },
         data (): INavData {
             return {

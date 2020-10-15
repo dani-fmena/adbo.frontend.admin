@@ -18,7 +18,7 @@
             }
         },
         watch: {
-            '$sidebar.showSidebar': function() {
+            '$sidebar.showSidebar': function() {            // this function receive two parameters: newValue and oldValue
                 this.toggleNavOpen()
             }
         }
