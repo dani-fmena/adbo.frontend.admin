@@ -22,6 +22,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
+    import PerfectScrollbar from 'perfect-scrollbar'
     import FooterContent from './FooterContentLay.vue'
     import BaseTopNavLay from './BaseTopNavLay.vue'
 
@@ -30,6 +31,9 @@
         components: {
             FooterContent,
             BaseTopNavLay
+        },
+        mounted (): void {
+            new PerfectScrollbar('.main-panel')
         }
     })
 </script>
