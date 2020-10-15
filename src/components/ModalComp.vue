@@ -16,8 +16,12 @@
                     <div class="modal-header" :class="[headerClasses]" v-if="$slots.header">
                         <slot name="header"></slot>
                         <slot name="close-button">
-                            <button type="button" class="close" v-if="showClose" @click="handleCloseModal"
-                                    data-dismiss="modal" aria-label="Close">
+                            <button type="button"
+                                    class="close"
+                                    v-if="showClose"
+                                    @click="handleCloseModal"
+                                    data-dismiss="modal"
+                                    aria-label="Close">
                                 <i class="tim-icons icon-simple-remove"></i>
                             </button>
                         </slot>
@@ -110,6 +114,10 @@
 </script>
 
 <style lang="scss" scoped>
+    .modal.show {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
     .fade-enter-active, .fade-leave-active {
         transition: opacity .8s ease;
     }

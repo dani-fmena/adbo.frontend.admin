@@ -28,6 +28,7 @@
                 <span class="navbar-toggler-bar navbar-kebab"></span>
             </button>
 
+            <!-- TODO animation is missing, watch https://github.com/BinarCode/vue2-transitions/issues/42 for including the lib -->
             <!-- ELEMENTS -->
             <div class="collapse navbar-collapse show" v-show="showMenu">
                 <ul class="navbar-nav ml-auto">
