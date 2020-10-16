@@ -28,4 +28,3 @@ const SidebarPlugin = {
 }
 
 export default SidebarPlugin
-

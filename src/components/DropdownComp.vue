@@ -2,11 +2,8 @@
     <component :is="tag"
                class="dropdown"
                :class="{show:isOpen}"
-               @click.prevent="handleToggleDropdown">
-               <!-- FIXME the lib has an issue with the vue3 -->
-               <!-- web ref https://github.com/ndelvalle/v-click-outside/issues/238 -->
-               <!-- web ref https://stackoverflow.com/questions/63869859/detect-click-outside-element-on-vue-3 -->
-               <!--v-click-outside="closeDropDown">-->
+               @click.prevent="handleToggleDropdown"
+               v-click-outside="closeDropDown">
 
         <slot name="title-container" :is-open="isOpen">
             <component :is="titleTag"
@@ -77,11 +74,11 @@
             handleToggleDropdown (): void {
                 this.isOpen = !this.isOpen
                 this.$emit('change', this.isOpen)           // emit a generic event 'cause this is a generic component
-            }
-            /*closeDropDown () {
+            },
+            closeDropDown () {
                 this.isOpen = false
                 this.$emit('change', false)                 // emit a generic event 'cause this is a generic component
-            }*/
+            }
         }
     })
 </script>
