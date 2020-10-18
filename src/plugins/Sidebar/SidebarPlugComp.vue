@@ -16,8 +16,16 @@
             <slot></slot>
 
             <!-- ACTUAL LINKS -->
-            <!-- by default vue-router adds an active class to each route link. This way the links are colored when clicked -->
-            <slot name="links"></slot>
+            <ul class="nav">
+                <slot name="links">
+                    <sidebar-link-plug-comp v-for="(link,index) in sidebarLinks"
+                                            :key="index"
+                                            :to="link.path"
+                                            :name="link.name"
+                                            :icon="link.icon">
+                    </sidebar-link-plug-comp>
+                </slot>
+            </ul>
 
         </div>
     </div>
@@ -53,7 +61,7 @@
         props: {
             title: {
                 type: String,
-                default: 'manager'
+                default: 'Admin'
             },
             backgroundColor: {
                 type: String,
@@ -79,24 +87,17 @@
             }
         },
         methods: {
-            findActiveLink (): void {
-                this.links.forEach((link, index) => {
-                    if (link.isActive()) this.activeLinkIndex = index
-                })
-            },
-            addLink (link: typeof SidebarLinkPlugComp): void {
-                //@ts-ignore
-                const index = this.$slots.links.indexOf(link.$vnode);
-                this.links.splice(index, 0, link);
+            addLink (link: any): void {
+                const index = this.$slots['links']!().indexOf(link.$vnode)
+                this.links.splice(index, 0, link)
             },
             removeLink (link: typeof SidebarLinkPlugComp): void {
-                const index = this.links.indexOf(link);
+                const index = this.links.indexOf(link)
                 if (index > -1) {
-                    this.links.splice(index, 1);
+                    this.links.splice(index, 1)
                 }
             }
         },
-
         // provider / react context like
         provide () {
             return {
@@ -105,12 +106,6 @@
                 removeLink: this.removeLink
             }
         },
-
-        mounted (): void {
-            this.$watch('$route', this.findActiveLink, {
-                immediate: true
-            })
-        }
     })
 
 </script>

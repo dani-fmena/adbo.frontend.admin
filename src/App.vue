@@ -1,6 +1,7 @@
 <template>
     <component :is="this.$route.meta.layout || 'div'">
-        <router-view />
+        <router-view></router-view>
+        <!--<router-view :key="$route.fullPath"></router-view>-->
     </component>
 </template>
 

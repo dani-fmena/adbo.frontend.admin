@@ -1,31 +1,37 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { DefaultView, DashboardView, LoginView } from '../views'
 import { BasePageLay, BaseDashboardLay } from '../layout'
-import { PathStrings } from './paths-strings'
+import { PATHS } from './PATHS'
 
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: PathStrings.path_login,
-        name: PathStrings.login,
+        path: PATHS.path_login,
+        name: PATHS.login,
         component: LoginView,
         meta: { layout: BasePageLay }
     },
     {
-        path: PathStrings.path_dashboard,
-        name: PathStrings.dashboard,
+        path: PATHS.path_dashboard,
+        name: PATHS.dashboard,
         component: DashboardView,
         meta: { layout: BaseDashboardLay }
     },
     {
-        path: PathStrings.path_default,
-        name: PathStrings.default,
+        path: PATHS.path_catalogs,
+        name: PATHS.catalogs,
+        component: DashboardView,
+        meta: { layout: BaseDashboardLay }
+    },
+    {
+        path: PATHS.path_default,
+        name: PATHS.default,
         component: DefaultView,
         meta: { layout: BasePageLay }
     },
     {
-        path: PathStrings.path_about,
-        name: PathStrings.about,
+        path: PATHS.path_about,
+        name: PATHS.about,
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -35,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes
 })
 

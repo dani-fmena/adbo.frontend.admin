@@ -1,11 +1,13 @@
 <template>
-    <component :is="tag" @click.prevent="hideSideBar" class="nav-item" v-bind="$attrs" tag="li">
-        <a class="nav-link">
-            <slot>
-                <i v-if="icon" :class="icon"></i>
-                <p>{{name}}</p>
-            </slot>
-        </a>
+    <component :is="tag" @click.prevent="hideSideBar" class="nav-item" v-bind="$attrs" custom v-slot="{ href, route, navigate, isActive, isExactActive }">
+        <li role="link" class="nav-item" :class="[isActive && 'active router-link-active', isExactActive && 'router-link-exact-active']">
+            <a class="nav-link" :href="href" @click="navigate">
+                <slot>
+                    <i v-if="icon" :class="icon"></i>
+                    <p>{{name}}</p>
+                </slot>
+            </a>
+        </li>
     </component>
 </template>
 
@@ -15,6 +17,7 @@
 
     export default defineComponent({
         name: 'SidebarLinkPlugComp',
+        inheritAttrs: false,
         props: {
             name: String,
             icon: String,
@@ -39,9 +42,6 @@
                 //@ts-ignore
                 if(this.autoClose) this.$sidebar.displaySidebar(false);
             },
-            isActive() : Boolean {
-                return this.$el.prototype.classList.contains('active')
-            }
         },
         mounted (): void {
             //@ts-ignore
