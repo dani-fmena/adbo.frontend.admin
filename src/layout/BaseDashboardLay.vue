@@ -15,7 +15,9 @@
 
         <!-- CONTENT -->
         <div class="content">
-            <slot />
+            <transition appear name="page-fade">
+                <slot />
+            </transition>
         </div>
 
         <!-- FOOTER -->
@@ -26,7 +28,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    import { PATHS } from '../router/PATHS'
+    import { PATHS } from '@/router/paths'
     import PerfectScrollbar from 'perfect-scrollbar'
     import FooterContent from './FooterContentLay.vue'
     import BaseTopNavLay from './BaseTopNavLay.vue'

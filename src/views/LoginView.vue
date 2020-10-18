@@ -27,7 +27,7 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import { CardComp, BaseButtonComp } from '../components'
-    import { PATHS } from '@/router/PATHS'
+    import { PATHS } from '@/router/paths'
     import router from '../router'
 
     export default defineComponent({

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { DefaultView, DashboardView, LoginView } from '../views'
+import { DefaultView, DashboardView, LoginView, CatalogsView } from '../views'
 import { BasePageLay, BaseDashboardLay } from '../layout'
-import { PATHS } from './PATHS'
+import { PATHS } from './paths'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: PATHS.path_catalogs,
         name: PATHS.catalogs,
-        component: DashboardView,
+        component: CatalogsView,
         meta: { layout: BaseDashboardLay }
     },
     {
