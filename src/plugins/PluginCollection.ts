@@ -1,4 +1,4 @@
-import SidebarPlugin from './Sidebar'
+import SidebarPlugin from './sidebar'
 
 
 export default {

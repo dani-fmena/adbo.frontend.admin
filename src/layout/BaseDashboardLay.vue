@@ -15,9 +15,7 @@
 
         <!-- CONTENT -->
         <div class="content">
-            <transition appear name="page-fade">
-                <slot />
-            </transition>
+            <slot></slot>
         </div>
 
         <!-- FOOTER -->
