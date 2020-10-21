@@ -1,0 +1,2 @@
+This folder and components could be called "containers". Its role is to manage business logic and to make api call and fetch data.
+The also talk to the store.
