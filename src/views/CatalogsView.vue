@@ -2,10 +2,15 @@
     <transition appear name="page-fade">
         <div class="row">
             <div class="col-12">
-                <h2>This is the Catalogs</h2>
-                <p>{{catalogs}}</p>
-                <button @click=ADD_CATALOGS({count:35})>TT</button>
-                <!--<button @click=testCreate>TT</button>-->
+
+                <card-comp title="This is the Catalogs">
+                    <p>{{catalogs}}</p>
+                    <button @click=ADD_CATALOGS({count:35})>TT</button>
+                    <!--<button @click=testCreate>TT</button>-->
+
+                    <table-comp/>
+
+                </card-comp>
             </div>
         </div>
     </transition>
@@ -15,13 +20,17 @@
     import { defineComponent } from 'vue'
     import { createNamespacedHelpers } from 'vuex'
     import { CATALOGS_AT } from '@/store/types/catalogs/catalogs-actions-types'
+    import { CardComp, TableComp } from '@/components'
 
 
     const { mapGetters, mapActions } = createNamespacedHelpers('catalogs')
 
     export default defineComponent({
         name: 'DashboardView',
-        components: {},
+        components: {
+            CardComp,
+            TableComp
+        },
         computed: {
             ...mapGetters({
                 catalogs: 'catalogs'
@@ -35,7 +44,6 @@
             /*...mapActions({
              test: 'addProduct'
              })*/
-
             ...mapActions([CATALOGS_AT.ADD_CATALOGS])
         },
         created (): void {
