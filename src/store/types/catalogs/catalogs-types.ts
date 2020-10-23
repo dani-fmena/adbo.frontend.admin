@@ -1,9 +1,11 @@
-
 export interface ICatalog {
-    id: string,
-    type: string,
-    brand: string,
-    model: string,
+    _id: string,
+    name: string,
+    size: string,
+    item: string,
+    isEnable: string,
+    createdAt: string,
+    updatedAt: string
 }
 
 export interface ICatalogState {

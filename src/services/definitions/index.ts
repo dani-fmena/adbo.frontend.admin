@@ -1,4 +1,4 @@
-import { IColumnHeader } from './table-types-definitions'
+import { IColumnHeader } from './table-types'
 
 
 export {

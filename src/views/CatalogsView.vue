@@ -7,7 +7,7 @@
                     <table-comp
                             table-type="hover"
                             :columns="columns"
-                            :data="data"
+                            :data="catalogs"
                             :has-actions="true"/>
 
                 </card-comp>
@@ -22,6 +22,7 @@
     import { createNamespacedHelpers } from 'vuex'
     import { CATALOGS_AT } from '@/store/types/catalogs/catalogs-actions-types'
     import { CardComp, TableComp } from '@/components'
+    import { IColumnHeader } from '@/services/definitions/table-types'
 
 
     const { mapGetters, mapActions } = createNamespacedHelpers('catalogs')
@@ -35,20 +36,12 @@
         data () {
             return {
                 columns: [
-                    { title: 'Name' },
-                    { title: 'Email' },
-                    { title: 'Age' },
-                    { title: 'Salary' },
+                    { title: 'Name'},
+                    { title: 'Size(MB)', navKey: 'size' },
+                    { title: 'Items', toCenter: true, width: 5 },
+                    { title: 'Active', toCenter: true, navKey: 'isEnable' },
                     { title: 'Actions', toRight: true }
-                ],
-                data: [
-                    {
-                        name: 'Daniel',
-                        email: 'ashigaruconyaey@gmail.com',
-                        age: '35',
-                        salary: '€ 45.80',
-                    },
-                ]
+                ] as IColumnHeader[]
             }
         },
         computed: {
