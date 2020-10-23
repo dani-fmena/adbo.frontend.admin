@@ -22,7 +22,7 @@
     import { createNamespacedHelpers } from 'vuex'
     import { CATALOGS_AT } from '@/store/types/catalogs/catalogs-actions-types'
     import { CardComp, TableComp } from '@/components'
-    import { IColumnHeader } from '@/services/definitions/table-types'
+    import { IColumnHeader } from '@/services/definitions'
 
 
     const { mapGetters, mapActions } = createNamespacedHelpers('catalogs')
