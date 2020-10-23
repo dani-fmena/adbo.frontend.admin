@@ -3,14 +3,15 @@
         <div class="row">
             <div class="col-12">
 
-                <card-comp title="This is the Catalogs">
-                    <p>{{catalogs}}</p>
-                    <button @click=ADD_CATALOGS({count:35})>TT</button>
-                    <!--<button @click=testCreate>TT</button>-->
-
-                    <table-comp/>
+                <card-comp title="Catalogs">
+                    <table-comp
+                            table-type="hover"
+                            :columns="columns"
+                            :data="data"
+                            :has-actions="true"/>
 
                 </card-comp>
+
             </div>
         </div>
     </transition>
@@ -31,19 +32,31 @@
             CardComp,
             TableComp
         },
+        data () {
+            return {
+                columns: [
+                    { title: 'Name' },
+                    { title: 'Email' },
+                    { title: 'Age' },
+                    { title: 'Salary' },
+                    { title: 'Actions', toRight: true }
+                ],
+                data: [
+                    {
+                        name: 'Daniel',
+                        email: 'ashigaruconyaey@gmail.com',
+                        age: '35',
+                        salary: '€ 45.80',
+                    },
+                ]
+            }
+        },
         computed: {
             ...mapGetters({
                 catalogs: 'catalogs'
             })
         },
         methods: {
-            /*testCreate () {
-             this.$store.dispatch('catalogs/ADD_CATALOGS', { count: 15 })
-             },*/
-
-            /*...mapActions({
-             test: 'addProduct'
-             })*/
             ...mapActions([CATALOGS_AT.ADD_CATALOGS])
         },
         created (): void {

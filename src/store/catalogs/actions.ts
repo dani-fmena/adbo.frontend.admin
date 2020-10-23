@@ -8,8 +8,7 @@ import { ICatalogState, ICatalog } from '@/store/types/catalogs/catalogs-types'
 export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
     [CATALOGS_AT.GET_CATALOGS] (context: CatalogAC) {
         ApiCatalogs.getAll().then((response: any) => {
-            const data = response.data
-            context.commit(CATALOGS_MT.CATALOGS_UPDATED, data as ICatalog[])
+            context.commit(CATALOGS_MT.CATALOGS_UPDATED, response.data as ICatalog[])
         }).catch((error) => {
             console.error(error)
         })
