@@ -20,3 +20,9 @@ export interface TCatalogActions {
     [CATALOGS_AT.ADD_CATALOGS] ({ commit }: CatalogAC, payload: { count: number }): void
     // [CATALOGS_AT.ADD_PRODUCTS]({ commit }: AugmentedActionContext, payload: number): Promise<number>
 }
+
+
+export const CATALOGS_AINVOKER = {                                      // Actions Invoker
+    [CATALOGS_AT.GET_CATALOGS]: 'catalogs/' + CATALOGS_AT.GET_CATALOGS,
+    [CATALOGS_AT.ADD_CATALOGS]: 'catalogs/' + CATALOGS_AT.ADD_CATALOGS,
+}

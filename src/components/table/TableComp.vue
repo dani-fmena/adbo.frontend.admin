@@ -1,4 +1,34 @@
 <template>
+
+    <!-- ACTION BAR -->
+    <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+
+        <!-- TABLE OFFSET -->
+        <div class="select-primary mb-3 pagination-select">
+            <select id="table-offset" name="offset" class="form-control">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="0">All</option>
+            </select>
+        </div>
+
+        <!-- SEARCH INPUT -->
+        <div class="form-group has-icon">
+            <div class="mb-0 input-group">
+                <span class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="tim-icons icon-zoom-split"></i>
+                    </div>
+                </span>
+                <input aria-describedby="addon-right addon-left" placeholder="Search" class="form-control">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- TABLE -->
     <table class="table table-responsive-sm" :class="tableClass">
 
         <!-- TABLE HEADER -->
@@ -27,7 +57,11 @@
 
             <!-- ACTIONS TD -->
             <td class="actions" v-if="hasActions">
-                <actions-comp/>
+                <actions-comp
+                        v-on:deleteIntent="deleteHandler"
+                        v-on:detailsIntent="detailsHandler"
+                        v-on:editIntent="editHandler"
+                />
             </td>
         </tr>
         </tbody>
@@ -38,7 +72,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, PropType } from 'vue'
+    import { computed, defineComponent, PropType } from 'vue'
     import PaginationComp from './PaginationComp.vue'
     import ActionsComp from './ActionsComp.vue'
     import { IColumnHeader } from '@/services/definitions'
@@ -88,22 +122,49 @@
                 }
             },
         },
-        computed: {
-            tableClass (): string {
-                return this.tableType && `table-${this.tableType}`
+        setup (props: any) {
+            //region ======== COMPUTATIONS ==========================================================
+            const tableClass = computed((): string => props.tableType && `table-${props.tableType}`)
+            //endregion =============================================================================
+
+            //region ======== EVENTS HANDLERS =======================================================
+            const deleteHandler = ( event: any ) => {
+                console.log('delete', event.target)
             }
-        },
-        methods: {
-            _getNavKey (header : IColumnHeader) :string {
+            const detailsHandler = ( event: any ) => {
+                console.log('details', event.target)
+            }
+            const editHandler = ( event: any ) => {
+                console.log('edit', event.target)
+            }
+            //endregion =============================================================================
+
+            //region ======== AUX ===================================================================
+            const getNavKey = (header: IColumnHeader): string => {
                 return header.navKey !== undefined ? header.navKey : header.title.toLowerCase()
-            },
-            hasValue (obj: any, column: IColumnHeader): boolean {
-                const key = this._getNavKey(column)
+            }
+
+            const hasValue = (obj: any, column: IColumnHeader): boolean => {
+                const key = getNavKey(column)
                 return obj[key] !== undefined
-            },
-            rowValue (obj: any, column: IColumnHeader): string | number {
-                const key = this._getNavKey(column)
+            }
+
+            const rowValue = (obj: any, column: IColumnHeader): string | number => {
+                const key = getNavKey(column)
                 return obj[key]
+            }
+            //endregion =============================================================================
+
+            return {
+                getNavKey,
+                hasValue,
+                rowValue,
+
+                tableClass,
+
+                deleteHandler,
+                detailsHandler,
+                editHandler,
             }
         }
     })
