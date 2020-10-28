@@ -54,7 +54,7 @@
                     colspan="1"
                     :class="[{'text-right': header.toRight}, {'text-left': header.toLeft}, {'text-center': header.toCenter}]"
                     :style="[{'width': header.width + '%'}]">
-                    {{rowValue(rowObj, header)}}
+                    {{ getRowValue(rowObj, header) }}
                 </td>
             </template>
 
@@ -62,10 +62,9 @@
             <td class="actions" v-if="hasActions && hasId(rowObj)">
                 <actions-comp
                         :identifier="rowObj['_id']"
-                        v-on:deleteIntent="deleteHandler"
-                        v-on:detailsIntent="detailsHandler"
-                        v-on:editIntent="editHandler"
-                />
+                        v-on:deleteIntent="$emit('detailsIntent', $event)"
+                        v-on:detailsIntent="$emit('deleteIntent', $event)"
+                        v-on:editIntent="$emit('editIntent', $event)" />
             </td>
         </tr>
         </tbody>
@@ -126,21 +125,13 @@
                 }
             },
         },
+        emits: ['detailsIntent', 'deleteIntent', 'editIntent'],
         setup (props: any) {
             //region ======== COMPUTATIONS ==========================================================
             const tableClass = computed((): string => props.tableType && `table-${props.tableType}`)
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
-            const deleteHandler = ( event: any ) => {
-                console.log('delete', event)
-            }
-            const detailsHandler = ( event: any ) => {
-                console.log('details', event)
-            }
-            const editHandler = ( event: any ) => {
-                console.log('edit', event)
-            }
             //endregion =============================================================================
 
             //region ======== AUX ===================================================================
@@ -154,11 +145,13 @@
                 return obj[key] !== undefined
             }
 
-            const hasId = (obj: any): boolean => {
-                return obj['_id'] !== undefined
-            }
+            /***
+             * Is the project
+             * @param obj
+             */
+            const hasId = (obj: any): boolean => {return obj['_id'] !== undefined}
 
-            const rowValue = (obj: any, column: IColumnHeader): string | number => {
+            const getRowValue = (obj: any, column: IColumnHeader): string | number => {
                 const key = getNavKey(column)
                 return obj[key]
             }
@@ -167,14 +160,10 @@
             return {
                 getNavKey,
                 hasValue,
-                rowValue,
+                getRowValue,
+                hasId,
 
-                tableClass,
-
-                deleteHandler,
-                detailsHandler,
-                editHandler,
-                hasId
+                tableClass
             }
         }
     })

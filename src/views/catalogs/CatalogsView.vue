@@ -7,6 +7,9 @@
 
                     <table-comp
                             table-type="hover"
+                            v-on:deleteIntent="deleteHandler"
+                            v-on:detailsIntent="detailsHandler"
+                            v-on:editIntent="editHandler"
                             :columns="columns"
                             :data="catalogs"
                             :has-actions="true"/>
@@ -48,12 +51,28 @@
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
+            const deleteHandler = ( event: any ) => {
+                console.log('delete from container', event)
+            }
+            const detailsHandler = ( event: any ) => {
+                console.log('details from container', event)
+            }
+            const editHandler = ( event: any ) => {
+                console.log('edit from container', event)
+            }
             //endregion =============================================================================
 
             //region ======== AUX ===================================================================
             //endregion =============================================================================
 
-            return { catalogs, columns }
+            return {
+                catalogs,
+                columns,
+
+                detailsHandler,
+                deleteHandler,
+                editHandler
+            }
         }
         /*
         methods: {
