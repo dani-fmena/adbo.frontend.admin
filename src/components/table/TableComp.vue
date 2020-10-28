@@ -49,7 +49,7 @@
         <tbody :class="tbodyClasses">
         <tr v-for="(rowObj, index) in data" :key="index" class="d-md-table-row">
             <template v-for="(header, index) in columns" :key="index">
-                <td v-if="hasValue(rowObj, header) && !header.hidden"
+                <td v-if="chkHasValue(rowObj, header) && !header.hidden"
                     rowspan="1"
                     colspan="1"
                     :class="[{'text-right': header.toRight}, {'text-left': header.toLeft}, {'text-center': header.toCenter}]"
@@ -59,7 +59,7 @@
             </template>
 
             <!-- ACTIONS TD -->
-            <td class="actions" v-if="hasActions && hasId(rowObj)">
+            <td class="actions" v-if="hasActions && chkHasId(rowObj)">
                 <actions-comp
                         :identifier="rowObj['_id']"
                         v-on:deleteIntent="$emit('detailsIntent', $event)"
@@ -135,22 +135,36 @@
             //endregion =============================================================================
 
             //region ======== AUX ===================================================================
-            const getNavKey = (header: IColumnHeader): string => {
-                return header.navKey !== undefined ? header.navKey : header.title.toLowerCase()
+            /***
+             * Get navigation key for obtain the row object property value. Like 2D matrix['navigation_key']
+             * @param column object describing the header properties
+             */
+            const getNavKey = (column: IColumnHeader): string => {
+                return column.navKey !== undefined ? column.navKey : column.title.toLowerCase()
             }
 
-            const hasValue = (obj: any, column: IColumnHeader): boolean => {
+            /***
+             * Check if the row object has a value corresponding to a specific header
+             * @param obj row object
+             * @param column object describing the header properties
+             */
+            const chkHasValue = (obj: any, column: IColumnHeader): boolean => {
                 const key = getNavKey(column)
 
                 return obj[key] !== undefined
             }
 
             /***
-             * Is the project
-             * @param obj
+             * Check if the row object has an id property
+             * @param obj row object
              */
-            const hasId = (obj: any): boolean => {return obj['_id'] !== undefined}
+            const chkHasId = (obj: any): boolean => {return obj['_id'] !== undefined}
 
+            /***
+             * Get the actual row object property value base on the navigation key from the column object
+             * @param obj row object
+             * @param column object describing the header properties
+             */
             const getRowValue = (obj: any, column: IColumnHeader): string | number => {
                 const key = getNavKey(column)
                 return obj[key]
@@ -159,9 +173,9 @@
 
             return {
                 getNavKey,
-                hasValue,
+                chkHasValue,
                 getRowValue,
-                hasId,
+                chkHasId,
 
                 tableClass
             }
