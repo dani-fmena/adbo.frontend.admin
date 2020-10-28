@@ -35,8 +35,11 @@
         <thead :class="theadClasses">
         <tr>
             <template v-for="header in columns" :key="header.title">
-                <th colspan="1" rowspan="1" :class="[{'text-right': header.toRight}, {'text-left': header.toLeft}, {'text-center': header.toCenter}]">
-                    <div>{{ header.title }}</div>
+                <th colspan="1"
+                    rowspan="1"
+                    v-if="!header.hidden"
+                    :class="[{'text-right': header.toRight}, {'text-left': header.toLeft}, {'text-center': header.toCenter}]">
+                    {{ header.title }}
                 </th>
             </template>
         </tr>
@@ -46,7 +49,7 @@
         <tbody :class="tbodyClasses">
         <tr v-for="(rowObj, index) in data" :key="index" class="d-md-table-row">
             <template v-for="(header, index) in columns" :key="index">
-                <td v-if="hasValue(rowObj, header)"
+                <td v-if="hasValue(rowObj, header) && !header.hidden"
                     rowspan="1"
                     colspan="1"
                     :class="[{'text-right': header.toRight}, {'text-left': header.toLeft}, {'text-center': header.toCenter}]"
@@ -56,8 +59,9 @@
             </template>
 
             <!-- ACTIONS TD -->
-            <td class="actions" v-if="hasActions">
+            <td class="actions" v-if="hasActions && hasId(rowObj)">
                 <actions-comp
+                        :identifier="rowObj['_id']"
                         v-on:deleteIntent="deleteHandler"
                         v-on:detailsIntent="detailsHandler"
                         v-on:editIntent="editHandler"
@@ -129,13 +133,13 @@
 
             //region ======== EVENTS HANDLERS =======================================================
             const deleteHandler = ( event: any ) => {
-                console.log('delete', event.target)
+                console.log('delete', event)
             }
             const detailsHandler = ( event: any ) => {
-                console.log('details', event.target)
+                console.log('details', event)
             }
             const editHandler = ( event: any ) => {
-                console.log('edit', event.target)
+                console.log('edit', event)
             }
             //endregion =============================================================================
 
@@ -146,7 +150,12 @@
 
             const hasValue = (obj: any, column: IColumnHeader): boolean => {
                 const key = getNavKey(column)
+
                 return obj[key] !== undefined
+            }
+
+            const hasId = (obj: any): boolean => {
+                return obj['_id'] !== undefined
             }
 
             const rowValue = (obj: any, column: IColumnHeader): string | number => {
@@ -165,6 +174,7 @@
                 deleteHandler,
                 detailsHandler,
                 editHandler,
+                hasId
             }
         }
     })

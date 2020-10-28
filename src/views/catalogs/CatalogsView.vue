@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, computed } from 'vue'
+    import { defineComponent, computed, ComputedRef } from 'vue'
     import { useStore } from 'vuex'
     import { CATALOGS_AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
@@ -44,7 +44,7 @@
             //endregion =============================================================================
 
             //region ======== COMPUTATIONS ==========================================================
-            const catalogs = computed(() => store.getters[CATALOGS_GINVOKER.catalogs])
+            const catalogs: ComputedRef = computed(() => store.getters[CATALOGS_GINVOKER.catalogs])
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
