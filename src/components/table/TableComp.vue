@@ -1,7 +1,7 @@
 <template>
 
     <!-- ACTION BAR -->
-    <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+    <div class="table-search-offset col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
 
         <!-- TABLE OFFSET -->
         <div class="select-primary mb-3 pagination-select">
@@ -62,8 +62,8 @@
             <td class="actions" v-if="hasActions && chkHasId(rowObj)">
                 <actions-comp
                         :identifier="rowObj['_id']"
-                        v-on:deleteIntent="$emit('detailsIntent', $event)"
-                        v-on:detailsIntent="$emit('deleteIntent', $event)"
+                        v-on:deleteIntent="$emit('deleteIntent', $event)"
+                        v-on:detailsIntent="$emit('detailsIntent', $event)"
                         v-on:editIntent="$emit('editIntent', $event)" />
             </td>
         </tr>
@@ -183,5 +183,8 @@
     })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+    .table-search-offset {
+        padding: 0 !important;
+    }
 </style>

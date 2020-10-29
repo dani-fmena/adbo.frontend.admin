@@ -20,13 +20,12 @@
 
         <!-- FOOTER -->
         <footer-content/>
-
     </div>
 </template>
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    import { PATHS } from '@/router/paths'
+    import { PATH_NAMES } from '@/router/paths'
     import PerfectScrollbar from 'perfect-scrollbar'
     import FooterContent from './FooterContentLay.vue'
     import BaseTopNavLay from './BaseTopNavLay.vue'
@@ -41,8 +40,8 @@
         name: 'BaseDashboardLay',
         data () : IRouteNames {
             return {
-                nDashboard: PATHS.dashboard,
-                nCatalog: PATHS.catalogs
+                nDashboard: PATH_NAMES.dashboard,
+                nCatalog: PATH_NAMES.catalogs
             }
         },
         components: {

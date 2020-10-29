@@ -1,5 +1,7 @@
 import DashboardView from './DashboardView.vue'
 import CatalogsView from './catalogs/CatalogsView.vue'
+import DetailsCatalogView from './catalogs/DetailsCatalogView.vue'
+import EditCatalogView from './catalogs/EditCatalogView.vue'
 import LoginView from './LoginView.vue'
 import DefaultView from './DefaultView.vue'
 
@@ -8,7 +10,11 @@ import DefaultView from './DefaultView.vue'
 
 export {
     DashboardView,
-    CatalogsView,
     LoginView,
     DefaultView,
+    
+    // Catalogs view
+    CatalogsView,
+    DetailsCatalogView,
+    EditCatalogView,
 };

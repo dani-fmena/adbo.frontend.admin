@@ -27,7 +27,7 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import { CardComp, BaseButtonComp } from '../components'
-    import { PATHS } from '@/router/paths'
+    import { PATH_NAMES } from '@/router/paths'
     import router from '../router'
 
     export default defineComponent({
@@ -37,10 +37,9 @@
             BaseButtonComp
         },
         methods: {
-
             //region ======== NAVIGATION ============================================================
             goToDashboard (): void {
-                router.push({ name: PATHS.dashboard })
+                router.push({ name: PATH_NAMES.dashboard })
             },
             //endregion =============================================================================
 
