@@ -1,9 +1,9 @@
 import { POSITION, PluginOptions, ToastInterface } from 'vue-toastification'
 
 
-export default function useAlert (t: ToastInterface) {
+export default function useToastify (t: ToastInterface) {
     
-    const ShowAlertPrimary = (msg: string): void => {
+    const tfyPrimary = (msg: string): void => {
         t(msg, {
             timeout: 3000,
             position: POSITION.TOP_RIGHT,
@@ -12,6 +12,6 @@ export default function useAlert (t: ToastInterface) {
     }
     
     return {
-        ShowAlertPrimary
+        tfyPrimary
     }
 }
