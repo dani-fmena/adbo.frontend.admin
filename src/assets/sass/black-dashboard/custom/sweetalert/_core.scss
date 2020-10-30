@@ -262,11 +262,23 @@
   &.swal2-confirm {
     order: $swal2-confirm-button-order;
     border: $swal2-confirm-button-border;
-    border-radius: $swal2-confirm-button-border-radius;
     background: initial;
-    background-color: $swal2-confirm-button-background-color;
+    border-radius: $swal2-confirm-button-border-radius;
     color: $swal2-confirm-button-color;
     font-size: $swal2-confirm-button-font-size;
+
+    background-color: $success-states !important;
+    background-image: linear-gradient(to bottom left, $success-states, $swal2-confirm-button-background-color) !important;
+    background-image: -webkit-linear-gradient(to bottom left, $success-states, $swal2-confirm-button-background-color) !important;
+    background-image: -o-linear-gradient(to bottom left, $success-states, $swal2-confirm-button-background-color) !important;
+    background-image: -moz-linear-gradient(to bottom left, $success-states, $swal2-confirm-button-background-color) !important;
+    box-shadow: none;
+  }
+
+  &.swal2-confirm:hover {
+    box-shadow: 2px 2px 6px rgba(0,0,0,.4);
+    transform: translateY(-1px);
+    -webkit-transform: translateY(-1px);
   }
 
   &.swal2-deny {
@@ -274,9 +286,21 @@
     border: $swal2-deny-button-border;
     border-radius: $swal2-deny-button-border-radius;
     background: initial;
-    background-color: $swal2-deny-button-background-color;
     color: $swal2-deny-button-color;
     font-size: $swal2-deny-button-font-size;
+
+    background-color: $danger-states !important;
+    background-image: linear-gradient(to bottom left, $danger-states, $swal2-deny-button-background-color) !important;
+    background-image: -webkit-linear-gradient(to bottom left, $danger-states, $swal2-deny-button-background-color) !important;
+    background-image: -o-linear-gradient(to bottom left, $danger-states, $swal2-deny-button-background-color) !important;
+    background-image: -moz-linear-gradient(to bottom left, $danger-states, $swal2-deny-button-background-color) !important;
+    box-shadow: none;
+  }
+
+  &.swal2-deny:hover {
+    box-shadow: 2px 2px 6px rgba(0,0,0,.4);
+    transform: translateY(-1px);
+    -webkit-transform: translateY(-1px);
   }
 
   &.swal2-cancel {
@@ -284,9 +308,15 @@
     border: $swal2-cancel-button-border;
     border-radius: $swal2-cancel-button-border-radius;
     background: initial;
-    background-color: $swal2-cancel-button-background-color;
     color: $swal2-cancel-button-color;
     font-size: $swal2-cancel-button-font-size;
+
+    background-color: $default-states !important;
+    background-image: linear-gradient(to bottom left, $swal2-cancel-button-background-color, $default-states ) !important;
+    background-image: -webkit-linear-gradient(to bottom left, $swal2-cancel-button-background-color, $default-states ) !important;
+    background-image: -o-linear-gradient(to bottom left, $swal2-cancel-button-background-color, $default-states ) !important;
+    background-image: -moz-linear-gradient(to bottom left, $swal2-cancel-button-background-color, $default-states ) !important;
+    box-shadow: none;
   }
 
   &:focus {
