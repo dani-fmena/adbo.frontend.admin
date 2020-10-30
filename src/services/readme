@@ -1,2 +1,6 @@
-This folder is designed to handle and hold old the app logic. In that line, components must not handle
+This folder is designed to handle and hold all the app logic. In that line, components must not handle
 any non-UI logic, so this folder.
+
+Also the folder can have "composable" services/component with extracted logic code for re-usability in
+other parts of the app. Align with single responsibility, refactor and loose coupled architectural
+patterns.
