@@ -27,11 +27,12 @@
     import { useRouter } from 'vue-router'
     import { PATH_NAMES } from '@/router/paths'
     import { CardComp, TableComp } from '@/components'
-    import { useToast } from 'vue-toastification'
+    // import { useToast } from 'vue-toastification'
     import { CATALOGS_AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
     import { HCatalogsTable } from '@/services/definitions/table-headers/catalogs-headers'
-    import useToastify from '../../services/composables/useToastify'
+    import useDialogfy from '@/services/composables/useDialogfy'
+    // import useToastify from '../../services/composables/useToastify'
 
 
     export default defineComponent({
@@ -41,13 +42,18 @@
             TableComp
         },
         setup (_) {
+
+            const { dfyBasicOKBtn } = useDialogfy()
+
+            dfyBasicOKBtn('Hello')
+
             //region ======== DECLARATIONS ==========================================================
             const store = useStore()
             const router = useRouter()
             const columns = HCatalogsTable
-            const toast = useToast()                                       // The toast lib interface
+            // const toast = useToast()                                       // The toast lib interface
 
-            const { tfyPrimary } = useToastify(toast)
+            // const { tfyPrimary } = useToastify(toast)
             //endregion =============================================================================
 
             //region ======== FETCHING DATA =========================================================
@@ -70,7 +76,7 @@
             }
 
             // Notifications example
-            tfyPrimary('This is the message')
+            // tfyPrimary('This is the message')
             //endregion =============================================================================
 
             //region ======== AUX ===================================================================

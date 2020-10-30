@@ -75,7 +75,6 @@
 @import "src/assets/sass/black-dashboard/custom/fixed-plugin";
 @import "src/assets/sass/black-dashboard/custom/sidebar-and-main-panel";
 @import "src/assets/sass/black-dashboard/custom/misc";
-@import "src/assets/sass/black-dashboard/custom/rtl";
 @import "src/assets/sass/black-dashboard/custom/input-group";
 
 // Vendor / Plugins
@@ -110,3 +109,15 @@
 @import "src/assets/sass/black-dashboard/custom/toast/animations/bounce";
 @import "src/assets/sass/black-dashboard/custom/toast/animations/fade";
 @import "src/assets/sass/black-dashboard/custom/toast/animations/slideBlurred";
+
+// SweetAlert2
+@import "src/assets/sass/black-dashboard/custom/sweetalert/variables";
+@import "src/assets/sass/black-dashboard/custom/sweetalert/body";
+@import "src/assets/sass/black-dashboard/custom/sweetalert/theming";
+@import "src/assets/sass/black-dashboard/custom/sweetalert/polyfills";
+@import "src/assets/sass/black-dashboard/custom/sweetalert/animations";
+@import "src/assets/sass/black-dashboard/custom/sweetalert/core";
+@import "src/assets/sass/black-dashboard/custom/sweetalert/mixins";
+@import "src/assets/sass/black-dashboard/custom/sweetalert/toasts";
+@import "src/assets/sass/black-dashboard/custom/sweetalert/toasts-animations";
+@import "src/assets/sass/black-dashboard/custom/sweetalert/toasts-body";

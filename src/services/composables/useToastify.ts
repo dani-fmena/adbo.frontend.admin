@@ -3,7 +3,7 @@ import { POSITION, PluginOptions, ToastInterface } from 'vue-toastification'
 
 export default function useToastify (t: ToastInterface) {
     
-    const tfyPrimary = (msg: string): void => {
+    const tfyPrimary = (msg: string): void => {                 // tfy is stand for toastify
         t(msg, {
             timeout: 3000,
             position: POSITION.TOP_RIGHT,
