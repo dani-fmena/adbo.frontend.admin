@@ -14,7 +14,7 @@
 
                             :columns="columns"
                             :data="catalogs"
-                            :has-actions="true"/>
+                            :has-actions="true" />
                 </card-comp>
             </div>
         </div>
@@ -23,13 +23,14 @@
 
 <script lang="ts">
     import { defineComponent, computed, ComputedRef } from 'vue'
-
     import { useStore } from 'vuex'
     import { useRouter } from 'vue-router'
     import { PATH_NAMES } from '@/router/paths'
+    import { CardComp, TableComp } from '@/components'
+    // import useAlert from '../../services/composables/useAlert'
+    // import { useToast } from "vue-toastification";
     import { CATALOGS_AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
-    import { CardComp, TableComp } from '@/components'
     import { HCatalogsTable } from '@/services/definitions/table-headers/catalogs-headers'
 
 
@@ -40,11 +41,13 @@
             TableComp
         },
         setup (_) {
-            const store = useStore()
-
             //region ======== DECLARATIONS ==========================================================
+            const store = useStore()
             const router = useRouter()
             const columns = HCatalogsTable
+            // const toast = useToast()                                       // The toast lib interface
+
+            // const { ShowAlertPrimary } = useAlert(toast)
             //endregion =============================================================================
 
             //region ======== FETCHING DATA =========================================================
@@ -60,11 +63,14 @@
                 console.log('delete from container', objectId)
             }
             const handleDetailsObject = (objectId: string) => {
-                router.push({ name: PATH_NAMES.catalogsDetails, params:{id: objectId} })
+                router.push({ name: PATH_NAMES.catalogsDetails, params: { id: objectId } })
             }
             const handleEditObject = (objectId: string) => {
-                router.push({ name: PATH_NAMES.catalogsEdit, params:{id: objectId} })
+                router.push({ name: PATH_NAMES.catalogsEdit, params: { id: objectId } })
             }
+
+            // Notifications example
+            // ShowAlertPrimary('This is the message')
             //endregion =============================================================================
 
             //region ======== AUX ===================================================================
@@ -76,13 +82,13 @@
 
                 handleDetailsObject,
                 handlerDeleteObj,
-                handleEditObject
+                handleEditObject,
             }
         }
         /*
-        methods: {
-            ...mapActions([CATALOGS_AT.ADD_CATALOGS])
-        },
-        */
+         methods: {
+         ...mapActions([CATALOGS_AT.ADD_CATALOGS])
+         },
+         */
     })
 </script>
