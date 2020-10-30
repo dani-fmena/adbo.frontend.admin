@@ -98,3 +98,15 @@
 
 // Transitions
 @import "src/assets/sass/black-dashboard/custom/transitions";
+
+// Toast
+@import "src/assets/sass/black-dashboard/custom/toast/variables";
+@import "src/assets/sass/black-dashboard/custom/toast/toastContainer";
+@import "src/assets/sass/black-dashboard/custom/toast/toast";
+@import "src/assets/sass/black-dashboard/custom/toast/closeButton";
+@import "src/assets/sass/black-dashboard/custom/toast/progressBar";
+@import "src/assets/sass/black-dashboard/custom/toast/icon";
+
+@import "src/assets/sass/black-dashboard/custom/toast/animations/bounce";
+@import "src/assets/sass/black-dashboard/custom/toast/animations/fade";
+@import "src/assets/sass/black-dashboard/custom/toast/animations/slideBlurred";
