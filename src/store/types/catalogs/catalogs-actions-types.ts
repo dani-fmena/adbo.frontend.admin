@@ -5,7 +5,8 @@ import { ICatalogState } from './catalogs-types'
 
 export enum CATALOGS_AT {
     GET_CATALOGS = 'GET_CATALOGS',
-    ADD_CATALOGS = 'ADD_CATALOGS'
+    ADD_CATALOGS = 'ADD_CATALOGS',
+    DEL_CATALOGS = 'DEL_CATALOGS'
 }
 
 export type CatalogAC = {                                                                                               // Catalog Action Context is an augmented/specific action extend from vue action context
@@ -18,11 +19,12 @@ export type CatalogAC = {                                                       
 export interface TCatalogActions {
     [CATALOGS_AT.GET_CATALOGS] ({ commit }: CatalogAC): void
     [CATALOGS_AT.ADD_CATALOGS] ({ commit }: CatalogAC, payload: { count: number }): void
+    [CATALOGS_AT.DEL_CATALOGS] ({ commit }: CatalogAC, payload: { id: string }): void
     // [CATALOGS_AT.ADD_PRODUCTS]({ commit }: AugmentedActionContext, payload: number): Promise<number>
 }
-
 
 export const CATALOGS_AINVOKER = {                                      // Actions Invoker
     [CATALOGS_AT.GET_CATALOGS]: 'catalogs/' + CATALOGS_AT.GET_CATALOGS,
     [CATALOGS_AT.ADD_CATALOGS]: 'catalogs/' + CATALOGS_AT.ADD_CATALOGS,
+    [CATALOGS_AT.DEL_CATALOGS]: 'catalogs/' + CATALOGS_AT.DEL_CATALOGS,
 }

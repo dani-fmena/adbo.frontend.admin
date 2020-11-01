@@ -127,14 +127,14 @@
         },
         emits: ['detailsIntent', 'deleteIntent', 'editIntent'],
         setup (props: any) {
-            //region ======== COMPUTATIONS ==========================================================
+            //region ======== COMPUTATIONS & GETTERS ================================================
             const tableClass = computed((): string => props.tableType && `table-${props.tableType}`)
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
             //endregion =============================================================================
 
-            //region ======== AUX ===================================================================
+            //region ======== HELPERS ===============================================================
             /***
              * Get navigation key for obtain the row object property value. Like 2D matrix['navigation_key']
              * @param column object describing the header properties

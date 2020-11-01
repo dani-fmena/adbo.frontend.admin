@@ -9,5 +9,5 @@ export interface ICatalog {
 }
 
 export interface ICatalogState {
-    catalogs: ICatalog[]
+    catalogs: Array<ICatalog>
 }

@@ -7,4 +7,8 @@ export class ApiCatalogs {
     public static getAll (): AxiosPromise<ICatalog[]> {
         return axios.get(`catalogs/`)
     }
+    
+    public static delete (id: string): AxiosPromise<ICatalog> {
+        return axios.delete(`catalogs/${ id }`)
+    }
 }

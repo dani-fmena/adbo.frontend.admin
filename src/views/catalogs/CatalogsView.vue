@@ -13,7 +13,7 @@
                             v-on:editIntent="handleEditObject"
 
                             :columns="columns"
-                            :data="catalogs"
+                            :data="catalogs.array"
                             :has-actions="true" />
                 </card-comp>
             </div>
@@ -22,17 +22,19 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, computed, ComputedRef } from 'vue'
+    import { computed, ComputedRef, defineComponent } from 'vue'
     import { useStore } from 'vuex'
     import { useRouter } from 'vue-router'
     import { PATH_NAMES } from '@/router/paths'
     import { CardComp, TableComp } from '@/components'
-    // import { useToast } from 'vue-toastification'
+    import { useToast } from 'vue-toastification'
     import { CATALOGS_AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
-    import { HCatalogsTable } from '@/services/definitions/table-headers/catalogs-headers'
+    import { HCatalogsTable, OPSKind } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
-    // import useToastify from '../../services/composables/useToastify'
+    import useToastify from '../../services/composables/useToastify'
+    import { IShell } from '@/services/definitions/common-types'
+    import { ICatalog } from '@/store/types/catalogs/catalogs-types'
 
 
     export default defineComponent({
@@ -41,32 +43,40 @@
             CardComp,
             TableComp
         },
-        setup (_) {
-
-            const { dfyBasicOKBtn } = useDialogfy()
-
-            dfyBasicOKBtn('Hello')
-
+        setup () {
             //region ======== DECLARATIONS ==========================================================
             const store = useStore()
             const router = useRouter()
+            const toast = useToast()                                       // The toast lib interface
             const columns = HCatalogsTable
-            // const toast = useToast()                                       // The toast lib interface
 
-            // const { tfyPrimary } = useToastify(toast)
+            const { dfyDeleteConfirmations } = useDialogfy()
+            const { tfyBasicSuccess, tfyBasicFail } = useToastify(toast)
             //endregion =============================================================================
 
-            //region ======== FETCHING DATA =========================================================
+            //region ======== FETCHING DATA ACTIONS =================================================
             store.dispatch(CATALOGS_AINVOKER.GET_CATALOGS)
             //endregion =============================================================================
 
-            //region ======== COMPUTATIONS ==========================================================
-            const catalogs: ComputedRef = computed(() => store.getters[CATALOGS_GINVOKER.catalogs])
+            //region ======== ACTIONS ===============================================================
+            const a_Delete = (catalogId: string): void => {
+                store.dispatch(CATALOGS_AINVOKER.DEL_CATALOGS, { id: catalogId })
+                .then((deletedObj: ICatalog) => {
+                    tfyBasicSuccess('Catalog', OPSKind.deletion, deletedObj.name)
+                })
+                .catch((error) => {
+                    tfyBasicFail(error, 'Catalog', OPSKind.deletion)
+                })
+            }
+            //endregion =============================================================================
+
+            //region ======== COMPUTATIONS & GETTERS ================================================
+            const catalogs: ComputedRef<IShell<ICatalog>> = computed(() => store.getters[CATALOGS_GINVOKER.catalogs])
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
             const handlerDeleteObj = (objectId: string) => {
-                console.log('delete from container', objectId)
+                dfyDeleteConfirmations('Catalog', objectId, a_Delete, catalogs.value.dic[objectId].name)
             }
             const handleDetailsObject = (objectId: string) => {
                 router.push({ name: PATH_NAMES.catalogsDetails, params: { id: objectId } })
@@ -74,12 +84,9 @@
             const handleEditObject = (objectId: string) => {
                 router.push({ name: PATH_NAMES.catalogsEdit, params: { id: objectId } })
             }
-
-            // Notifications example
-            // tfyPrimary('This is the message')
             //endregion =============================================================================
 
-            //region ======== AUX ===================================================================
+            //region ======== HELPERS ===============================================================
             //endregion =============================================================================
 
             return {
@@ -91,10 +98,5 @@
                 handleEditObject,
             }
         }
-        /*
-         methods: {
-         ...mapActions([CATALOGS_AT.ADD_CATALOGS])
-         },
-         */
     })
 </script>
