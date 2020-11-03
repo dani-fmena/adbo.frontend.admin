@@ -12,8 +12,10 @@
 
  */
 
-// Core
+// Custom style patches
+@import "src/assets/sass/black-dashboard/custom/patches";
 
+// Core
 @import "src/assets/sass/black-dashboard/custom/functions";
 @import "src/assets/sass/black-dashboard/bootstrap/functions";
 
@@ -24,7 +26,6 @@
 @import "src/assets/sass/black-dashboard/bootstrap/mixins";
 
 // Bootstrap components
-
 @import "src/assets/sass/black-dashboard/bootstrap/root";
 @import "src/assets/sass/black-dashboard/bootstrap/reboot";
 @import "src/assets/sass/black-dashboard/bootstrap/type";
@@ -59,7 +60,6 @@
 @import "src/assets/sass/black-dashboard/bootstrap/print";
 
 // Custom components
-
 @import "src/assets/sass/black-dashboard/custom/pagination";
 @import "src/assets/sass/black-dashboard/custom/alerts";
 @import "src/assets/sass/black-dashboard/custom/buttons";
@@ -78,16 +78,13 @@
 @import "src/assets/sass/black-dashboard/custom/input-group";
 
 // Vendor / Plugins
-
 @import "src/assets/sass/black-dashboard/custom/vendor/plugin-perfect-scrollbar";
 @import "src/assets/sass/black-dashboard/custom/vendor/plugin-animate-bootstrap-notify";
 
 // light mode
-
 @import "src/assets/sass/black-dashboard/custom/white-content";
 
 // Cards
-
 @import "src/assets/sass/black-dashboard/custom/card";
 @import "src/assets/sass/black-dashboard/custom/cards/card-chart";
 @import "src/assets/sass/black-dashboard/custom/cards/card-map";
