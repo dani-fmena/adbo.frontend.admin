@@ -1,5 +1,5 @@
 <template>
-    <div class="main-panel">
+    <div id="topper-border-cont" class="main-panel mp-stylized">
         <div class="content-page">
 
             <router-link class="nav-item" to="/default" tag="li">

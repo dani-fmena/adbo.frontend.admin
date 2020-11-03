@@ -5,7 +5,6 @@ import { IColumnHeader, Function0, Function1, Indexable, IShell, ById, OPSKind }
 export {
     // Data Definitions
     HCatalogsTable,
-    
     OPSKind,
     
     // Functions

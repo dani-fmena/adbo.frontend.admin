@@ -8,7 +8,7 @@
         </template>
     </side-bar-plug-comp>
 
-    <div class="main-panel">
+    <div id="topper-border-cont" class="main-panel mp-stylized">
         <!-- NAV BAR -->
         <base-top-nav-lay>
         </base-top-nav-lay>
