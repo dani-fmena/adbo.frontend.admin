@@ -49,7 +49,7 @@
             BaseTopNavLay
         },
         mounted (): void {
-            new PerfectScrollbar('.main-panel')
+            new PerfectScrollbar('#topper-border-cont')
         }
     })
 </script>

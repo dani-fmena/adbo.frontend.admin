@@ -16,7 +16,7 @@ const customInstance = axios.create({
 // before a request
 customInstance.interceptors.request.use(config => {
     const a = document.querySelector('#topper-border-cont')
-    a!.setAttribute('class', 'main-panel mp-4-nprogress')
+    a!.setAttribute('class', a!.className + ' mp-4-nprogress')
     Nprogress.start()
     return config
 })
@@ -24,7 +24,7 @@ customInstance.interceptors.request.use(config => {
 // before a response
 customInstance.interceptors.response.use(response => {
     const a = document.querySelector('#topper-border-cont')
-    a!.setAttribute('class', 'main-panel mp-stylized');
+    a!.setAttribute('class', 'main-panel ps mp-stylized');
     Nprogress.done()
     return response
 })
