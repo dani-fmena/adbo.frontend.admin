@@ -1,31 +1,47 @@
 <template>
 
-    <!-- ACTION BAR -->
-    <div class="table-search-offset col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
-
-        <!-- TABLE OFFSET -->
-        <div class="select-primary mb-3 pagination-select">
-            <select id="table-offset" name="offset" class="form-control">
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="0">All</option>
-            </select>
+    <!-- BUTTONS BAR -->
+    <template v-if="hasTopBtnBar">
+        <div class="table-action-bars col-12 d-flex justify-content-center justify-content-md-end flex-wrap"
+             style="margin-bottom: 12px;">
+            <base-button-comp
+                    @doClick="$emit('createIntent')"
+                    icon
+                    buttonType="primary"
+                    title="Create a new Catalog">
+                <i class="tim-icons icon-simple-add"></i>
+            </base-button-comp>
         </div>
+    </template>
 
-        <!-- SEARCH INPUT -->
-        <div class="form-group has-icon">
-            <div class="mb-0 input-group">
+    <!-- SEARCH & OFFSET BAR -->
+    <template v-if="hasOffsetSelector || hasSearch">
+        <div class="table-action-bars col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+
+            <!-- OFFSET -->
+            <div class="select-primary mb-3 pagination-select" v-if="hasOffsetSelector">
+                <select id="table-offset" name="offset" class="form-control">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="0">All</option>
+                </select>
+            </div>
+
+            <!-- SEARCH INPUT -->
+            <div class="form-group has-icon" v-if="hasSearch">
+                <div class="mb-0 input-group">
                 <span class="input-group-prepend">
                     <div class="input-group-text">
                         <i class="tim-icons icon-zoom-split"></i>
                     </div>
                 </span>
-                <input aria-describedby="addon-right addon-left" placeholder="Search" class="form-control">
+                    <input aria-describedby="addon-right addon-left" placeholder="Search" class="form-control">
+                </div>
             </div>
         </div>
-    </div>
+    </template>
 
 
     <!-- TABLE -->
@@ -80,12 +96,14 @@
     import ActionsComp from './ActionsComp.vue'
     import { IColumnHeader } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
+    import { BaseButtonComp } from '@/components'
 
 
     export default defineComponent({
         name: 'TableComp',
         components: {
             PaginationComp,
+            BaseButtonComp,
             ActionsComp
         },
         props: {
@@ -103,6 +121,21 @@
                 type: Boolean,
                 default: false,
                 description: "If the table has actions buttons or not"
+            },
+            hasTopBtnBar: {
+                type: Boolean,
+                default: true,
+                description: "If the table has the top button bar for specific actions like creation button"
+            },
+            hasOffsetSelector: {
+                type: Boolean,
+                default: true,
+                description: "If the table has the offset selector items for the table (5, 10 , 25, eth)"
+            },
+            hasSearch: {
+                type: Boolean,
+                default: true,
+                description: "If the table has search field or not"
             },
             tbodyClasses: {
                 type: String,
@@ -125,7 +158,7 @@
                 }
             },
         },
-        emits: ['detailsIntent', 'deleteIntent', 'editIntent'],
+        emits: ['detailsIntent', 'deleteIntent', 'editIntent', 'createIntent'],
         setup (props: any) {
             //region ======== COMPUTATIONS & GETTERS ================================================
             const tableClass = computed((): string => props.tableType && `table-${props.tableType}`)
@@ -184,7 +217,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .table-search-offset {
+    .table-action-bars {
         padding: 0 !important;
     }
 </style>

@@ -1,6 +1,8 @@
 import DefaultComp from './DefaultComp.vue'
 
 import BaseButtonComp from './buttons/BaseButtonComp.vue'
+import FormActionsBtnComp from './buttons/FormActionsBtnComp.vue'
+
 import DropdownComp from './DropdownComp.vue'
 import ModalComp  from './ModalComp.vue'
 
@@ -14,6 +16,8 @@ export {
     DefaultComp,
 
     BaseButtonComp,
+    FormActionsBtnComp,
+    
     DropdownComp,
     ModalComp,
     

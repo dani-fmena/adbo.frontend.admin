@@ -136,6 +136,8 @@
         computed: {
             routeName (): string {
                 const { name } = this.$route
+
+                // TODO if we ask for the params (mode form edit or create) maybe we can show de correct form mode in the NavBar
                 return this.capitalizeFirstLetter(name as string)
             }
         },

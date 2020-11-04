@@ -7,8 +7,13 @@
         </div>
 
         <!-- CARD HEADER -->
-        <div class="card-header" v-if="$slots.header || title" :class="headerClasses">
+        <div class="card-header" v-if="$slots.header || title || hasFormBackBtn" :class="headerClasses">
             <slot name="header">
+                <button v-if="hasFormBackBtn"
+                        class="btn btn-icon btn-primary"
+                        @click.prevent="handleClick">
+                    <i class="tim-icons icon-minimal-left"></i>
+                </button>
                 <h4 class="card-title">{{title}}</h4>
                 <p class="card-category" v-if="subTitle">{{subTitle}}</p>
             </slot>
@@ -52,6 +57,11 @@
                 type: String,
                 description: "Card type (e.g user/primary/danger etc)"
             },
+            hasFormBackBtn: {
+                type: Boolean,
+                default: false,
+                description: "For a card form, that sow a go-back navigation button"
+            },
 
             // CLASSES PROPS
             headerClasses: {
@@ -67,6 +77,11 @@
                 description: 'Card footer css classes',
             },
         },
+        methods: {
+            handleClick (evt: Event) {
+                this.$emit('doClick', evt)
+            }
+        }
     })
 </script>
 

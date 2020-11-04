@@ -53,3 +53,11 @@ export enum OPSKind {
     addition,
     updating
 }
+
+/***
+ * Definition for entities forms view mode
+ */
+export enum FORMMODE {
+    edit= 'edit',
+    create = 'create'
+}

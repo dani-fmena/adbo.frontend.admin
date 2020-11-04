@@ -6,7 +6,7 @@ export class PATHS {
     static readonly about = '/about'
     
     static readonly catalogs = '/catalogs'
-    static readonly catalogsEdit = '/catalogs/edit/:id'
+    static readonly catalogsForm = '/catalogs/:mode/:id?'
     static readonly catalogsDetails = '/catalogs/details/:id'
 }
 
@@ -17,6 +17,6 @@ export class PATH_NAMES {
     static readonly about = 'About'
     
     static readonly catalogs = 'Catalogs'
-    static readonly catalogsEdit = 'Edit Catalogs'
+    static readonly catalogsForm = 'Edit Catalogs'
     static readonly catalogsDetails = 'Catalogs Details'
 }

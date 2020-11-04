@@ -2,7 +2,7 @@
     <transition appear name="page-fade">
         <div class="row">
             <div class="col-12">
-                <card-comp title="Catalogs">
+                <card-comp title="List of all system's catalogs">
 
                     <!-- DATA TABLE -->
                     <table-comp
@@ -11,6 +11,8 @@
                             v-on:deleteIntent="handlerDeleteObj"
                             v-on:detailsIntent="handleDetailsObject"
                             v-on:editIntent="handleEditObject"
+
+                            v-on:createIntent="handleCreateObj"
 
                             :columns="columns"
                             :data="catalogs.array"
@@ -30,7 +32,7 @@
     import { useToast } from 'vue-toastification'
     import { CATALOGS_AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
-    import { HCatalogsTable, OPSKind } from '@/services/definitions'
+    import { FORMMODE, HCatalogsTable, OPSKind } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useToastify from '../../services/composables/useToastify'
     import { IShell } from '@/services/definitions/common-types'
@@ -75,6 +77,9 @@
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
+            const handleCreateObj = () => {
+                router.push({ name: PATH_NAMES.catalogsForm, params: { mode: FORMMODE.create, id: '' } })
+            }
             const handlerDeleteObj = (objectId: string) => {
                 dfyDeleteConfirmations('Catalog', objectId, a_Delete, catalogs.value.dic[objectId].name)
             }
@@ -82,7 +87,7 @@
                 router.push({ name: PATH_NAMES.catalogsDetails, params: { id: objectId } })
             }
             const handleEditObject = (objectId: string) => {
-                router.push({ name: PATH_NAMES.catalogsEdit, params: { id: objectId } })
+                router.push({ name: PATH_NAMES.catalogsForm, params: { mode: FORMMODE.edit, id: objectId } })
             }
             //endregion =============================================================================
 
@@ -93,6 +98,7 @@
                 catalogs,
                 columns,
 
+                handleCreateObj,
                 handleDetailsObject,
                 handlerDeleteObj,
                 handleEditObject,

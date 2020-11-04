@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { DefaultView, DashboardView, LoginView } from '../views'
 import { catalogRoutes } from './catalogs-routes'
 import { BasePageLay, BaseDashboardLay } from '../layout'
 import { PATHS, PATH_NAMES } from './paths'
@@ -9,20 +8,20 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: PATHS.login,
         name: PATH_NAMES.login,
-        component: LoginView,
+        component: () => import('../views/LoginView.vue'),
         meta: { layout: BasePageLay }
     },
     {
         path: PATHS.dashboard,
         name: PATH_NAMES.dashboard,
-        component: DashboardView,
+        component: () => import('../views/DashboardView.vue'),
         meta: { layout: BaseDashboardLay }
     },
     ...catalogRoutes,
     {
         path: PATHS.default,
         name: PATH_NAMES.default,
-        component: DefaultView,
+        component: () => import('../views/DefaultView.vue'),
         meta: { layout: BasePageLay }
     },
     {
