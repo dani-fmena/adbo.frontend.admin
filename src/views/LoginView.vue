@@ -6,7 +6,7 @@
     </div>
 
     <card-comp title="Login" card-type="auto-margin">
-        <form>
+        <form @submit.prevent>
             <div class="form-group has-label">
                 <label for="user"> Email address </label>
                 <input id="user" name="user" type="text" placeholder="User" class="form-control">

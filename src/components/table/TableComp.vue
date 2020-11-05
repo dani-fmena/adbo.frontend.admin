@@ -37,7 +37,12 @@
                         <i class="tim-icons icon-zoom-split"></i>
                     </div>
                 </span>
-                    <input aria-describedby="addon-right addon-left" placeholder="Search" class="form-control">
+                    <input class="form-control"
+                           type="text"
+                           placeholder="Search"
+                           aria-describedby="addon-right addon-left"
+                           @blur="onSrchBlursEvt($event)"
+                           @focus="onSrchFocusEvt($event)">
                 </div>
             </div>
         </div>
@@ -165,9 +170,26 @@
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
+            const onSrchFocusEvt = (evt: any) => {
+                inputToggleFocusClass(evt.target.parentElement.parentNode)
+
+            }
+            const onSrchBlursEvt = (evt: any) => {
+                inputToggleFocusClass(evt.target.parentElement.parentNode)
+            }
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
+            /***
+             * After the addition to this class to the element the styles applies the correct border
+             * color to the form group (class) element (div)
+             *
+             * @param formGroupEl Div with the form-group class thet the input (event target) belongs to
+             */
+            const inputToggleFocusClass = (formGroupEl: Element) => {
+                formGroupEl.classList.toggle('input-group-focus')
+            }
+
             /***
              * Get navigation key for obtain the row object property value. Like 2D matrix['navigation_key']
              * @param column object describing the header properties
@@ -209,6 +231,9 @@
                 chkHasValue,
                 getRowValue,
                 chkHasId,
+
+                onSrchFocusEvt,
+                onSrchBlursEvt,
 
                 tableClass
             }

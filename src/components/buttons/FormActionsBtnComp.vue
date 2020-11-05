@@ -1,7 +1,7 @@
 <template>
     <!-- PC MODE -->
     <div class="row d-sm-none d-md-flex">
-        <div class="col-md-2 text-sm-center">
+        <div class="col-md-2 text-md-left">
             <base-button-comp
                     @click.prevent="$emit('deleteIntent', $event)"
                     class="mr-md-2"
@@ -11,7 +11,7 @@
                 DELETE
             </base-button-comp>
         </div>
-        <div class="col-md-10 text-sm-center text-md-right">
+        <div class="col-md-10 text-md-right">
             <base-button-comp
                     @click.prevent="$emit('cancelIntent', $event)"
                     class="mr-sm0 mr-sm-2"
