@@ -55,14 +55,15 @@ export default function useToastify (t: ToastInterface) {
         else if (ops === OPSKind.updating) kind = "updating"
         else kind = '[unknown]'
     
-        // console.log({ ...error })
+        console.log({ ...error })
         const eCode = error.response.status
     
         if (eCode === 404) details = `The ${ subject } ${ eName } was not found.`
         else if (eCode === 500) details = `The was a internal error on the server.`
+        else if (eCode === 422) details = `Validation error with ${error.response.data.detail![0].loc[1]}. ${error.response.data.detail![0].msg}.`
         else details = error.response.data.detail.description
         
-        t.error(`Problem ${ kind } the ${ subject } ${ eName }.${ details }`, {
+        t.error(`Problem ${ kind } ${ subject } ${ eName }.${ details }`, {
             timeout: 5000,
             position: POSITION.TOP_RIGHT,
             icon: 'tim-icons icon-alert-circle-exc',
