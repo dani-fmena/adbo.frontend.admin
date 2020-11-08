@@ -1,6 +1,6 @@
 <template>
     <!-- PC MODE -->
-    <div class="row d-sm-none d-md-flex">
+    <div class="row d-sm-none d-md-flex mt-4">
         <div class="col-md-2 text-md-left">
             <base-button-comp
                     @click.prevent="$emit('deleteIntent', $event)"
@@ -20,19 +20,18 @@
                 <i class="tim-icons icon-simple-remove" style="padding-bottom: 2px; padding-right: 4px;"/>
                 CANCEL
             </base-button-comp>
-            <base-button-comp
-                    @click.prevent="$emit('saveIntent', $event)"
-                    class="ml-sm-0 ml-sm-2"
-                    buttonType="primary"
+            <!--@click.prevent="$emit('saveIntent', $event)"-->
+            <button type="submit"
+                    class="btn btn-primary ml-sm-0 ml-sm-2"
                     title="Save the catalog">
                 <i class="tim-icons icon-check-2" style="padding-bottom: 2px; padding-right: 4px;"/>
                 SAVE
-            </base-button-comp>
+            </button>
         </div>
     </div>
 
     <!-- MOBILE MODE -->
-    <div class="row d-md-none d-sm-flex">
+    <div class="row d-md-none d-sm-flex mt-4">
         <div class="col-12 text-center">
             <base-button-comp
                     round
@@ -50,14 +49,13 @@
                     title="Do nothing">
                 <i class="tim-icons icon-simple-remove" style="padding-bottom: 2px; padding-right: 4px;"/>
             </base-button-comp>
-            <base-button-comp
-                    round
-                    @click.prevent="$emit('saveIntent', $event)"
-                    class="ml-sm-2"
-                    buttonType="primary"
+            <!--@click.prevent="$emit('saveIntent', $event)"-->
+            <button
+                    type="submit"
+                    class="btn btn-primary btn-round ml-sm-2"
                     title="Save the catalog">
                 <i class="tim-icons icon-check-2" style="padding-bottom: 2px; padding-right: 4px;"/>
-            </base-button-comp>
+            </button>
         </div>
     </div>
 </template>
@@ -70,7 +68,7 @@
     export default defineComponent({
         name: 'FormActionsBtnComp',
         components: { BaseButtonComp },
-        emits: ['deleteIntent', 'cancelIntent', 'saveIntent'],
+        emits: ['deleteIntent', 'cancelIntent'],
     })
 
 </script>
