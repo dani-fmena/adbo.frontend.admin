@@ -6,7 +6,7 @@
                 <card-comp :hasFormBackBtn="true" v-on:doClick="handleBack">
 
                     <!--  FORM  -->
-                    <Form @submit="handleSubmit" :validation-schema="VSCHEMA">
+                    <Form @submit="handleSubmit" :validation-schema="VSCHEMA" :initial-values="iniFormData">
                     <!--<form @submit.prevent class="form-horizontal">-->
                         <div class="row">
                             <label class="text-sm-left text-md-right col-md-3 col-form-label">Username</label>
@@ -58,11 +58,12 @@
     import { useToast } from 'vue-toastification'
     import { VSCHEMA } from './validation'
     import { PATH_NAMES } from '@/router/paths'
-    import { IShell, OPSKind } from '@/services/definitions'
+    import { FORMMODE, IShell, OPSKind } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
     import { CATALOGS_AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import useToastify from '@/services/composables/useToastify'
+    import useFactory from '@/services/composables/useFactory'
 
 
     export default defineComponent({
@@ -75,7 +76,6 @@
             FormActionsBtnComp
         },
         setup () {
-
             //region ======== DECLARATIONS ==========================================================
             const store = useStore()
             const route = useRoute()
@@ -113,13 +113,11 @@
             const handleDelete = () => {console.log('deleting')}
             //endregion =============================================================================
 
-            // TODO use this.
-            console.log(catalogs.value.dic[id as string])
-            console.log(fmode, id)
+            const iniFormData = fmode === FORMMODE.create ? useFactory().mkCatalog() : catalogs.value.dic[id as string]
 
             return {
-
                 VSCHEMA,
+                iniFormData,
 
                 handleSubmit,
                 handleBack,

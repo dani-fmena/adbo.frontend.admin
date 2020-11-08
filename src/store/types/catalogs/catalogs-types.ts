@@ -3,7 +3,7 @@ export interface ICatalog {
     name: string,
     size: string,
     item: string,
-    isEnable: string,
+    isEnable: boolean,
     createdAt: string,
     updatedAt: string
 }
