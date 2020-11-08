@@ -8,6 +8,6 @@ export interface ICatalog {
     updatedAt: string
 }
 
-export interface ICatalogState {
+export interface ICatalogState {                                                    // Vuex state
     catalogs: Array<ICatalog>
 }

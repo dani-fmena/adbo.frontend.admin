@@ -6,7 +6,7 @@ export class PATHS {
     static readonly about = '/about'
     
     static readonly catalogs = '/catalogs'
-    static readonly catalogsForm = '/catalogs/:mode/:id?'
+    static readonly catalogsForm = '/catalogs/:fmode/:id?'              // fmode -> form mode
     static readonly catalogsDetails = '/catalogs/details/:id'
 }
 

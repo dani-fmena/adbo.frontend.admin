@@ -1,6 +1,6 @@
 import { ActionContext } from 'vuex'
 import { TCatalogsMutations } from './catalogs-mutation-types'
-import { ICatalogState } from './catalogs-types'
+import { ICatalog, ICatalogState } from './catalogs-types'
 
 
 export enum CATALOGS_AT {
@@ -18,7 +18,7 @@ export type CatalogAC = {                                                       
 
 export interface TCatalogActions {
     [CATALOGS_AT.GET_CATALOGS] ({ commit }: CatalogAC): void
-    [CATALOGS_AT.ADD_CATALOGS] ({ commit }: CatalogAC, payload: { count: number }): void
+    [CATALOGS_AT.ADD_CATALOGS] ({ commit }: CatalogAC, payload: { catalog: Partial<ICatalog> }): void
     [CATALOGS_AT.DEL_CATALOGS] ({ commit }: CatalogAC, payload: { id: string }): void
     // [CATALOGS_AT.ADD_PRODUCTS]({ commit }: AugmentedActionContext, payload: number): Promise<number>
 }

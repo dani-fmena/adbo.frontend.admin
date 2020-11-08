@@ -2,7 +2,7 @@
     <transition appear name="page-fade">
         <div class="row">
             <div class="col-12">
-                <card-comp title="List of all system's catalogs">
+                <card-comp>
 
                     <!-- DATA TABLE -->
                     <table-comp
@@ -66,9 +66,7 @@
                 .then((deletedObj: ICatalog) => {
                     tfyBasicSuccess('Catalog', OPSKind.deletion, deletedObj.name)
                 })
-                .catch((error) => {
-                    tfyBasicFail(error, 'Catalog', OPSKind.deletion)
-                })
+                .catch((error) => {tfyBasicFail(error, 'Catalog', OPSKind.deletion)})
             }
             //endregion =============================================================================
 
@@ -78,7 +76,7 @@
 
             //region ======== EVENTS HANDLERS =======================================================
             const handleCreateObj = () => {
-                router.push({ name: PATH_NAMES.catalogsForm, params: { mode: FORMMODE.create, id: '' } })
+                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: FORMMODE.create, id: '', tname: 'Create Catalog' } })
             }
             const handlerDeleteObj = (objectId: string) => {
                 dfyDeleteConfirmations('Catalog', objectId, a_Delete, catalogs.value.dic[objectId].name)
@@ -87,7 +85,7 @@
                 router.push({ name: PATH_NAMES.catalogsDetails, params: { id: objectId } })
             }
             const handleEditObject = (objectId: string) => {
-                router.push({ name: PATH_NAMES.catalogsForm, params: { mode: FORMMODE.edit, id: objectId } })
+                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: FORMMODE.edit, id: objectId, tname: 'Edit Catalog'  } })
             }
             //endregion =============================================================================
 

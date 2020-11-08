@@ -136,9 +136,11 @@
         computed: {
             routeName (): string {
                 const { name } = this.$route
+                const { tname } = this.$route.params            // Translation Name of the Route, this is used when we need to specify a name programmatically
 
-                // TODO if we ask for the params (mode form edit or create) maybe we can show de correct form mode in the NavBar
-                return this.capitalizeFirstLetter(name as string)
+                if (tname !== undefined && typeof tname === "string") return tname
+
+                return name as string
             }
         },
         methods: {

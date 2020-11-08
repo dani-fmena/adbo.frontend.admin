@@ -11,4 +11,8 @@ export class ApiCatalogs {
     public static delete (id: string): AxiosPromise<ICatalog> {
         return axios.delete(`catalogs/${ id }`)
     }
+    
+    public static create (catalog: Partial<ICatalog>): AxiosPromise<ICatalog> {
+        return axios.post(`catalogs/`, catalog)
+    }
 }

@@ -12,7 +12,7 @@ const customInstance = axios.create({
         'Accept': 'application/json'
     }
 })
-// I think that the code we have in this interceptor is pro detrimental about the performance of the application
+// I think that the code we have in this interceptor is going on detrimental of the app performance
 // before a request
 customInstance.interceptors.request.use(config => {
     const a = document.querySelector('#topper-border-cont')
