@@ -7,6 +7,7 @@ import DropdownComp from './DropdownComp.vue'
 import ModalComp  from './ModalComp.vue'
 
 import BasicInputComp from '@/components/inputs/BasicInputComp.vue'
+import BasicCheckboxComp from '@/components/inputs/BasicCheckboxComp.vue'
 
 import TableComp from './table/TableComp.vue'
 import PaginationComp from './table/PaginationComp.vue'
@@ -24,6 +25,7 @@ export {
     ModalComp,
     
     BasicInputComp,
+    BasicCheckboxComp,
     
     TableComp,
     PaginationComp,
