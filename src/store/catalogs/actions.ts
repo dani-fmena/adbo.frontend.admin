@@ -27,6 +27,20 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
             })
         })
     },
+    [CATALOGS_AT.EDIT_CATALOGS] (_: CatalogAC, payload: { catalog: Partial<ICatalog> }) {
+        return new Promise((resolve, reject) => {
+            ApiCatalogs.edit(payload.catalog)
+            .then((result) => {
+                
+                const { data } = result                                 // data is the created object retrieved by the api server
+                resolve(data)
+                
+            })
+            .catch((error) => {
+                reject(error)
+            })
+        })
+    },
     [CATALOGS_AT.DEL_CATALOGS] (context: CatalogAC, payload: { id: string }) {
         return new Promise((resolve, reject) => {
             ApiCatalogs.delete(payload.id)

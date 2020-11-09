@@ -15,4 +15,8 @@ export class ApiCatalogs {
     public static create (catalog: Partial<ICatalog>): AxiosPromise<ICatalog> {
         return axios.post(`catalogs/`, catalog)
     }
+    
+    public static edit (catalog: Partial<ICatalog>): AxiosPromise<ICatalog> {
+        return axios.put(`catalogs/`, catalog)
+    }
 }
