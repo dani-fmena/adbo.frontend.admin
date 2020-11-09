@@ -3,6 +3,7 @@
     <div class="row d-sm-none d-md-flex mt-4">
         <div class="col-md-2 text-md-left">
             <base-button-comp
+                    v-if:="showDelete"
                     @click.prevent="$emit('deleteIntent', $event)"
                     class="mr-md-2"
                     buttonType="danger"
@@ -34,6 +35,7 @@
     <div class="row d-md-none d-sm-flex mt-4">
         <div class="col-12 text-center">
             <base-button-comp
+                    v-if:="showDelete"
                     round
                     @click.prevent="$emit('deleteIntent', $event)"
                     class="mr-md-2"
@@ -68,6 +70,12 @@
     export default defineComponent({
         name: 'FormActionsBtnComp',
         components: { BaseButtonComp },
+        props: {
+            showDelete: {
+                type: Boolean,
+                description: "If we have to show the delete button regarding the form mode pass it to this component"
+            },
+        },
         emits: ['deleteIntent', 'cancelIntent'],
     })
 

@@ -31,7 +31,9 @@
                         </div>
 
                         <!-- FORM ACTIONS BUTTONS -->
-                        <form-actions-btn-comp v-on:deleteIntent="handleDelete" v-on:cancelIntent="handleCancel" />
+                        <form-actions-btn-comp :show-delete="cmptdFmode === FORMMODE.edit"
+                                               v-on:deleteIntent="handleDelete"
+                                               v-on:cancelIntent="handleCancel" />
 
                     </Form>
                 </card-comp>
@@ -55,6 +57,7 @@
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
     import { CATALOGS_AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import useToastify from '@/services/composables/useToastify'
+    import useDialogfy from '@/services/composables/useDialogfy'
     import useFactory from '@/services/composables/useFactory'
 
 
@@ -77,6 +80,7 @@
             const toast = useToast()                                       // The toast lib interface
 
             const { tfyBasicSuccess, tfyBasicFail } = useToastify(toast)
+            const { dfyDeleteConfirmations } = useDialogfy()
             const { mkCatalog } = useFactory()
             //endregion =============================================================================
 
@@ -84,7 +88,7 @@
             //endregion =============================================================================
 
             //region ======== ACTIONS ===============================================================
-            const a_CreateCatalog = (newCatalog: Partial<ICatalog>): void => {
+            const a_Create = (newCatalog: Partial<ICatalog>): void => {
                 store.dispatch(CATALOGS_AINVOKER.ADD_CATALOGS, { catalog: newCatalog })
                 .then((catalog: ICatalog) => {
                     tfyBasicSuccess('Catalog', OPSKind.addition, catalog.name)
@@ -92,13 +96,21 @@
                 })
                 .catch((error) => {tfyBasicFail(error, 'Catalog', OPSKind.addition)})
             }
-            const a_EditCatalog = (newCatalog: Partial<ICatalog>): void => {
+            const a_Edit = (newCatalog: Partial<ICatalog>): void => {
                 store.dispatch(CATALOGS_AINVOKER.EDIT_CATALOGS, { catalog: newCatalog })
                 .then((catalog: ICatalog) => {
                     tfyBasicSuccess('Catalog', OPSKind.updating, catalog.name)
                     handleBack()
                 })
                 .catch((error) => {tfyBasicFail(error, 'Catalog', OPSKind.updating)})
+            }
+            const a_Delete = (catalogId: string): void => {
+                store.dispatch(CATALOGS_AINVOKER.DEL_CATALOGS, { id: catalogId })
+                .then((deletedObj: ICatalog) => {
+                    tfyBasicSuccess('Catalog', OPSKind.deletion, deletedObj.name)
+                    handleBack()
+                })
+                .catch((error) => {tfyBasicFail(error, 'Catalog', OPSKind.deletion)})
             }
             //endregion =============================================================================
 
@@ -110,12 +122,15 @@
 
             //region ======== EVENTS HANDLERS =======================================================
             const handleSubmit = (formData: Partial<ICatalog>) => {
-                if(fmode == FORMMODE.create) a_CreateCatalog(formData)
-                if (fmode == FORMMODE.edit) a_EditCatalog(formData)
+                if(fmode == FORMMODE.create) a_Create(formData)
+                if (fmode == FORMMODE.edit) a_Edit(formData)
             }
             const handleBack = () => {router.push({ name: PATH_NAMES.catalogs })}
             const handleCancel = () => {router.push({ name: PATH_NAMES.catalogs })}
-            const handleDelete = () => {console.log('deleting')}
+            const handleDelete = () => {
+                if (fmode)
+                    dfyDeleteConfirmations('Catalog', iniFormData._id as string, a_Delete, iniFormData.name)
+            }
             //endregion =============================================================================
 
             return {
