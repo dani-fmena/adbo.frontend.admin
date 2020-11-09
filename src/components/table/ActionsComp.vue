@@ -18,7 +18,7 @@
         <button @click.prevent="$emit('deleteIntent', identifier)"
                 type="button"
                 class="btn remove btn-link btn-icon btn-fab btn-danger btn-sm">
-            <i class="tim-icons icon-simple-remove"></i>
+            <i class="tim-icons icon-trash-simple"></i>
         </button>
     </div>
 </template>

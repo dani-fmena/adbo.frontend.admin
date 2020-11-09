@@ -28,6 +28,7 @@ export interface IColumnHeader {
     toRight: boolean | undefined
     toCenter: boolean | undefined
     width: number | undefined                                       // percent (%)
+    switch: boolean | undefined                                     // If we can use this cell as a switch for enable / disable actions
 }
 
 /***

@@ -1,11 +1,11 @@
 import { IColumnHeader } from '@/services/definitions'
 
 
-export const HCatalogsTable: Partial<IColumnHeader> [] = [            // H is for headers
+export const HCatalogsTable: Partial<IColumnHeader> [] = [            // H means headers
     { title: 'Id', navKey: '_id', hidden: true },
     { title: 'Name' },
-    { title: 'Size(MB)', navKey: 'size' },
-    { title: 'Items', toCenter: true, width: 5 },
-    { title: 'Active', toCenter: true, navKey: 'isEnable' },
-    { title: 'Actions', toRight: true }
+    { title: 'Active', toCenter: true, navKey: 'isEnable', switch: true },
+    { title: 'Size(MB)', navKey: 'size', width: 6 },
+    { title: 'Items', toCenter: true, width: 6 },
+    { title: 'Actions', toRight: true, width: 40}
 ]

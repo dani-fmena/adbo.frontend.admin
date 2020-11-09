@@ -14,6 +14,9 @@
 
                             v-on:createIntent="handleCreateObj"
 
+                            v-on:enableIntent="handleEnableObject"
+                            v-on:disableIntent="handleDisableObject"
+
                             :columns="columns"
                             :data="catalogs.array"
                             :has-actions="true" />
@@ -87,6 +90,8 @@
             const handleEditObject = (objectId: string) => {
                 router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: FORMMODE.edit, id: objectId, tname: 'Edit Catalog'  } })
             }
+            const handleEnableObject = (objectId: string) => {console.log('enable intent to', objectId)}
+            const handleDisableObject = (objectId: string) => {console.log('disable intent to', objectId)}
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
@@ -100,6 +105,8 @@
                 handleDetailsObject,
                 handlerDeleteObj,
                 handleEditObject,
+                handleEnableObject,
+                handleDisableObject
             }
         }
     })

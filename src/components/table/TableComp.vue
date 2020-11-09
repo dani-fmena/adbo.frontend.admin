@@ -5,8 +5,8 @@
         <div class="table-action-bars col-12 d-flex justify-content-center justify-content-md-end flex-wrap"
              style="margin-bottom: 12px;">
             <base-button-comp
-                    @doClick="$emit('createIntent')"
                     icon
+                    @doClick="$emit('createIntent')"
                     buttonType="primary"
                     title="Create a new Catalog">
                 <i class="tim-icons icon-simple-add"></i>
@@ -70,7 +70,15 @@
         <tbody :class="tbodyClasses">
         <tr v-for="(rowObj, index) in data" :key="index" class="d-md-table-row">
             <template v-for="(header, index) in columns" :key="index">
-                <td v-if="chkHasValue(rowObj, header) && !header.hidden"
+                <!-- switch / toggler mode -->
+                <td v-if="chkHasValue(rowObj, header) && !header.hidden && header.switch">
+                    <switch-cell-comp :identifier="rowObj['_id']"
+                                      :is-enable="getRowValue(rowObj, header)"
+                                      v-on:enableIntent="$emit('enableIntent', $event)"
+                                      v-on:disableIntent="$emit('disableIntent', $event)" />
+                </td>
+                <!-- normal mode -->
+                <td v-else-if="chkHasValue(rowObj, header) && !header.hidden"
                     rowspan="1"
                     colspan="1"
                     :class="[{'text-right': header.toRight}, {'text-left': header.toLeft}, {'text-center': header.toCenter}]"
@@ -81,11 +89,10 @@
 
             <!-- ACTIONS TD -->
             <td class="actions" v-if="hasActions && chkHasId(rowObj)">
-                <actions-comp
-                        :identifier="rowObj['_id']"
-                        v-on:deleteIntent="$emit('deleteIntent', $event)"
-                        v-on:detailsIntent="$emit('detailsIntent', $event)"
-                        v-on:editIntent="$emit('editIntent', $event)" />
+                <actions-comp :identifier="rowObj['_id']"
+                              v-on:deleteIntent="$emit('deleteIntent', $event)"
+                              v-on:detailsIntent="$emit('detailsIntent', $event)"
+                              v-on:editIntent="$emit('editIntent', $event)" />
             </td>
         </tr>
         </tbody>
@@ -98,6 +105,7 @@
 <script lang="ts">
     import { computed, defineComponent, PropType } from 'vue'
     import PaginationComp from './PaginationComp.vue'
+    import SwitchCellComp from './SwitchCellComp.vue'
     import ActionsComp from './ActionsComp.vue'
     import { IColumnHeader } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
@@ -109,6 +117,7 @@
         components: {
             PaginationComp,
             BaseButtonComp,
+            SwitchCellComp,
             ActionsComp
         },
         props: {
@@ -163,7 +172,7 @@
                 }
             },
         },
-        emits: ['detailsIntent', 'deleteIntent', 'editIntent', 'createIntent'],
+        emits: ['detailsIntent', 'deleteIntent', 'editIntent', 'createIntent', 'enableIntent', 'disableIntent'],
         setup (props: any) {
             //region ======== COMPUTATIONS & GETTERS ================================================
             const tableClass = computed((): string => props.tableType && `table-${props.tableType}`)

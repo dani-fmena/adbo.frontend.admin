@@ -11,6 +11,7 @@ import BasicCheckboxComp from '@/components/inputs/BasicCheckboxComp.vue'
 
 import TableComp from './table/TableComp.vue'
 import PaginationComp from './table/PaginationComp.vue'
+import SwitchCellComp from './table/SwitchCellComp.vue'
 import ActionsComp from './table/ActionsComp.vue'
 
 import CardComp from './cards/CardComp.vue'
@@ -29,6 +30,7 @@ export {
     
     TableComp,
     PaginationComp,
+    SwitchCellComp,
     ActionsComp,
 
     // Cards
