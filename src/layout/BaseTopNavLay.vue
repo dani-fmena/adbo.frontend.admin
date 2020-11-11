@@ -136,9 +136,9 @@
         computed: {
             routeName (): string {
                 const { name } = this.$route
-                const { tname } = this.$route.params            // Translation Name of the Route, this is used when we need to specify a name programmatically
+                const { cname } = this.$route.params            // Translation Name of the Route, this is used when we need to specify a name programmatically
 
-                if (tname !== undefined && typeof tname === "string") return tname
+                if (cname !== undefined && typeof cname === "string") return cname
 
                 return name as string
             }

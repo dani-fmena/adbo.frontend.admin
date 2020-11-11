@@ -54,12 +54,15 @@
     // This help to the intuition with the rustic enalbe/disable table icon switch, until we develop a proper switch
 
     .bnt-status-disable:hover,
-    .bnt-status-disable:focus {
+    .bnt-status-disable:focus
+    {
         cursor: none !important;
         color: #ff8d72 !important;
     }
+
     .bnt-status-enable:hover,
-    .bnt-status-enable:focus {
+    .bnt-status-enable:focus
+    {
         cursor: none !important;
         color: #00f2c3 !important;
     }

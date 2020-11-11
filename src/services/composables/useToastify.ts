@@ -28,6 +28,8 @@ export default function useToastify (t: ToastInterface) {
     
         if (ops === OPSKind.deletion) kind = "deleted"
         else if (ops === OPSKind.addition) kind = "created"
+        else if (ops === OPSKind.enable) kind = "enabled"
+        else if (ops === OPSKind.disable) kind = "disabled"
         else if (ops === OPSKind.updating) kind = "updated"
         else kind = '[unknown]'
     
@@ -52,6 +54,8 @@ export default function useToastify (t: ToastInterface) {
     
         if (ops === OPSKind.deletion) kind = "deleting"
         else if (ops === OPSKind.addition) kind = "creating"
+        else if (ops === OPSKind.enable) kind = "activating"
+        else if (ops === OPSKind.disable) kind = "disabling"
         else if (ops === OPSKind.updating) kind = "updating"
         else kind = '[unknown]'
     

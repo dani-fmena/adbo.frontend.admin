@@ -56,5 +56,20 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 reject(error)
             })
         })
+    },
+    [CATALOGS_AT.SET_CATALOGS_STATUS] (context: CatalogAC, payload: { id: string, newStatus: boolean }) {
+        return new Promise((resolve, reject) => {
+            ApiCatalogs.setStatus(payload.id, payload.newStatus)
+            .then(() => {
+    
+    
+                context.commit(CATALOGS_MT.SET_CATALOGS_STATUS, { catalogId: payload.id, newStatus: payload.newStatus })
+                resolve()
+                
+            })
+            .catch((error) => {
+                reject(error)
+            })
+        })
     }
 }

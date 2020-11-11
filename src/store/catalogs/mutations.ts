@@ -14,5 +14,13 @@ export const mutations: MutationTree<ICatalogState> & TCatalogsMutations = {
             accumulator.push(state.catalogs[+key])
             return accumulator
         }, [])
-    }
+    },
+    [CATALOGS_MT.SET_CATALOGS_STATUS] (state: ICatalogState, payload: { catalogId: string, newStatus: boolean }) {
+        state.catalogs = Object.keys(state.catalogs).reduce<ICatalog[]>((accumulator, key) => {
+            if (state.catalogs[+key]._id === payload.catalogId) state.catalogs[+key].isEnable = payload.newStatus
+        
+            accumulator.push(state.catalogs[+key])
+            return accumulator
+        }, [])
+    },
 }

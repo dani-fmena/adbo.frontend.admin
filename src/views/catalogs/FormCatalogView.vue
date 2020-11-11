@@ -55,7 +55,7 @@
     import { FORMMODE, IShell, OPSKind } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
-    import { CATALOGS_AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
+    import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import useToastify from '@/services/composables/useToastify'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useFactory from '@/services/composables/useFactory'
@@ -89,7 +89,7 @@
 
             //region ======== ACTIONS ===============================================================
             const a_Create = (newCatalog: Partial<ICatalog>): void => {
-                store.dispatch(CATALOGS_AINVOKER.ADD_CATALOGS, { catalog: newCatalog })
+                store.dispatch(AINVOKER.ADD_CATALOGS, { catalog: newCatalog })
                 .then((catalog: ICatalog) => {
                     tfyBasicSuccess('Catalog', OPSKind.addition, catalog.name)
                     handleBack()
@@ -97,7 +97,7 @@
                 .catch((error) => {tfyBasicFail(error, 'Catalog', OPSKind.addition)})
             }
             const a_Edit = (newCatalog: Partial<ICatalog>): void => {
-                store.dispatch(CATALOGS_AINVOKER.EDIT_CATALOGS, { catalog: newCatalog })
+                store.dispatch(AINVOKER.EDIT_CATALOGS, { catalog: newCatalog })
                 .then((catalog: ICatalog) => {
                     tfyBasicSuccess('Catalog', OPSKind.updating, catalog.name)
                     handleBack()
@@ -105,7 +105,7 @@
                 .catch((error) => {tfyBasicFail(error, 'Catalog', OPSKind.updating)})
             }
             const a_Delete = (catalogId: string): void => {
-                store.dispatch(CATALOGS_AINVOKER.DEL_CATALOGS, { id: catalogId })
+                store.dispatch(AINVOKER.DEL_CATALOGS, { id: catalogId })
                 .then((deletedObj: ICatalog) => {
                     tfyBasicSuccess('Catalog', OPSKind.deletion, deletedObj.name)
                     handleBack()

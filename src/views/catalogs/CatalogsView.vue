@@ -33,7 +33,7 @@
     import { PATH_NAMES } from '@/router/paths'
     import { CardComp, TableComp } from '@/components'
     import { useToast } from 'vue-toastification'
-    import { CATALOGS_AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
+    import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
     import { FORMMODE, HCatalogsTable, OPSKind } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
@@ -60,16 +60,24 @@
             //endregion =============================================================================
 
             //region ======== FETCHING DATA ACTIONS =================================================
-            store.dispatch(CATALOGS_AINVOKER.GET_CATALOGS)
+            store.dispatch(AINVOKER.GET_CATALOGS)
             //endregion =============================================================================
 
             //region ======== ACTIONS ===============================================================
             const a_Delete = (catalogId: string): void => {
-                store.dispatch(CATALOGS_AINVOKER.DEL_CATALOGS, { id: catalogId })
+                store.dispatch(AINVOKER.DEL_CATALOGS, { id: catalogId })
                 .then((deletedObj: ICatalog) => {
                     tfyBasicSuccess('Catalog', OPSKind.deletion, deletedObj.name)
                 })
                 .catch((error) => {tfyBasicFail(error, 'Catalog', OPSKind.deletion)})
+            }
+
+            const a_SetStatus = (catalogId: string, isToEnable: boolean): void => {
+                store.dispatch(AINVOKER.SET_CATALOGS_STATUS, { id: catalogId, newStatus: isToEnable })
+                .then(() => {
+                    tfyBasicSuccess('Catalog', isToEnable ? OPSKind.enable : OPSKind.disable, catalogs.value.dic[catalogId].name)
+                })
+                .catch((error) => {tfyBasicFail(error, 'Catalog', isToEnable ? OPSKind.enable : OPSKind.disable)})
             }
             //endregion =============================================================================
 
@@ -79,7 +87,7 @@
 
             //region ======== EVENTS HANDLERS =======================================================
             const handleCreateObj = () => {
-                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: FORMMODE.create, id: '', tname: 'Create Catalog' } })
+                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: FORMMODE.create, id: '', cname: 'Create Catalog' } })                     // cname means custom nam
             }
             const handlerDeleteObj = (objectId: string) => {
                 dfyDeleteConfirmations('Catalog', objectId, a_Delete, catalogs.value.dic[objectId].name)
@@ -88,10 +96,14 @@
                 router.push({ name: PATH_NAMES.catalogsDetails, params: { id: objectId } })
             }
             const handleEditObject = (objectId: string) => {
-                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: FORMMODE.edit, id: objectId, tname: 'Edit Catalog'  } })
+                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: FORMMODE.edit, id: objectId, cname: 'Edit Catalog'  } })
             }
-            const handleEnableObject = (objectId: string) => {console.log('enable intent to', objectId)}
-            const handleDisableObject = (objectId: string) => {console.log('disable intent to', objectId)}
+            const handleEnableObject = (objectId: string) => {
+                a_SetStatus(objectId, true)
+            }
+            const handleDisableObject = (objectId: string) => {
+                a_SetStatus(objectId, false)
+            }
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================

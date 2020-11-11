@@ -19,4 +19,9 @@ export class ApiCatalogs {
     public static edit (catalog: Partial<ICatalog>): AxiosPromise<ICatalog> {
         return axios.put(`catalogs/`, catalog)
     }
+    
+    public static setStatus (id: string, isToEnable: boolean = true): AxiosPromise<void> {
+        if (isToEnable) return axios.post(`catalogs/enable/${ id }`)
+        else return axios.post(`catalogs/disable/${ id }`)
+    }
 }

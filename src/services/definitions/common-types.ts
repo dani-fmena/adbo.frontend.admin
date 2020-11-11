@@ -52,7 +52,9 @@ export type IShell<T> = {
 export enum OPSKind {
     deletion,
     addition,
-    updating
+    updating,
+    enable,
+    disable
 }
 
 /***
