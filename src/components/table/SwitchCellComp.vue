@@ -4,7 +4,11 @@
         <button @click.prevent="handleEnableIntent"
                 type="button"
                 class="btn like btn-link btn-icon btn-fab btn-sm"
-                :class="[{'btn-default': !isEnable}, {'btn-success': isEnable}]">
+                :class="[
+                    {'btn-default': !isEnable},
+                    {'btn-success': isEnable},
+                    {'bnt-status-enable': isEnable}
+                ]">
             <i class="tim-icons icon-check-2"></i>
         </button>
 
@@ -12,7 +16,11 @@
         <button @click.prevent="handleDisableIntent"
                 type="button"
                 class="btn edit btn-link btn-icon btn-fab btn-sm"
-                :class="[{'btn-default': isEnable}, {'btn-warning': !isEnable}]">
+                :class="[
+                    {'btn-default': isEnable},
+                    {'btn-warning': !isEnable},
+                    {'bnt-status-disable': !isEnable}
+                ]">
             <i class="tim-icons icon-simple-remove"></i>
         </button>
     </div>
@@ -40,3 +48,19 @@
         }
     })
 </script>
+
+<style lang="scss" scoped>
+
+    // This help to the intuition with the rustic enalbe/disable table icon switch, until we develop a proper switch
+
+    .bnt-status-disable:hover,
+    .bnt-status-disable:focus {
+        cursor: none !important;
+        color: #ff8d72 !important;
+    }
+    .bnt-status-enable:hover,
+    .bnt-status-enable:focus {
+        cursor: none !important;
+        color: #00f2c3 !important;
+    }
+</style>
