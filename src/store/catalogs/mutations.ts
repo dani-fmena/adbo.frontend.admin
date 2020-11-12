@@ -5,7 +5,8 @@ import { ICatalog, ICatalogState } from '@/store/types/catalogs/catalogs-types'
 
 export const mutations: MutationTree<ICatalogState> & TCatalogsMutations = {
     [CATALOGS_MT.CATALOGS_UPDATED] (state: ICatalogState, catalogs: ICatalog[]) {
-        state.catalogs = catalogs
+        catalogs.length > 0? state.catalogs = catalogs : state.catalogs = []
+        
     },
     [CATALOGS_MT.CATALOG_DELETED] (state: ICatalogState, catalogId: string) {
         state.catalogs = Object.keys(state.catalogs).reduce<ICatalog[]>((accumulator, key) => {

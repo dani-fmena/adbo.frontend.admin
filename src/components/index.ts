@@ -13,6 +13,7 @@ import TableComp from './table/TableComp.vue'
 import PaginationComp from './table/PaginationComp.vue'
 import SwitchCellComp from './table/SwitchCellComp.vue'
 import ActionsComp from './table/ActionsComp.vue'
+import EmptyTableComp from './table/EmptyTableComp.vue'
 
 import CardComp from './cards/CardComp.vue'
 
@@ -32,6 +33,7 @@ export {
     PaginationComp,
     SwitchCellComp,
     ActionsComp,
+    EmptyTableComp,
 
     // Cards
     CardComp

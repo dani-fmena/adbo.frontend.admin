@@ -1,5 +1,4 @@
 <template>
-
     <!-- BUTTONS BAR -->
     <template v-if="hasTopBtnBar">
         <div class="table-action-bars col-12 d-flex justify-content-center justify-content-md-end flex-wrap"
@@ -15,7 +14,7 @@
     </template>
 
     <!-- SEARCH & OFFSET BAR -->
-    <template v-if="hasOffsetSelector || hasSearch">
+    <template v-if="(hasOffsetSelector || hasSearch) && data.length > 0">
         <div class="table-action-bars col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
 
             <!-- OFFSET -->
@@ -50,7 +49,7 @@
 
 
     <!-- TABLE -->
-    <table class="table table-responsive-sm" :class="tableClass">
+    <table v-if="data.length > 0" class="table table-responsive-sm" :class="tableClass">
 
         <!-- TABLE HEADER -->
         <thead :class="theadClasses">
@@ -97,15 +96,18 @@
         </tr>
         </tbody>
     </table>
+    <empty-table-comp v-else/>
 
     <!-- PAGINATION -->
-    <pagination-comp/>
+    <pagination-comp v-if="data.length > 0"/>
 </template>
+
 
 <script lang="ts">
     import { computed, defineComponent, PropType } from 'vue'
     import PaginationComp from './PaginationComp.vue'
     import SwitchCellComp from './SwitchCellComp.vue'
+    import EmptyTableComp from './EmptyTableComp.vue'
     import ActionsComp from './ActionsComp.vue'
     import { IColumnHeader } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
@@ -118,6 +120,7 @@
             PaginationComp,
             BaseButtonComp,
             SwitchCellComp,
+            EmptyTableComp,
             ActionsComp
         },
         props: {

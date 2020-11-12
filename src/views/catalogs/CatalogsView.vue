@@ -20,6 +20,9 @@
                             :columns="columns"
                             :data="catalogs.array"
                             :has-actions="true" />
+
+
+
                 </card-comp>
             </div>
         </div>
