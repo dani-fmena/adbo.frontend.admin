@@ -1,6 +1,6 @@
 <template>
     <!-- PC MODE -->
-    <div class="row d-sm-none d-md-flex mt-4">
+    <div class="row d-sm-none d-md-flex">
         <div class="col-md-2 text-md-left">
             <base-button-comp
                     v-if:="showDelete"
@@ -21,8 +21,8 @@
                 <i class="tim-icons icon-simple-remove" style="padding-bottom: 2px; padding-right: 4px;"/>
                 CANCEL
             </base-button-comp>
-            <!--@click.prevent="$emit('saveIntent', $event)"-->
-            <button type="submit"
+
+            <button @click.prevent="$emit('saveIntent', $event)"
                     class="btn btn-primary ml-sm-0 ml-sm-2"
                     title="Save the catalog">
                 <i class="tim-icons icon-check-2" style="padding-bottom: 2px; padding-right: 4px;"/>
@@ -32,7 +32,7 @@
     </div>
 
     <!-- MOBILE MODE -->
-    <div class="row d-md-none d-sm-flex mt-4">
+    <div class="row d-md-none d-sm-flex">
         <div class="col-12 text-center">
             <base-button-comp
                     v-if:="showDelete"
@@ -51,9 +51,8 @@
                     title="Do nothing">
                 <i class="tim-icons icon-simple-remove" style="padding-bottom: 2px; padding-right: 4px;"/>
             </base-button-comp>
-            <!--@click.prevent="$emit('saveIntent', $event)"-->
-            <button
-                    type="submit"
+
+            <button @click.prevent="$emit('saveIntent', $event)"
                     class="btn btn-primary btn-round ml-sm-2"
                     title="Save the catalog">
                 <i class="tim-icons icon-check-2" style="padding-bottom: 2px; padding-right: 4px;"/>
@@ -76,7 +75,7 @@
                 description: "If we have to show the delete button regarding the form mode pass it to this component"
             },
         },
-        emits: ['deleteIntent', 'cancelIntent'],
+        emits: ['deleteIntent', 'cancelIntent', 'saveIntent'],
     })
 
 </script>

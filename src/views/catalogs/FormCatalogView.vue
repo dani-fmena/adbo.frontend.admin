@@ -6,9 +6,9 @@
                 <card-comp :hasFormBackBtn="true" v-on:doClick="handleBack">
 
                     <!--  FORM  -->
-                    <!--<form @submit.prevent class="form-horizontal">-->
-                    <Form class="form-horizontal" @submit="handleSubmit" :validation-schema="VSCHEMA" :initial-values="iniFormData">
-
+                    <!--<VeeForm  v-slot="{ handleSubmit }" :validation-schema="VSCHEMA" :initial-values="iniFormData">-->
+                    <!--https://vee-validate.logaretm.com/v4/guide/handling-forms#using-handlesubmit-->
+                    <form class="form-horizontal">
                         <div class="row" v-if:="cmptdFmode === FORMMODE.edit">
                             <label class="text-sm-left text-md-right col-md-3 col-form-label">ID</label>
                             <div class="col-md-9">
@@ -29,13 +29,18 @@
                                 <basic-checkbox-comp name="isEnable" :checked="iniFormData.isEnable" :labels="['Active', 'Disabled']" />
                             </div>
                         </div>
+                    </form>
+                    <!--</VeeForm>-->
 
-                        <!-- FORM ACTIONS BUTTONS -->
+                    <!--v-on:saveIntent="handleSubmit($event, doSubmit)"-->
+                    <!-- FORM ACTIONS BUTTONS -->
+                    <template v-slot:footer>
                         <form-actions-btn-comp :show-delete="cmptdFmode === FORMMODE.edit"
+                                               v-on:saveIntent="doSubmit"
                                                v-on:deleteIntent="handleDelete"
                                                v-on:cancelIntent="handleCancel" />
+                    </template>
 
-                    </Form>
                 </card-comp>
             </div>
         </div>
@@ -45,7 +50,7 @@
 
 <script lang="ts">
     import { computed, ComputedRef, defineComponent } from 'vue'
-    import { Field, Form } from 'vee-validate'
+    import { Field, useForm } from 'vee-validate'
     import { useRoute, useRouter } from 'vue-router'
     import { useStore } from 'vuex'
     import { BasicInputComp, CardComp, FormActionsBtnComp, BasicCheckboxComp } from '@/components'
@@ -64,7 +69,6 @@
     export default defineComponent({
         name: 'EditCatalogView',
         components: {
-            Form,
             Field,
             CardComp,
             BasicInputComp,
@@ -117,14 +121,15 @@
             //region ======== COMPUTATIONS & GETTERS ================================================
             const cmptdFmode: ComputedRef<string | string[]> = computed(() => fmode)
             const catalogs: ComputedRef<IShell<ICatalog>> = computed(() => store.getters[CATALOGS_GINVOKER.catalogs])
-            const iniFormData = fmode === FORMMODE.create ? mkCatalog() : catalogs.value.dic[id as string]
+            const iniFormData = cmptdFmode.value === FORMMODE.create ? mkCatalog() : catalogs.value.dic[id as string]
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
-            const handleSubmit = (formData: Partial<ICatalog>) => {
+            const { handleSubmit } = useForm<Partial<ICatalog>>({ validationSchema: VSCHEMA, initialValues: iniFormData })
+            const doSubmit = handleSubmit(formData => {
                 if(fmode == FORMMODE.create) a_Create(formData)
                 if (fmode == FORMMODE.edit) a_Edit(formData)
-            }
+            })
             const handleBack = () => {router.push({ name: PATH_NAMES.catalogs })}
             const handleCancel = () => {router.push({ name: PATH_NAMES.catalogs })}
             const handleDelete = () => {
@@ -134,13 +139,12 @@
             //endregion =============================================================================
 
             return {
-                VSCHEMA,
                 iniFormData,
 
                 cmptdFmode,                                                         // Computed form mode
                 FORMMODE,
 
-                handleSubmit,
+                doSubmit,
                 handleBack,
                 handleDelete,
                 handleCancel,
