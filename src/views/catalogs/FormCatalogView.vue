@@ -125,10 +125,11 @@
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
-            const { handleSubmit } = useForm<Partial<ICatalog>>({ validationSchema: VSCHEMA, initialValues: iniFormData })
+            const { handleSubmit, meta } = useForm<Partial<ICatalog>>({ validationSchema: VSCHEMA, initialValues: iniFormData })
             const doSubmit = handleSubmit(formData => {
-                if(fmode == FORMMODE.create) a_Create(formData)
-                if (fmode == FORMMODE.edit) a_Edit(formData)
+                if (cmptdFmode.value == FORMMODE.create) a_Create(formData)
+                if (cmptdFmode.value == FORMMODE.edit && meta.value.dirty) a_Edit(formData)
+                if (cmptdFmode.value == FORMMODE.edit && !meta.value.dirty) handleBack()
             })
             const handleBack = () => {router.push({ name: PATH_NAMES.catalogs })}
             const handleCancel = () => {router.push({ name: PATH_NAMES.catalogs })}
