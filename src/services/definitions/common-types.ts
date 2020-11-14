@@ -22,6 +22,7 @@ export interface Function1<T1, T2 = void> {
  */
 export interface IColumnHeader {
     hidden: boolean | undefined
+    chk: boolean | undefined                                        // define a checkbox cell
     title: string
     navKey: string | undefined                                      // To v-for can navigate in the data array. if isn't present, uf lower-cased title then
     toLeft: boolean | undefined
@@ -63,4 +64,12 @@ export enum OPSKind {
 export enum FORMMODE {
     edit= 'edit',
     create = 'create'
+}
+
+/***
+ * Interface for type the emission argument object for the table's checkbox component
+ */
+export interface ITableChkEmit {
+    id: string
+    newStatus: boolean
 }

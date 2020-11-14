@@ -1,4 +1,5 @@
 import { ById, Indexable, IShell } from '@/services/definitions'
+import { ITableChkEmit } from '@/services/definitions/common-types'
 
 
 /***
@@ -23,6 +24,12 @@ export function toDicIds<T extends Indexable> (collection: T[]): ById<T> {
     }, {})
 }
 
+/***
+ * This methods encapsulate the collection in a object of two properties: array and dictionary
+ *
+ * @param items Array of source object data
+ * @return IShell object
+ */
 export function toShell<T extends Indexable> (items: Array<T>): IShell<T> {
     const dictionary = toDicIds(items)
     
@@ -30,4 +37,19 @@ export function toShell<T extends Indexable> (items: Array<T>): IShell<T> {
         array: toArray(dictionary),
         dic: dictionary
     }
+}
+
+/***
+ * Return the new array with or without (depends of newStatus in updateData) the checked object ID
+ *
+ * @param source The source collection of already checked ID object
+ * @param updateData ITableChkEmit data
+ */
+export function chkCollection (source: Array<string>, updateData: ITableChkEmit) {
+    if (updateData.newStatus) {
+        let copy = [...source]                          // making a copy of the source array
+        copy.push(updateData.id)
+        return copy
+    }
+    else return source.filter(id => id !== updateData.id)
 }

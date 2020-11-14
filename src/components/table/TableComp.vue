@@ -47,7 +47,6 @@
         </div>
     </template>
 
-
     <!-- TABLE -->
     <table v-if="data.length > 0" class="table table-responsive-sm" :class="tableClass">
 
@@ -69,8 +68,16 @@
         <tbody :class="tbodyClasses">
         <tr v-for="(rowObj, index) in data" :key="index" class="d-md-table-row">
             <template v-for="(header, index) in columns" :key="index">
-                <!-- switch / toggler mode -->
-                <td v-if="chkHasValue(rowObj, header) && !header.hidden && header.switch">
+                <!-- checkbox cell -->
+                <td v-if="header.chk === true" rowspan="1" colspan="1" :style="[{'width': header.width + '%'}]">
+                    <chkbox-table-comp :identifier="rowObj['_id']"
+                                        v-on:checkIntent="$emit('checkIntent', $event)"/>
+                </td>
+                <!-- switch / toggle mode -->
+                <td v-else-if="chkHasValue(rowObj, header) && !header.hidden && header.switch"
+                    rowspan="1"
+                    colspan="1"
+                    :style="[{'width': header.width + '%'}]">
                     <switch-cell-comp :identifier="rowObj['_id']"
                                       :is-enable="getRowValue(rowObj, header)"
                                       v-on:enableIntent="$emit('enableIntent', $event)"
@@ -108,6 +115,7 @@
     import PaginationComp from './PaginationComp.vue'
     import SwitchCellComp from './SwitchCellComp.vue'
     import EmptyTableComp from './EmptyTableComp.vue'
+    import ChkboxTableComp from './ChkboxTableComp.vue'
     import ActionsComp from './ActionsComp.vue'
     import { IColumnHeader } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
@@ -121,6 +129,7 @@
             BaseButtonComp,
             SwitchCellComp,
             EmptyTableComp,
+            ChkboxTableComp,
             ActionsComp
         },
         props: {
@@ -175,7 +184,7 @@
                 }
             },
         },
-        emits: ['detailsIntent', 'deleteIntent', 'editIntent', 'createIntent', 'enableIntent', 'disableIntent'],
+        emits: ['detailsIntent', 'deleteIntent', 'editIntent', 'createIntent', 'enableIntent', 'disableIntent', 'checkIntent'],
         setup (props: any) {
             //region ======== COMPUTATIONS & GETTERS ================================================
             const tableClass = computed((): string => props.tableType && `table-${props.tableType}`)

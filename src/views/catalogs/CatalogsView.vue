@@ -17,6 +17,8 @@
                             v-on:enableIntent="handleEnableObject"
                             v-on:disableIntent="handleDisableObject"
 
+                            v-on:checkIntent="handleChkObject"
+
                             :columns="columns"
                             :data="catalogs.array"
                             :has-actions="true" />
@@ -41,7 +43,8 @@
     import { FORMMODE, HCatalogsTable, OPSKind } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useToastify from '../../services/composables/useToastify'
-    import { IShell } from '@/services/definitions/common-types'
+    import { chkCollection } from '@/services/helpers/help-conversion'
+    import { IShell, ITableChkEmit } from '@/services/definitions/common-types'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
 
 
@@ -57,6 +60,7 @@
             const router = useRouter()
             const toast = useToast()                                       // The toast lib interface
             const columns = HCatalogsTable
+            let checks: Array<string> = []
 
             const { dfyDeleteConfirmations } = useDialogfy()
             const { tfyBasicSuccess, tfyBasicFail } = useToastify(toast)
@@ -107,6 +111,7 @@
             const handleDisableObject = (objectId: string) => {
                 a_SetStatus(objectId, false)
             }
+            const handleChkObject = (args: ITableChkEmit) => {checks = chkCollection(checks, args)}
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
@@ -121,7 +126,8 @@
                 handlerDeleteObj,
                 handleEditObject,
                 handleEnableObject,
-                handleDisableObject
+                handleDisableObject,
+                handleChkObject
             }
         }
     })
