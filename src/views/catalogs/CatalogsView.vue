@@ -23,8 +23,6 @@
                             :data="catalogs.array"
                             :has-actions="true" />
 
-
-
                 </card-comp>
             </div>
         </div>
@@ -43,7 +41,7 @@
     import { FORMMODE, HCatalogsTable, OPSKind } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useToastify from '../../services/composables/useToastify'
-    import { chkCollection } from '@/services/helpers/help-conversion'
+    import { updateChcksCollection } from '@/services/helpers/help-conversion'
     import { IShell, ITableChkEmit } from '@/services/definitions/common-types'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
 
@@ -111,7 +109,7 @@
             const handleDisableObject = (objectId: string) => {
                 a_SetStatus(objectId, false)
             }
-            const handleChkObject = (args: ITableChkEmit) => {checks = chkCollection(checks, args)}
+            const handleChkObject = (args: ITableChkEmit) => {checks = updateChcksCollection(checks, args)}
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================

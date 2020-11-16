@@ -45,7 +45,7 @@ export function toShell<T extends Indexable> (items: Array<T>): IShell<T> {
  * @param source The source collection of already checked ID object
  * @param updateData ITableChkEmit data
  */
-export function chkCollection (source: Array<string>, updateData: ITableChkEmit) {
+export function updateChcksCollection (source: Array<string>, updateData: ITableChkEmit) {
     if (updateData.newStatus) {
         let copy = [...source]                          // making a copy of the source array
         copy.push(updateData.id)
