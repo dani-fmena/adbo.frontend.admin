@@ -24,4 +24,8 @@ export class ApiCatalogs {
         if (isToEnable) return axios.post(`catalogs/enable/${ id }`)
         else return axios.post(`catalogs/disable/${ id }`)
     }
+    
+    public static bulkEnable(ids: Array<string>): AxiosPromise<void> {
+        return axios.post(`catalogs/bulk/enable`, ids)
+    }
 }

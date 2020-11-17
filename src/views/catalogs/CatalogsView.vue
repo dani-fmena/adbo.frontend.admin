@@ -38,7 +38,14 @@
     import { useToast } from 'vue-toastification'
     import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
-    import { FORMMODE, HCatalogsTable, IBulkActions, OPSKind, TableActionBarMode } from '@/services/definitions'
+    import {
+        BULK_ACTION,
+        FORMMODE,
+        HCatalogsTable,
+        IBulkData,
+        OPSKind,
+        TableActionBarMode
+    } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useToastify from '../../services/composables/useToastify'
     import { IShell } from '@/services/definitions/common-types'
@@ -108,8 +115,10 @@
             const handleDisableObject = (objectId: string) => {
                 a_SetStatus(objectId, false)
             }
-            const handleBulkActionIntent = (bulkData: IBulkActions) => {
-                console.log(bulkData)
+            const handleBulkActionIntent = (bulkData: IBulkData) => {
+                if (bulkData.actionType === BULK_ACTION.ENABLE) {
+                    store.dispatch(AINVOKER.BULK_ENABLE_CATALOGS, { ids: bulkData.ids })
+                }
             }
             //endregion =============================================================================
 

@@ -206,7 +206,7 @@
 
             'bulkActionIntent',
         ],
-        setup (props: any, cntx) {
+        setup (props: any, ctx) {
             //region ======== DECLARATIONS ==========================================================
             const selections = reactive<{ checked: Array<string> }>({ checked: [] })
             const mode = toRaw(props.actionBarMode)                                                                 // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
@@ -227,13 +227,13 @@
                 selections.checked = updateChksCollection(selections.checked, args)
             }
             const handleEnableChkCollection = () => {
-                cntx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.ENABLE })
+                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.ENABLE })
             }
             const handleDisableChkCollection = () => {
-                cntx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.DISABLE })
+                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.DISABLE })
             }
             const handleRemoveChkCollection = () => {
-                cntx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.REMOVE })
+                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.REMOVE })
             }
             //endregion =============================================================================
 

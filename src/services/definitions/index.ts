@@ -1,7 +1,7 @@
 import { HCatalogsTable } from './common-data'
 import {
     IColumnHeader,
-    IBulkActions,
+    IBulkData,
     ITableChkEmit,
     Function0,
     Function1,
@@ -32,7 +32,7 @@ export {
     IColumnHeader,
     Indexable,
     IShell,
-    IBulkActions,
+    IBulkData,
     ITableChkEmit,
     ById,
 }

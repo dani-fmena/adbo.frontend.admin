@@ -14,7 +14,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
         })
     },
     [CATALOGS_AT.ADD_CATALOGS] (_: CatalogAC, payload: { catalog: Partial<ICatalog> }) {
-        return new Promise((resolve, reject) => {
+        return new Promise<ICatalog>((resolve, reject) => {
             ApiCatalogs.create(payload.catalog)
             .then((result) => {
             
@@ -28,7 +28,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
         })
     },
     [CATALOGS_AT.EDIT_CATALOGS] (_: CatalogAC, payload: { catalog: Partial<ICatalog> }) {
-        return new Promise((resolve, reject) => {
+        return new Promise<ICatalog>((resolve, reject) => {
             ApiCatalogs.edit(payload.catalog)
             .then((result) => {
                 
@@ -42,7 +42,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
         })
     },
     [CATALOGS_AT.DEL_CATALOGS] (context: CatalogAC, payload: { id: string }) {
-        return new Promise((resolve, reject) => {
+        return new Promise<ICatalog>((resolve, reject) => {
             ApiCatalogs.delete(payload.id)
             .then((result) => {
                 
@@ -61,9 +61,22 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
         return new Promise((resolve, reject) => {
             ApiCatalogs.setStatus(payload.id, payload.newStatus)
             .then(() => {
-    
-    
+                
                 context.commit(CATALOGS_MT.SET_CATALOGS_STATUS, { catalogId: payload.id, newStatus: payload.newStatus })
+                resolve()
+                
+            })
+            .catch((error) => {
+                reject(error)
+            })
+        })
+    },
+    [CATALOGS_AT.BULK_ENABLE_CATALOGS] (context: CatalogAC, payload: { ids: Array<string> }) {
+        return new Promise((resolve, reject) => {
+            ApiCatalogs.bulkEnable(payload.ids)
+            .then(() => {
+                
+                context.commit(CATALOGS_MT.BULK_ENABLE_CATALOGS, { ids: payload.ids })
                 resolve()
                 
             })

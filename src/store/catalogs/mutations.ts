@@ -24,4 +24,7 @@ export const mutations: MutationTree<ICatalogState> & TCatalogsMutations = {
             return accumulator
         }, [])
     },
+    [CATALOGS_MT.BULK_ENABLE_CATALOGS] (_: ICatalogState, payload: { ids: Array<string> }) {
+        console.log(payload)
+    },
 }

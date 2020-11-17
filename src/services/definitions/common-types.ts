@@ -94,7 +94,7 @@ export interface ITableChkEmit {
 /***
  * Interface for type the emission argument object for the table's bulk actions events
  */
-export interface IBulkActions {
+export interface IBulkData {
     ids: string[]
     actionType: BULK_ACTION
 }
