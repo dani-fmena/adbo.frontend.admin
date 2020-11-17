@@ -1,30 +1,30 @@
 <template>
     <transition appear name="page-fade">
         <div class="row">
+
             <div class="col-12">
                 <card-comp>
-
                     <!-- DATA TABLE -->
                     <table-comp
                             table-type="hover"
+                            :actionBarMode="actionBarMode"
+                            :columns="columns"
+                            :data="catalogs.array"
+                            :has-actions="true"
+
+                            v-on:createNavIntent="handleNavCreateObj"
 
                             v-on:deleteIntent="handlerDeleteObj"
                             v-on:detailsIntent="handleDetailsObject"
                             v-on:editIntent="handleEditObject"
 
-                            v-on:createIntent="handleCreateObj"
-
                             v-on:enableIntent="handleEnableObject"
                             v-on:disableIntent="handleDisableObject"
 
-                            v-on:checkIntent="handleChkObject"
-
-                            :columns="columns"
-                            :data="catalogs.array"
-                            :has-actions="true" />
-
+                            v-on:bulkActionIntent="handleBulkActionIntent" />
                 </card-comp>
             </div>
+
         </div>
     </transition>
 </template>
@@ -38,11 +38,10 @@
     import { useToast } from 'vue-toastification'
     import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
-    import { FORMMODE, HCatalogsTable, OPSKind } from '@/services/definitions'
+    import { FORMMODE, HCatalogsTable, IBulkActions, OPSKind, TableActionBarMode } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useToastify from '../../services/composables/useToastify'
-    import { updateChcksCollection } from '@/services/helpers/help-conversion'
-    import { IShell, ITableChkEmit } from '@/services/definitions/common-types'
+    import { IShell } from '@/services/definitions/common-types'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
 
 
@@ -58,7 +57,7 @@
             const router = useRouter()
             const toast = useToast()                                       // The toast lib interface
             const columns = HCatalogsTable
-            let checks: Array<string> = []
+            const actionBarMode = TableActionBarMode.edr
 
             const { dfyDeleteConfirmations } = useDialogfy()
             const { tfyBasicSuccess, tfyBasicFail } = useToastify(toast)
@@ -91,7 +90,7 @@
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
-            const handleCreateObj = () => {
+            const handleNavCreateObj = () => {
                 router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: FORMMODE.create, id: '', cname: 'Create Catalog' } })                     // cname means custom nam
             }
             const handlerDeleteObj = (objectId: string) => {
@@ -109,7 +108,9 @@
             const handleDisableObject = (objectId: string) => {
                 a_SetStatus(objectId, false)
             }
-            const handleChkObject = (args: ITableChkEmit) => {checks = updateChcksCollection(checks, args)}
+            const handleBulkActionIntent = (bulkData: IBulkActions) => {
+                console.log(bulkData)
+            }
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
@@ -118,14 +119,15 @@
             return {
                 catalogs,
                 columns,
+                actionBarMode,
 
-                handleCreateObj,
+                handleNavCreateObj,
                 handleDetailsObject,
                 handlerDeleteObj,
                 handleEditObject,
                 handleEnableObject,
                 handleDisableObject,
-                handleChkObject
+                handleBulkActionIntent
             }
         }
     })

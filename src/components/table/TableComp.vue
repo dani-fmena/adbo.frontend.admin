@@ -1,16 +1,13 @@
 <template>
     <!-- BUTTONS BAR -->
     <template v-if="hasTopBtnBar">
-        <div class="table-action-bars col-12 d-flex justify-content-center justify-content-md-end flex-wrap"
-             style="margin-bottom: 12px;">
-            <base-button-comp
-                    icon
-                    @doClick="$emit('createIntent')"
-                    buttonType="primary"
-                    title="Create a new Catalog">
-                <i class="tim-icons icon-simple-add"></i>
-            </base-button-comp>
-        </div>
+        <table-action-bar-comp :mode="mode"
+                               :chkCount="selections.checked.length"
+                               v-on:createNavIntent="$emit('createNavIntent')"
+
+                               v-on:enableChkCollIntent="handleEnableChkCollection"
+                               v-on:disableChkCollIntent="handleDisableChkCollection"
+                               v-on:removeChkCollIntent="handleRemoveChkCollection" />
     </template>
 
     <!-- SEARCH & OFFSET BAR -->
@@ -68,10 +65,10 @@
         <tbody :class="tbodyClasses">
         <tr v-for="(rowObj, index) in data" :key="index" class="d-md-table-row">
             <template v-for="(header, index) in columns" :key="index">
+
                 <!-- checkbox cell -->
                 <td v-if="header.chk === true" rowspan="1" colspan="1" :style="[{'width': header.width + '%'}]">
-                    <chkbox-table-comp :identifier="rowObj['_id']"
-                                        v-on:checkIntent="$emit('checkIntent', $event)"/>
+                    <chkbox-table-comp :identifier="rowObj['_id']" v-on:checkIntent="handleChkObject"/>
                 </td>
                 <!-- switch / toggle mode -->
                 <td v-else-if="chkHasValue(rowObj, header) && !header.hidden && header.switch"
@@ -95,7 +92,7 @@
 
             <!-- ACTIONS TD -->
             <td class="actions" v-if="hasActions && chkHasId(rowObj)">
-                <actions-comp :identifier="rowObj['_id']"
+                <row-actions-comp :identifier="rowObj['_id']"
                               v-on:deleteIntent="$emit('deleteIntent', $event)"
                               v-on:detailsIntent="$emit('detailsIntent', $event)"
                               v-on:editIntent="$emit('editIntent', $event)" />
@@ -111,15 +108,17 @@
 
 
 <script lang="ts">
-    import { computed, defineComponent, PropType } from 'vue'
+    import { computed, defineComponent, PropType, toRaw, reactive } from 'vue'
     import PaginationComp from './PaginationComp.vue'
     import SwitchCellComp from './SwitchCellComp.vue'
     import EmptyTableComp from './EmptyTableComp.vue'
     import ChkboxTableComp from './ChkboxTableComp.vue'
-    import ActionsComp from './ActionsComp.vue'
-    import { IColumnHeader } from '@/services/definitions'
+    import RowActionsComp from './RowActionsComp.vue'
+    import TableActionBarComp from './TableActionBarComp.vue'
+    import { BULK_ACTION, IColumnHeader, ITableChkEmit } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
     import { BaseButtonComp } from '@/components'
+    import { updateChksCollection } from '@/services/helpers/help-conversion'
 
 
     export default defineComponent({
@@ -130,13 +129,25 @@
             SwitchCellComp,
             EmptyTableComp,
             ChkboxTableComp,
-            ActionsComp
+            TableActionBarComp,
+            RowActionsComp,
         },
         props: {
             columns: {
                 type: Array,
                 default: ():IColumnHeader[] => [],
                 description: "Table columns"
+            },
+            actionBarMode: {
+                type: String,
+                default: false,
+                description: "If the table has actions buttons or not",
+
+                // all the modes values responds to the 'actionBarMode' TableComp.vue prop
+                validator (value: string): boolean {
+                    const acceptedValues = ['default', 'edr']
+                    return acceptedValues.indexOf(value) !== -1
+                }
             },
             data: {
                 type: Object as PropType<ICatalog[]>,
@@ -184,8 +195,23 @@
                 }
             },
         },
-        emits: ['detailsIntent', 'deleteIntent', 'editIntent', 'createIntent', 'enableIntent', 'disableIntent', 'checkIntent'],
-        setup (props: any) {
+        emits: [
+            'detailsIntent',
+            'deleteIntent',
+            'editIntent',
+            'createNavIntent',
+
+            'enableIntent',
+            'disableIntent',
+
+            'bulkActionIntent',
+        ],
+        setup (props: any, cntx) {
+            //region ======== DECLARATIONS ==========================================================
+            const selections = reactive<{ checked: Array<string> }>({ checked: [] })
+            const mode = toRaw(props.actionBarMode)                                                                 // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
+            //endregion =============================================================================
+
             //region ======== COMPUTATIONS & GETTERS ================================================
             const tableClass = computed((): string => props.tableType && `table-${props.tableType}`)
             //endregion =============================================================================
@@ -193,10 +219,21 @@
             //region ======== EVENTS HANDLERS =======================================================
             const onSrchFocusEvt = (evt: any) => {
                 inputToggleFocusClass(evt.target.parentElement.parentNode)
-
             }
             const onSrchBlursEvt = (evt: any) => {
                 inputToggleFocusClass(evt.target.parentElement.parentNode)
+            }
+            const handleChkObject = (args: ITableChkEmit) => {
+                selections.checked = updateChksCollection(selections.checked, args)
+            }
+            const handleEnableChkCollection = () => {
+                cntx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.ENABLE })
+            }
+            const handleDisableChkCollection = () => {
+                cntx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.DISABLE })
+            }
+            const handleRemoveChkCollection = () => {
+                cntx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.REMOVE })
             }
             //endregion =============================================================================
 
@@ -248,6 +285,9 @@
             //endregion =============================================================================
 
             return {
+                mode,
+                selections,
+
                 getNavKey,
                 chkHasValue,
                 getRowValue,
@@ -255,6 +295,11 @@
 
                 onSrchFocusEvt,
                 onSrchBlursEvt,
+
+                handleChkObject,
+                handleEnableChkCollection,
+                handleDisableChkCollection,
+                handleRemoveChkCollection,
 
                 tableClass
             }

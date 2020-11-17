@@ -28,7 +28,7 @@
 
 
     export default defineComponent({
-        name: 'ActionsComp',
+        name: 'RowActionsComp',
         props: {
             identifier: {
                 type: String,

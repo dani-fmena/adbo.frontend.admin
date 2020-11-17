@@ -1,13 +1,17 @@
 import { HCatalogsTable } from './common-data'
 import {
     IColumnHeader,
+    IBulkActions,
+    ITableChkEmit,
     Function0,
     Function1,
     Indexable,
     IShell,
     ById,
     OPSKind,
-    FORMMODE
+    FORMMODE,
+    TableActionBarMode,
+    BULK_ACTION
 } from './common-types'
 
 export {
@@ -17,6 +21,8 @@ export {
     // Enums
     OPSKind,
     FORMMODE,
+    TableActionBarMode,
+    BULK_ACTION,
     
     // Functions
     Function0,
@@ -26,5 +32,7 @@ export {
     IColumnHeader,
     Indexable,
     IShell,
+    IBulkActions,
+    ITableChkEmit,
     ById,
 }

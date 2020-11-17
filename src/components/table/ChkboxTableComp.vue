@@ -9,7 +9,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    import { ITableChkEmit } from '@/services/definitions/common-types'
+    import { ITableChkEmit } from '@/services/definitions'
 
 
     export default defineComponent({

@@ -67,9 +67,34 @@ export enum FORMMODE {
 }
 
 /***
+ *  Table Top Buttons Action Bar Mode
+ */
+export enum TableActionBarMode {
+    default = 'default',
+    edr = 'edr',
+}
+
+/***
+ * Table Top Buttons Action Bar (BULK ACTION) clicked action
+ */
+export enum BULK_ACTION {
+    ENABLE = 'ENABLE',
+    DISABLE = 'DISABLE',
+    REMOVE = 'REMOVE'
+}
+
+/***
  * Interface for type the emission argument object for the table's checkbox component
  */
 export interface ITableChkEmit {
     id: string
     newStatus: boolean
+}
+
+/***
+ * Interface for type the emission argument object for the table's bulk actions events
+ */
+export interface IBulkActions {
+    ids: string[]
+    actionType: BULK_ACTION
 }

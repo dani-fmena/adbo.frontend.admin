@@ -1,7 +1,23 @@
+// Using mostly on enter view
 .page-fade-enter-active, .page-fade-leave-active {
     transition: opacity 0.8s ease;
 }
 
 .page-fade-enter-from, .page-fade-leave-to {
+    opacity: 0;
+}
+
+// Using primary in TableActionBarComp Component to show ActionTableButton
+.slide-fade-enter-active {
+    transition: all .3s ease-out;
+}
+
+.slide-fade-leave-active {
+    transition: all .5s cubic-bezier(1.0, 0.5, 0.5, 1.0);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateX(20px);
     opacity: 0;
 }
