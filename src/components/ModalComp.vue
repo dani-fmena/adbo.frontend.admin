@@ -5,7 +5,7 @@
              v-show="show"
              tabindex="-1"
              role="dialog"
-             @click.self="handleCloseModal"
+             @click.self="h_CloseModal"
              :aria-hidden="!show">
 
             <div class="modal-dialog"
@@ -19,7 +19,7 @@
                             <button type="button"
                                     class="close"
                                     v-if="showClose"
-                                    @click="handleCloseModal"
+                                    @click="h_CloseModal"
                                     data-dismiss="modal"
                                     aria-label="Close">
                                 <i class="tim-icons icon-simple-remove"></i>
@@ -97,7 +97,7 @@
             },
         },
         methods: {
-            handleCloseModal() {
+            h_CloseModal() {
                 this.$emit("update:show", false)
                 this.$emit("close")
             }

@@ -3,7 +3,7 @@
 
         <div class="row">
             <div class="col-12">
-                <card-comp :hasFormBackBtn="true" v-on:doClick="handleBack">
+                <card-comp :hasFormBackBtn="true" v-on:doClick="h_Back">
 
                     <!--  FORM  -->
                     <!--<VeeForm  v-slot="{ handleSubmit }" :validation-schema="VSCHEMA" :initial-values="iniFormData">-->
@@ -37,8 +37,8 @@
                     <template v-slot:footer>
                         <form-actions-btn-comp :show-delete="cmptdFmode === FORMMODE.edit"
                                                v-on:saveIntent="doSubmit"
-                                               v-on:deleteIntent="handleDelete"
-                                               v-on:cancelIntent="handleCancel" />
+                                               v-on:deleteIntent="h_Delete"
+                                               v-on:cancelIntent="h_Cancel" />
                     </template>
 
                 </card-comp>
@@ -57,7 +57,7 @@
     import { useToast } from 'vue-toastification'
     import { VSCHEMA } from './validation'
     import { PATH_NAMES } from '@/router/paths'
-    import { FORMMODE, IShell, OPSKind } from '@/services/definitions'
+    import { FORMMODE, IShell } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
     import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
@@ -95,26 +95,26 @@
             const a_Create = (newCatalog: Partial<ICatalog>): void => {
                 store.dispatch(AINVOKER.ADD_CATALOGS, { catalog: newCatalog })
                 .then((catalog: ICatalog) => {
-                    tfyBasicSuccess('Catalog', OPSKind.addition, catalog.name)
-                    handleBack()
+                    tfyBasicSuccess('Catalog', 'addition', catalog.name)
+                    h_Back()
                 })
-                .catch((error) => {tfyBasicFail(error, 'Catalog', OPSKind.addition)})
+                .catch((error) => {tfyBasicFail(error, 'Catalog', 'addition')})
             }
             const a_Edit = (newCatalog: Partial<ICatalog>): void => {
                 store.dispatch(AINVOKER.EDIT_CATALOGS, { catalog: newCatalog })
                 .then((catalog: ICatalog) => {
-                    tfyBasicSuccess('Catalog', OPSKind.updating, catalog.name)
-                    handleBack()
+                    tfyBasicSuccess('Catalog', 'updating', catalog.name)
+                    h_Back()
                 })
-                .catch((error) => {tfyBasicFail(error, 'Catalog', OPSKind.updating)})
+                .catch((error) => {tfyBasicFail(error, 'Catalog', 'updating')})
             }
             const a_Delete = (catalogId: string): void => {
                 store.dispatch(AINVOKER.DEL_CATALOGS, { id: catalogId })
                 .then((deletedObj: ICatalog) => {
-                    tfyBasicSuccess('Catalog', OPSKind.deletion, deletedObj.name)
-                    handleBack()
+                    tfyBasicSuccess('Catalog', 'deletion', deletedObj.name)
+                    h_Back()
                 })
-                .catch((error) => {tfyBasicFail(error, 'Catalog', OPSKind.deletion)})
+                .catch((error) => {tfyBasicFail(error, 'Catalog', 'deletion')})
             }
             //endregion =============================================================================
 
@@ -129,11 +129,11 @@
             const doSubmit = handleSubmit(formData => {
                 if (cmptdFmode.value == FORMMODE.create) a_Create(formData)
                 if (cmptdFmode.value == FORMMODE.edit && meta.value.dirty) a_Edit(formData)
-                if (cmptdFmode.value == FORMMODE.edit && !meta.value.dirty) handleBack()
+                if (cmptdFmode.value == FORMMODE.edit && !meta.value.dirty) h_Back()
             })
-            const handleBack = () => {router.push({ name: PATH_NAMES.catalogs })}
-            const handleCancel = () => {router.push({ name: PATH_NAMES.catalogs })}
-            const handleDelete = () => {
+            const h_Back = () => {router.push({ name: PATH_NAMES.catalogs })}
+            const h_Cancel = () => {router.push({ name: PATH_NAMES.catalogs })}
+            const h_Delete = () => {
                 if (fmode)
                     dfyDeleteConfirmations('Catalog', iniFormData._id as string, a_Delete, iniFormData.name)
             }
@@ -146,9 +146,9 @@
                 FORMMODE,
 
                 doSubmit,
-                handleBack,
-                handleDelete,
-                handleCancel,
+                h_Back,
+                h_Delete,
+                h_Cancel,
             }
         }
     })

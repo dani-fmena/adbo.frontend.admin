@@ -76,7 +76,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
             ApiCatalogs.bulkEnable(payload.ids)
             .then(() => {
                 
-                context.commit(CATALOGS_MT.BULK_ENABLE_CATALOGS, { ids: payload.ids })
+                context.commit(CATALOGS_MT.BULK_SET_CATALOGS_STATUS, { ids: payload.ids, newStatus: true })
                 resolve()
                 
             })

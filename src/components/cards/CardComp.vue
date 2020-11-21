@@ -11,7 +11,7 @@
             <slot name="header">
                 <button v-if="hasFormBackBtn"
                         class="btn btn-icon btn-primary"
-                        @click.prevent="handleClick">
+                        @click.prevent="h_Click">
                     <i class="tim-icons icon-minimal-left"></i>
                 </button>
                 <h4 class="card-title">{{title}}</h4>
@@ -78,7 +78,7 @@
             },
         },
         methods: {
-            handleClick (evt: Event) {
+            h_Click (evt: Event) {
                 this.$emit('doClick', evt)
             }
         }

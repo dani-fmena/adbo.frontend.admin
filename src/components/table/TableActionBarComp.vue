@@ -7,7 +7,7 @@
             <div class="col-1 p-0" style="text-align: end">
                 <base-button-comp
                         icon
-                        @doClick="$emit('createIntent')"
+                        @doClick="$emit('navCreateIntent')"
                         buttonType="primary"
                         title="Create New">
                     <i class="tim-icons icon-simple-add"></i>
@@ -51,7 +51,7 @@
             <div class="col-1 p-0" style="text-align: end">
                 <base-button-comp
                         icon
-                        @doClick="$emit('createIntent')"
+                        @doClick="$emit('navCreateIntent')"
                         buttonType="primary"
                         title="Create New">
                     <i class="tim-icons icon-simple-add"></i>

@@ -3,11 +3,11 @@
     <template v-if="hasTopBtnBar">
         <table-action-bar-comp :mode="mode"
                                :chkCount="selections.checked.length"
-                               v-on:createNavIntent="$emit('createNavIntent')"
+                               v-on:navCreateIntent="$emit('navCreateIntent')"
 
-                               v-on:enableChkCollIntent="handleEnableChkCollection"
-                               v-on:disableChkCollIntent="handleDisableChkCollection"
-                               v-on:removeChkCollIntent="handleRemoveChkCollection" />
+                               v-on:enableChkCollIntent="h_EnableChkCollection"
+                               v-on:disableChkCollIntent="h_DisableChkCollection"
+                               v-on:removeChkCollIntent="h_RemoveChkCollection" />
     </template>
 
     <!-- SEARCH & OFFSET BAR -->
@@ -68,7 +68,7 @@
 
                 <!-- checkbox cell -->
                 <td v-if="header.chk === true" rowspan="1" colspan="1" :style="[{'width': header.width + '%'}]">
-                    <chkbox-table-comp :identifier="rowObj['_id']" v-on:checkIntent="handleChkObject"/>
+                    <chkbox-table-comp :identifier="rowObj['_id']" v-on:checkIntent="h_ChkObject"/>
                 </td>
                 <!-- switch / toggle mode -->
                 <td v-else-if="chkHasValue(rowObj, header) && !header.hidden && header.switch"
@@ -199,7 +199,7 @@
             'detailsIntent',
             'deleteIntent',
             'editIntent',
-            'createNavIntent',
+            'navCreateIntent',
 
             'enableIntent',
             'disableIntent',
@@ -223,16 +223,16 @@
             const onSrchBlursEvt = (evt: any) => {
                 inputToggleFocusClass(evt.target.parentElement.parentNode)
             }
-            const handleChkObject = (args: ITableChkEmit) => {
+            const h_ChkObject = (args: ITableChkEmit) => {
                 selections.checked = updateChksCollection(selections.checked, args)
             }
-            const handleEnableChkCollection = () => {
+            const h_EnableChkCollection = () => {
                 ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.ENABLE })
             }
-            const handleDisableChkCollection = () => {
+            const h_DisableChkCollection = () => {
                 ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.DISABLE })
             }
-            const handleRemoveChkCollection = () => {
+            const h_RemoveChkCollection = () => {
                 ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.REMOVE })
             }
             //endregion =============================================================================
@@ -296,10 +296,10 @@
                 onSrchFocusEvt,
                 onSrchBlursEvt,
 
-                handleChkObject,
-                handleEnableChkCollection,
-                handleDisableChkCollection,
-                handleRemoveChkCollection,
+                h_ChkObject,
+                h_EnableChkCollection,
+                h_DisableChkCollection,
+                h_RemoveChkCollection,
 
                 tableClass
             }

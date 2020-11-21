@@ -1,7 +1,7 @@
 <template>
     <div style="text-align: center">
         <!-- ENABLE -->
-        <button @click.prevent="handleEnableIntent"
+        <button @click.prevent="h_EnableIntent"
                 type="button"
                 class="btn like btn-link btn-icon btn-fab btn-sm"
                 :class="[
@@ -13,7 +13,7 @@
         </button>
 
         <!-- DISABLE -->
-        <button @click.prevent="handleDisableIntent"
+        <button @click.prevent="h_DisableIntent"
                 type="button"
                 class="btn edit btn-link btn-icon btn-fab btn-sm"
                 :class="[
@@ -43,8 +43,8 @@
             }
         },
         methods: {
-            handleEnableIntent() {if(!this.isEnable) this.$emit('enableIntent', this.identifier)},
-            handleDisableIntent() {if(this.isEnable) this.$emit('disableIntent', this.identifier)}
+            h_EnableIntent() {if(!this.isEnable) this.$emit('enableIntent', this.identifier)},
+            h_DisableIntent() {if(this.isEnable) this.$emit('disableIntent', this.identifier)}
         }
     })
 </script>

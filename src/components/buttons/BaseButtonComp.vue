@@ -12,7 +12,7 @@
                     {'btn-simple': simple},
                     {'btn-link': link},
                 ]"
-               @click.prevent="handleClick">
+               @click.prevent="h_Click">
 
         <!-- loading slot  -->
         <slot name="loading">
@@ -70,7 +70,7 @@
 
         methods: {
             //region ======== HANDLERS ==============================================================
-            handleClick (evt: Event) {
+            h_Click (evt: Event) {
                 this.$emit('doClick', evt)
             },
             //endregion =============================================================================

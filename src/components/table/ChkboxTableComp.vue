@@ -1,7 +1,7 @@
 <template>
     <div class="form-check">
         <label class="form-check-label">
-            <input class="form-check-input" v-bind="$attrs" type="checkbox" @change="handleChkChange">
+            <input class="form-check-input" v-bind="$attrs" type="checkbox" @change="h_ChkChange">
         <span class="form-check-sign"></span>
         </label>
     </div>
@@ -21,7 +21,7 @@
             }
         },
         methods: {
-            handleChkChange (evt: Event) {
+            h_ChkChange (evt: Event) {
                 // @ts-ignore
                 this.$emit('checkIntent', { newStatus: evt.target!.checked, id: this.identifier } as ITableChkEmit)
             }
