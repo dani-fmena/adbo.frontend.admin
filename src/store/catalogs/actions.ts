@@ -84,5 +84,33 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 reject(error)
             })
         })
+    },
+    [CATALOGS_AT.BULK_DISABLE_CATALOGS] (context: CatalogAC, payload: { ids: Array<string> }) {
+        return new Promise((resolve, reject) => {
+            ApiCatalogs.bulkDisable(payload.ids)
+            .then(() => {
+                
+                context.commit(CATALOGS_MT.BULK_SET_CATALOGS_STATUS, { ids: payload.ids, newStatus: false })
+                resolve()
+                
+            })
+            .catch((error) => {
+                reject(error)
+            })
+        })
+    },
+    [CATALOGS_AT.BULK_REMOVE_CATALOGS] (context: CatalogAC, payload: { ids: Array<string> }) {
+        return new Promise((resolve, reject) => {
+            ApiCatalogs.bulkRemove(payload.ids)
+            .then(() => {
+    
+                context.commit(CATALOGS_MT.BULK_REMOVE_CATALOGS, { ids: payload.ids })
+                resolve()
+                
+            })
+            .catch((error) => {
+                reject(error)
+            })
+        })
     }
 }

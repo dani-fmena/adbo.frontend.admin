@@ -28,4 +28,12 @@ export class ApiCatalogs {
     public static bulkEnable(ids: Array<string>): AxiosPromise<void> {
         return axios.post(`catalogs/bulk/enable`, ids)
     }
+    
+    public static bulkDisable(ids: Array<string>): AxiosPromise<void> {
+        return axios.post(`catalogs/bulk/disable`, ids)
+    }
+    
+    public static bulkRemove(ids: Array<string>): AxiosPromise<void> {
+        return axios.post(`catalogs/bulk/remove`, ids)
+    }
 }

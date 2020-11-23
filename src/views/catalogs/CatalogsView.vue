@@ -38,13 +38,7 @@
     import { useToast } from 'vue-toastification'
     import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
-    import {
-        BULK_ACTION,
-        FORMMODE,
-        HCatalogsTable,
-        IBulkData,
-        TableActionBarMode
-    } from '@/services/definitions'
+    import { BULK_ACTION, FORMMODE, HCatalogsTable, IBulkData, TableActionBarMode } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useToastify from '../../services/composables/useToastify'
     import { IShell } from '@/services/definitions/common-types'
@@ -94,6 +88,16 @@
                 .then(() => {tfyBasicSuccess('Catalogs', 'enable')})
                 .catch((error) => {tfyBulkFail(error, 'catalogs', 'bulkenable')})
             }
+            const a_bulkDisable = (ids: Array<string>) => {
+                store.dispatch(AINVOKER.BULK_DISABLE_CATALOGS, { ids: ids })
+                .then(() => {tfyBasicSuccess('Catalogs', 'disable')})
+                .catch((error) => {tfyBulkFail(error, 'catalogs', 'bulkdisable')})
+            }
+            const a_bulkRemove = (ids: Array<string>) => {
+                store.dispatch(AINVOKER.BULK_REMOVE_CATALOGS, { ids: ids })
+                .then(() => {tfyBasicSuccess('Catalogs', 'deletion')})
+                .catch((error) => {tfyBulkFail(error, 'catalogs', 'bulkremove')})
+            }
             //endregion =============================================================================
 
             //region ======== COMPUTATIONS & GETTERS ================================================
@@ -121,6 +125,8 @@
             }
             const h_BulkActionIntent = (bulkData: IBulkData) => {
                 if (bulkData.actionType === BULK_ACTION.ENABLE) a_bulkEnable(bulkData.ids)
+                else if (bulkData.actionType === BULK_ACTION.DISABLE) a_bulkDisable(bulkData.ids)
+                else if (bulkData.actionType === BULK_ACTION.REMOVE) a_bulkRemove(bulkData.ids)
             }
             //endregion =============================================================================
 

@@ -131,7 +131,10 @@
                 if (cmptdFmode.value == FORMMODE.edit && meta.value.dirty) a_Edit(formData)
                 if (cmptdFmode.value == FORMMODE.edit && !meta.value.dirty) h_Back()
             })
-            const h_Back = () => {router.push({ name: PATH_NAMES.catalogs })}
+            const h_Back = () => {
+                // router.back()
+                router.push({ name: PATH_NAMES.catalogs })
+            }
             const h_Cancel = () => {router.push({ name: PATH_NAMES.catalogs })}
             const h_Delete = () => {
                 if (fmode)

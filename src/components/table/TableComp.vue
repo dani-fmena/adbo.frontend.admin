@@ -1,6 +1,7 @@
 <template>
     <!-- BUTTONS BAR -->
     <template v-if="hasTopBtnBar">
+        <!-- TODO If you need another kind of action bar function create a dynamic component here -->
         <table-action-bar-comp :mode="mode"
                                :chkCount="selections.checked.length"
                                v-on:navCreateIntent="$emit('navCreateIntent')"

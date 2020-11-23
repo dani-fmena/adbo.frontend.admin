@@ -68,18 +68,26 @@ export default function useToastify (t: ToastInterface) {
         if (ops === 'deletion') kind = 'deleting'
         else if (ops === 'addition') kind = 'creating'
         else if (ops === 'enable') kind = 'activating'
-        else if (ops === 'disable') kind = 'disabling'
+        else if (ops === 'disable') kind = 'deactivating'
         else if (ops === 'updating') kind = 'updating'
         else kind = '[unknown]'
     
+        // Internal backend error with no return
+        if (!error.response)
+        {
+            mkError(`Bulk ${ kind } ${ subject } fail. Something really bad happen on server.`)
+            return
+        }
+    
         const eCode = error.response.status
     
-        if (eCode === 404) details = `The ${ subject } ${ eName } was not found.`
-        else if (eCode === 500) details = `There was a internal error on the server.`
-        else if (eCode === 422) details = `Validation error with ${error.response.data.detail![0].loc[1]}. ${error.response.data.detail![0].msg}.`
+        if (eCode === 400) details = `${ error.response.data.detail }`
+        else if (eCode === 404) details = `The ${ subject } ${ eName } identifier is missing.`
+        else if (eCode === 417 || eCode === 500) details = `${ error.response.data.detail.description }`
+        else if (eCode === 422) details = `Validation error with ${ error.response.data.detail![0].loc[1] }. ${ error.response.data.detail![0].msg }.`
         else details = error.response.data.detail.description
         
-        mkError(`Problem ${ kind } ${ subject } ${ eName }.${ details }`)
+        mkError(`Ops ${ kind } ${ subject } ${ eName } fail. Error ${eCode}. ${ details }`)
     }
     
     /***
@@ -94,20 +102,26 @@ export default function useToastify (t: ToastInterface) {
         let details
         
         if (ops === 'bulkenable') kind = 'activating'
-        else if (ops === 'bulkdisable') kind = 'blablabla'
+        else if (ops === 'bulkdisable') kind = 'deactivating'
+        else if (ops === 'bulkremove') kind = 'removing'
         else kind = '[unknown]'
     
         // Internal backend error with no return
         if (!error.response)
-            mkError(`Bulk operation ${ kind } ${ subject } fail. Something really bad happen on server.`)
-    
-        const eCode = error.response.status
+        {
+            mkError(`Bulk ${ kind } ${ subject } fail. Something really bad happen on server.`)
+            return
+        }
         
-        if (eCode === 404) details = `Some ${ subject } was missing.`
-        else if (eCode === 500) details = `The was a internal error on the server.`
+        const eCode = error.response.status
+    
+        if (eCode === 400) details = `${ error.response.data.detail }`
+        else if (eCode === 404) details = `Some ${ subject } identifier missing`
+        else if (eCode === 417 || eCode === 500) details = `${ error.response.data.detail.description }`
+        else if (eCode === 422) details = `Validation error with ${ error.response.data.detail![0].loc[1] }. ${ error.response.data.detail![0].msg }.`
         else details = error.response.data.detail
         
-        mkError(`Problem with the bulk operation ${ kind } ${ subject }.${ details }`)
+        mkError(`Bulk ${ kind } ${ subject } fail. Error ${eCode}. ${ details }`)
     }
     
     return {

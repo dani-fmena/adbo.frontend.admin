@@ -50,7 +50,7 @@ export type IShell<T> = {
 /***
  * Definition for API operations that requieres a UI toast feedback
  */
-export type OPSKind =  'deletion' | 'addition' | 'updating' | 'enable' | 'disable' | 'bulkenable' | 'bulkdisable'
+export type OPSKind =  'deletion' | 'addition' | 'updating' | 'enable' | 'disable' | 'bulkenable' | 'bulkdisable' | 'bulkremove'
 
 /***
  * Definition for entities forms view mode

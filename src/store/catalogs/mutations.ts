@@ -32,4 +32,12 @@ export const mutations: MutationTree<ICatalogState> & TCatalogsMutations = {
             return accumulator
         }, [])
     },
+    [CATALOGS_MT.BULK_REMOVE_CATALOGS] (state: ICatalogState, payload: { ids: Array<string> }) {
+        state.catalogs = Object.keys(state.catalogs).reduce<ICatalog[]>((accumulator, key) => {
+            if (payload.ids.includes(state.catalogs[+key]._id)) return accumulator
+            
+            accumulator.push(state.catalogs[+key])
+            return accumulator
+        }, [])
+    },
 }
