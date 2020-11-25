@@ -50,32 +50,22 @@ export type IShell<T> = {
 /***
  * Definition for API operations that requieres a UI toast feedback
  */
-export type OPSKind =  'deletion' | 'addition' | 'updating' | 'enable' | 'disable' | 'bulkenable' | 'bulkdisable' | 'bulkremove'
+export type OPSKind = 'deletion' | 'addition' | 'updating' | 'enable' | 'disable' | 'bulkenable' | 'bulkdisable' | 'bulkremove'
 
 /***
  * Definition for entities forms view mode
  */
-export enum FORMMODE {
-    edit= 'edit',
-    create = 'create'
-}
+export type FormMode = 'edit' | 'create'
 
 /***
  *  Table Top Buttons Action Bar Mode
  */
-export enum TableActionBarMode {
-    default = 'default',
-    edr = 'edr',
-}
+export type TableActionBarMode = 'default' | 'edr'
 
 /***
  * Table Top Buttons Action Bar (BULK ACTION) clicked action
  */
-export enum BULK_ACTION {
-    ENABLE = 'ENABLE',
-    DISABLE = 'DISABLE',
-    REMOVE = 'REMOVE'
-}
+export type BULK_ACTION = | 'ENABLE' | 'DISABLE' | 'REMOVE'
 
 /***
  * Interface for type the emission argument object for the table's checkbox component

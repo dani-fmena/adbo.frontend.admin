@@ -38,7 +38,7 @@
     import { useToast } from 'vue-toastification'
     import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
-    import { BULK_ACTION, FORMMODE, HCatalogsTable, IBulkData, TableActionBarMode } from '@/services/definitions'
+    import { BULK_ACTION, FormMode, HCatalogsTable, IBulkData, TableActionBarMode } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useToastify from '../../services/composables/useToastify'
     import { IShell } from '@/services/definitions/common-types'
@@ -57,7 +57,7 @@
             const router = useRouter()
             const toast = useToast()                                       // The toast lib interface
             const columns = HCatalogsTable
-            const actionBarMode = TableActionBarMode.edr
+            const actionBarMode: TableActionBarMode = 'edr'
 
             const { dfyDeleteConfirmations } = useDialogfy()
             const { tfyBasicSuccess, tfyBasicFail, tfyBulkFail } = useToastify(toast)
@@ -106,7 +106,7 @@
 
             //region ======== EVENTS HANDLERS =======================================================
             const h_NavCreateObj = () => {
-                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: FORMMODE.create, id: '', cname: 'Create Catalog' } })                     // cname means custom nam
+                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: 'create' as FormMode, id: '', cname: 'Create Catalog' } })                     // cname means custom nam
             }
             const h_DeleteObj = (objectId: string) => {
                 dfyDeleteConfirmations('Catalog', objectId, a_Delete, catalogs.value.dic[objectId].name)
@@ -115,7 +115,7 @@
                 router.push({ name: PATH_NAMES.catalogsDetails, params: { id: objectId } })
             }
             const h_EditObject = (objectId: string) => {
-                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: FORMMODE.edit, id: objectId, cname: 'Edit Catalog'  } })
+                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: 'edit' as FormMode, id: objectId, cname: 'Edit Catalog'  } })
             }
             const h_EnableObject = (objectId: string) => {
                 a_SetStatus(objectId, true)
@@ -124,9 +124,9 @@
                 a_SetStatus(objectId, false)
             }
             const h_BulkActionIntent = (bulkData: IBulkData) => {
-                if (bulkData.actionType === BULK_ACTION.ENABLE) a_bulkEnable(bulkData.ids)
-                else if (bulkData.actionType === BULK_ACTION.DISABLE) a_bulkDisable(bulkData.ids)
-                else if (bulkData.actionType === BULK_ACTION.REMOVE) a_bulkRemove(bulkData.ids)
+                if (bulkData.actionType === 'ENABLE' as BULK_ACTION) a_bulkEnable(bulkData.ids)
+                else if (bulkData.actionType === 'DISABLE' as BULK_ACTION) a_bulkDisable(bulkData.ids)
+                else if (bulkData.actionType === 'REMOVE' as BULK_ACTION) a_bulkRemove(bulkData.ids)
             }
             //endregion =============================================================================
 

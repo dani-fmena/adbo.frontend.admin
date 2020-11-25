@@ -9,7 +9,7 @@ import {
     IShell,
     ById,
     OPSKind,
-    FORMMODE,
+    FormMode,
     TableActionBarMode,
     BULK_ACTION
 } from './common-types'
@@ -20,7 +20,7 @@ export {
     
     // Enums
     OPSKind,
-    FORMMODE,
+    FormMode,
     TableActionBarMode,
     BULK_ACTION,
     

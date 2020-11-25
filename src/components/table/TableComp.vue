@@ -228,13 +228,13 @@
                 selections.checked = updateChksCollection(selections.checked, args)
             }
             const h_EnableChkCollection = () => {
-                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.ENABLE })
+                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: 'ENABLE' as BULK_ACTION })
             }
             const h_DisableChkCollection = () => {
-                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.DISABLE })
+                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: 'DISABLE' as BULK_ACTION })
             }
             const h_RemoveChkCollection = () => {
-                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: BULK_ACTION.REMOVE })
+                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: 'REMOVE' as BULK_ACTION })
             }
             //endregion =============================================================================
 

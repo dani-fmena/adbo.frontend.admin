@@ -3,7 +3,7 @@
         <!-- all the modes values responds to the 'actionBarMode' TableComp.vue prop -->
 
         <!-- DEFAULT MODE -->
-        <template v-if="mode === TableActionBarMode.default">
+        <template v-if="mode === 'default'">
             <div class="col-1 p-0" style="text-align: end">
                 <base-button-comp
                         icon
@@ -16,7 +16,7 @@
         </template>
 
         <!-- EDR MODE, enable disable remove -->
-        <template v-else-if="mode === TableActionBarMode.edr">
+        <template v-else-if="mode === 'edr'">
             <div class="col-11 p-0">
                 <transition name="slide-fade">
                     <div v-show="chkCount > 1" >
@@ -65,7 +65,6 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
     import { BaseButtonComp } from '@/components'
-    import { TableActionBarMode } from '@/services/definitions'
 
 
     export default defineComponent({
@@ -83,11 +82,6 @@
                 description: "The count of the selected/checked items",
             },
         },
-        setup () {
-            return {
-                TableActionBarMode
-            }
-        }
     })
 </script>
 

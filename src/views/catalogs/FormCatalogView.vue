@@ -9,7 +9,7 @@
                     <!--<VeeForm  v-slot="{ handleSubmit }" :validation-schema="VSCHEMA" :initial-values="iniFormData">-->
                     <!--https://vee-validate.logaretm.com/v4/guide/handling-forms#using-handlesubmit-->
                     <form class="form-horizontal">
-                        <div class="row" v-if:="cmptdFmode === FORMMODE.edit">
+                        <div class="row" v-if:="cmptdFmode === 'edit'">
                             <label class="text-sm-left text-md-right col-md-3 col-form-label">ID</label>
                             <div class="col-md-9">
                                 <basic-input-comp disabled placeholder="###########" name="_id" type="text" />
@@ -35,7 +35,7 @@
                     <!--v-on:saveIntent="handleSubmit($event, doSubmit)"-->
                     <!-- FORM ACTIONS BUTTONS -->
                     <template v-slot:footer>
-                        <form-actions-btn-comp :show-delete="cmptdFmode === FORMMODE.edit"
+                        <form-actions-btn-comp :show-delete="cmptdFmode === 'edit'"
                                                v-on:saveIntent="doSubmit"
                                                v-on:deleteIntent="h_Delete"
                                                v-on:cancelIntent="h_Cancel" />
@@ -57,7 +57,7 @@
     import { useToast } from 'vue-toastification'
     import { VSCHEMA } from './validation'
     import { PATH_NAMES } from '@/router/paths'
-    import { FORMMODE, IShell } from '@/services/definitions'
+    import { FormMode, IShell } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
     import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
     import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
@@ -121,15 +121,15 @@
             //region ======== COMPUTATIONS & GETTERS ================================================
             const cmptdFmode: ComputedRef<string | string[]> = computed(() => fmode)
             const catalogs: ComputedRef<IShell<ICatalog>> = computed(() => store.getters[CATALOGS_GINVOKER.catalogs])
-            const iniFormData = cmptdFmode.value === FORMMODE.create ? mkCatalog() : catalogs.value.dic[id as string]
+            const iniFormData = cmptdFmode.value === 'create' as FormMode ? mkCatalog() : catalogs.value.dic[id as string]
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
             const { handleSubmit, meta } = useForm<Partial<ICatalog>>({ validationSchema: VSCHEMA, initialValues: iniFormData })
             const doSubmit = handleSubmit(formData => {
-                if (cmptdFmode.value == FORMMODE.create) a_Create(formData)
-                if (cmptdFmode.value == FORMMODE.edit && meta.value.dirty) a_Edit(formData)
-                if (cmptdFmode.value == FORMMODE.edit && !meta.value.dirty) h_Back()
+                if (cmptdFmode.value == 'create' as FormMode) a_Create(formData)
+                if (cmptdFmode.value == 'edit' as FormMode && meta.value.dirty) a_Edit(formData)
+                if (cmptdFmode.value == 'edit' as FormMode && !meta.value.dirty) h_Back()
             })
             const h_Back = () => {
                 // router.back()
@@ -146,7 +146,6 @@
                 iniFormData,
 
                 cmptdFmode,                                                         // Computed form mode
-                FORMMODE,
 
                 doSubmit,
                 h_Back,
