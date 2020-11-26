@@ -57,7 +57,11 @@
                 <th v-if="header.chk" colspan="1" rowspan="1">
                     <div class="form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input" v-bind="$attrs" type="checkbox" @change="h_ChkAllObjects($event)">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   v-bind="$attrs"
+                                   :checked="rootChkBox"
+                                   @change="h_ChkAllObjects($event)">
                             <span class="form-check-sign"></span>
                         </label>
                     </div>
@@ -127,7 +131,7 @@
 
 
 <script lang="ts">
-    import { computed, defineComponent, PropType, toRaw, reactive } from 'vue'
+    import { computed, defineComponent, PropType, toRaw, reactive, ref } from 'vue'
     import PaginationComp from './PaginationComp.vue'
     import SwitchCellComp from './SwitchCellComp.vue'
     import EmptyTableComp from './EmptyTableComp.vue'
@@ -226,6 +230,7 @@
         setup (props: any, ctx) {
             //region ======== DECLARATIONS ==========================================================
             const selections = reactive<{ selected: ById<IChecked> }>({ selected: { } })                      // Local tiny (reactive) state to hold the checked object from the table
+            const rootChkBox = ref<boolean>(false)                                                            // Local tiny state to hold the root checkbox table status, that come in handy for clean the check
             const mode = toRaw(props.actionBarMode)                                                                 // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
             //endregion =============================================================================
 
@@ -248,16 +253,27 @@
             }
             const h_EnableChkCollection = () => {
                 ctx.emit('bulkActionIntent', { ids: [...Object.keys(selections.selected)], actionType: 'ENABLE' as BULK_ACTION })
+                cleanCheckBoxes()
             }
             const h_DisableChkCollection = () => {
                 ctx.emit('bulkActionIntent', { ids: [...Object.keys(selections.selected)], actionType: 'DISABLE' as BULK_ACTION })
+                cleanCheckBoxes()
             }
             const h_RemoveChkCollection = () => {
                 ctx.emit('bulkActionIntent', { ids: [...Object.keys(selections.selected)], actionType: 'REMOVE' as BULK_ACTION })
+                cleanCheckBoxes()
             }
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
+            /***
+             * Try to empty the selection reactive var to make unchecked all the checked rows in the table
+             */
+            const cleanCheckBoxes = () => {
+                rootChkBox.value = false
+                selections.selected = updateChckAllToSelection(false)
+            }
+
             /***
              * If status is true, return a new selection for selecting all the object from table (the same as data). Otherwise
              * return an empty selection collection.
@@ -265,9 +281,11 @@
              * @param status The new status from the root checkbox input event
              * @param data The props containing all the data represented on the table
             */
-            const updateChckAllToSelection = (status: boolean, data: Array<IIndexable>): ById<IChecked> => {
+            const updateChckAllToSelection = (status: boolean, data: Array<IIndexable> | undefined = undefined): ById<IChecked> => {
+                rootChkBox.value = status
+
                 if (status)
-                    return data.reduce<ById<IChecked>>((accumulator, obj) => {
+                    return data!.reduce<ById<IChecked>>((accumulator, obj) => {
                         accumulator[obj._id] = { chked: true }
 
                         return accumulator
@@ -335,6 +353,8 @@
             return {
                 mode,
                 selections,
+                rootChkBox,
+
 
                 getNavKey,
                 chkHasValue,
