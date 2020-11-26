@@ -5,9 +5,10 @@ import {
     ITableChkEmit,
     Function0,
     Function1,
-    Indexable,
+    IIndexable,
     IShell,
     ById,
+    IChecked,
     OPSKind,
     FormMode,
     TableActionBarMode,
@@ -30,9 +31,10 @@ export {
     
     // Common Types
     IColumnHeader,
-    Indexable,
+    IIndexable,
     IShell,
     IBulkData,
     ITableChkEmit,
+    IChecked,
     ById,
 }

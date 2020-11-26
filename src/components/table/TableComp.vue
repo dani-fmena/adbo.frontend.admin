@@ -3,7 +3,7 @@
     <template v-if="hasTopBtnBar">
         <!-- TODO If you need another kind of action bar function create a dynamic component here -->
         <table-action-bar-comp :mode="mode"
-                               :chkCount="selections.checked.length"
+                               :chkCount="Object.keys(selections.selected).length"
                                v-on:navCreateIntent="$emit('navCreateIntent')"
 
                                v-on:enableChkCollIntent="h_EnableChkCollection"
@@ -52,12 +52,26 @@
         <thead :class="theadClasses">
         <tr>
             <template v-for="header in columns" :key="header.title">
-                <th colspan="1"
+
+                <!-- check all cell -->
+                <th v-if="header.chk" colspan="1" rowspan="1">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" v-bind="$attrs" type="checkbox" @change="h_ChkAllObjects($event)">
+                            <span class="form-check-sign"></span>
+                        </label>
+                    </div>
+                </th>
+
+                <!-- normal header cell -->
+                <th v-else
+                    colspan="1"
                     rowspan="1"
                     v-if="!header.hidden"
                     :class="[{'text-right': header.toRight}, {'text-left': header.toLeft}, {'text-center': header.toCenter}]">
                     {{ header.title }}
                 </th>
+
             </template>
         </tr>
         </thead>
@@ -69,8 +83,11 @@
 
                 <!-- checkbox cell -->
                 <td v-if="header.chk === true" rowspan="1" colspan="1" :style="[{'width': header.width + '%'}]">
-                    <chkbox-table-comp :identifier="rowObj['_id']" v-on:checkIntent="h_ChkObject"/>
+                    <chkbox-table-comp :identifier="rowObj['_id']"
+                                       :checked="selections.selected[rowObj['_id']]"
+                                       v-on:checkIntent="h_ChkObject" />
                 </td>
+
                 <!-- switch / toggle mode -->
                 <td v-else-if="chkHasValue(rowObj, header) && !header.hidden && header.switch"
                     rowspan="1"
@@ -81,6 +98,7 @@
                                       v-on:enableIntent="$emit('enableIntent', $event)"
                                       v-on:disableIntent="$emit('disableIntent', $event)" />
                 </td>
+
                 <!-- normal mode -->
                 <td v-else-if="chkHasValue(rowObj, header) && !header.hidden"
                     rowspan="1"
@@ -116,10 +134,8 @@
     import ChkboxTableComp from './ChkboxTableComp.vue'
     import RowActionsComp from './RowActionsComp.vue'
     import TableActionBarComp from './TableActionBarComp.vue'
-    import { BULK_ACTION, IColumnHeader, ITableChkEmit } from '@/services/definitions'
-    import { ICatalog } from '@/store/types/catalogs/catalogs-types'
+    import { BULK_ACTION, ById, IColumnHeader, IIndexable, ITableChkEmit, IChecked } from '@/services/definitions'
     import { BaseButtonComp } from '@/components'
-    import { updateChksCollection } from '@/services/helpers/help-conversion'
 
 
     export default defineComponent({
@@ -151,7 +167,7 @@
                 }
             },
             data: {
-                type: Object as PropType<ICatalog[]>,
+                type: Object as PropType<IIndexable[]>,
                 default: () => [],
                 description: "Table data"
             },
@@ -209,7 +225,7 @@
         ],
         setup (props: any, ctx) {
             //region ======== DECLARATIONS ==========================================================
-            const selections = reactive<{ checked: Array<string> }>({ checked: [] })
+            const selections = reactive<{ selected: ById<IChecked> }>({ selected: { } })                      // Local tiny (reactive) state to hold the checked object from the table
             const mode = toRaw(props.actionBarMode)                                                                 // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
             //endregion =============================================================================
 
@@ -224,21 +240,52 @@
             const onSrchBlursEvt = (evt: any) => {
                 inputToggleFocusClass(evt.target.parentElement.parentNode)
             }
+            const h_ChkAllObjects = (evt: any) => {
+                selections.selected = updateChckAllToSelection(evt.target.checked, props.data)
+            }
             const h_ChkObject = (args: ITableChkEmit) => {
-                selections.checked = updateChksCollection(selections.checked, args)
+                updateChkSelection(selections.selected, args)
             }
             const h_EnableChkCollection = () => {
-                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: 'ENABLE' as BULK_ACTION })
+                ctx.emit('bulkActionIntent', { ids: [...Object.keys(selections.selected)], actionType: 'ENABLE' as BULK_ACTION })
             }
             const h_DisableChkCollection = () => {
-                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: 'DISABLE' as BULK_ACTION })
+                ctx.emit('bulkActionIntent', { ids: [...Object.keys(selections.selected)], actionType: 'DISABLE' as BULK_ACTION })
             }
             const h_RemoveChkCollection = () => {
-                ctx.emit('bulkActionIntent', { ids: selections.checked, actionType: 'REMOVE' as BULK_ACTION })
+                ctx.emit('bulkActionIntent', { ids: [...Object.keys(selections.selected)], actionType: 'REMOVE' as BULK_ACTION })
             }
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
+            /***
+             * If status is true, return a new selection for selecting all the object from table (the same as data). Otherwise
+             * return an empty selection collection.
+             *
+             * @param status The new status from the root checkbox input event
+             * @param data The props containing all the data represented on the table
+            */
+            const updateChckAllToSelection = (status: boolean, data: Array<IIndexable>): ById<IChecked> => {
+                if (status)
+                    return data.reduce<ById<IChecked>>((accumulator, obj) => {
+                        accumulator[obj._id] = { chked: true }
+
+                        return accumulator
+                    }, {})
+                else return {}
+            }
+
+            /***
+             * Modify the source (selected objects in the table) to update (depends of newStatus in updateData) the selected object ID
+             *
+             * @param source The source collection of already selected (or none) ID object
+             * @param updateData ITableChkEmit data. Coming from the checked row cell, containing the object id and its new checked status.
+             */
+            const updateChkSelection = (source: ById<IChecked>, updateData: ITableChkEmit): void => {
+                if (updateData.newStatus) source[updateData.id] = { chked: updateData.newStatus }
+                else delete source[updateData.id]
+            }
+
             /***
              * After the addition to this class to the element the styles applies the correct border
              * color to the form group (class) element (div)
@@ -298,6 +345,7 @@
                 onSrchBlursEvt,
 
                 h_ChkObject,
+                h_ChkAllObjects,
                 h_EnableChkCollection,
                 h_DisableChkCollection,
                 h_RemoveChkCollection,

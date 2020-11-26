@@ -1,5 +1,9 @@
-export interface Indexable {
+export interface IIndexable {
     _id: number | string
+}
+
+export interface IChecked {
+    chked: boolean
 }
 
 /***
@@ -18,13 +22,14 @@ export interface Function1<T1, T2 = void> {
 
 
 /***
- * Interface describing object for Datatable headers abstraction
+ * Interface describing object for datatable headers abstraction.
+ * This create a flexible configuration for describing how to handle the headers and cell representation.
  */
 export interface IColumnHeader {
     hidden: boolean | undefined
-    chk: boolean | undefined                                        // define a checkbox cell
+    chk: boolean | undefined                                        // define a checkbox cell / header
     title: string
-    navKey: string | undefined                                      // To v-for can navigate in the data array. if isn't present, uf lower-cased title then
+    navKey: string | undefined                                      // To v-for can navigate in the data array. if isn't present, lower-cased title be use then
     toLeft: boolean | undefined
     toRight: boolean | undefined
     toCenter: boolean | undefined
