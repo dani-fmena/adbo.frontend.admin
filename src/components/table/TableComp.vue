@@ -11,13 +11,13 @@
                                v-on:removeChkCollIntent="h_RemoveChkCollection" />
     </template>
 
-    <!-- SEARCH & OFFSET BAR -->
-    <template v-if="(hasOffsetSelector || hasSearch) && data.length > 0">
+    <!-- SEARCH & PAGE SIZE BAR -->
+    <template v-if="(hasPageSizeSelector || hasSearch) && data.length > 0">
         <div class="table-action-bars col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
 
-            <!-- OFFSET -->
-            <div class="select-primary mb-3 pagination-select" v-if="hasOffsetSelector">
-                <select id="table-offset" name="offset" class="form-control">
+            <!-- TABLE PAGE SIZE -->
+            <div class="select-primary mb-3 pagination-select" v-if="hasPageSizeSelector">
+                <select id="table-page-size" name="page_size" class="form-control" @change="h_pageSizeChange($event)">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -38,8 +38,8 @@
                            type="text"
                            placeholder="Search"
                            aria-describedby="addon-right addon-left"
-                           @blur="onSrchBlursEvt($event)"
-                           @focus="onSrchFocusEvt($event)">
+                           @blur="h_onSrchBlursEvt($event)"
+                           @focus="h_onSrchFocusEvt($event)">
                 </div>
             </div>
         </div>
@@ -116,9 +116,9 @@
             <!-- ACTIONS TD -->
             <td class="actions" v-if="hasActions && chkHasId(rowObj)">
                 <row-actions-comp :identifier="rowObj['_id']"
-                              v-on:deleteIntent="$emit('deleteIntent', $event)"
-                              v-on:detailsIntent="$emit('detailsIntent', $event)"
-                              v-on:editIntent="$emit('editIntent', $event)" />
+                                  v-on:deleteIntent="$emit('deleteIntent', $event)"
+                                  v-on:detailsIntent="$emit('detailsIntent', $event)"
+                                  v-on:editIntent="$emit('editIntent', $event)" />
             </td>
         </tr>
         </tbody>
@@ -126,7 +126,7 @@
     <empty-table-comp v-else/>
 
     <!-- PAGINATION -->
-    <pagination-comp v-if="data.length > 0"/>
+    <pagination-comp :size="pageSize" :total="68" v-if="data.length > 0"/>
 </template>
 
 
@@ -157,12 +157,12 @@
             columns: {
                 type: Array,
                 default: ():IColumnHeader[] => [],
-                description: "Table columns"
+                description: 'Table columns'
             },
             actionBarMode: {
                 type: String,
                 default: false,
-                description: "If the table has actions buttons or not",
+                description: 'If the table has actions buttons or not',
 
                 // all the modes values responds to the 'actionBarMode' TableComp.vue prop
                 validator (value: string): boolean {
@@ -178,37 +178,37 @@
             hasActions: {
                 type: Boolean,
                 default: false,
-                description: "If the table has actions buttons or not"
+                description: 'If the table has actions buttons or not'
             },
             hasTopBtnBar: {
                 type: Boolean,
                 default: true,
-                description: "If the table has the top button bar for specific actions like creation button"
+                description: 'If the table has the top button bar for specific actions like creation button'
             },
-            hasOffsetSelector: {
+            hasPageSizeSelector: {
                 type: Boolean,
                 default: true,
-                description: "If the table has the offset selector items for the table (5, 10 , 25, eth)"
+                description: 'If the table has the page size selector items for the table (5, 10 , 25, eth)'
             },
             hasSearch: {
                 type: Boolean,
                 default: true,
-                description: "If the table has search field or not"
+                description: 'If the table has search field or not'
             },
             tbodyClasses: {
                 type: String,
                 default: '',
-                description: "tbody tag css classes"
+                description: 'tbody tag css classes'
             },
             theadClasses: {
                 type: String,
                 default: '',
-                description: "thead tag css classes"
+                description: 'thead tag css classes'
             },
             tableType: {
                 type: String, // striped | hover
-                default: "",
-                description: "Whether table is striped or hover type",
+                default: '',
+                description: 'Whether table is striped or hover type',
 
                 validator (value: string): boolean {
                     const acceptedValues = ['', 'striped', 'hover']
@@ -229,8 +229,9 @@
         ],
         setup (props: any, ctx) {
             //region ======== DECLARATIONS ==========================================================
-            const selections = reactive<{ selected: ById<IChecked> }>({ selected: { } })                      // Local tiny (reactive) state to hold the checked object from the table
-            const rootChkBox = ref<boolean>(false)                                                            // Local tiny state to hold the root checkbox table status, that come in handy for clean the check
+            const selections = reactive<{ selected: ById<IChecked> }>({ selected: { } })                      // Tiny local state (reactive) to hold the checked object from the table
+            const pageSize = ref<number>(10)                                                                   // Tiny local state (reactive) to hold the page size HTML select
+            const rootChkBox = ref<boolean>(false)                                                            // Tiny local state (reactive) to hold the root checkbox table status, that come in handy for clean the check
             const mode = toRaw(props.actionBarMode)                                                                 // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
             //endregion =============================================================================
 
@@ -239,10 +240,10 @@
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
-            const onSrchFocusEvt = (evt: any) => {
+            const h_onSrchFocusEvt = (evt: any) => {
                 inputToggleFocusClass(evt.target.parentElement.parentNode)
             }
-            const onSrchBlursEvt = (evt: any) => {
+            const h_onSrchBlursEvt = (evt: any) => {
                 inputToggleFocusClass(evt.target.parentElement.parentNode)
             }
             const h_ChkAllObjects = (evt: any) => {
@@ -262,6 +263,10 @@
             const h_RemoveChkCollection = () => {
                 ctx.emit('bulkActionIntent', { ids: [...Object.keys(selections.selected)], actionType: 'REMOVE' as BULK_ACTION })
                 cleanCheckBoxes()
+            }
+            const h_pageSizeChange = (evt: any) => {
+                pageSize.value = +evt.target.value
+                console.log(pageSize.value)
             }
             //endregion =============================================================================
 
@@ -352,6 +357,7 @@
 
             return {
                 mode,
+                pageSize,
                 selections,
                 rootChkBox,
 
@@ -361,11 +367,12 @@
                 getRowValue,
                 chkHasId,
 
-                onSrchFocusEvt,
-                onSrchBlursEvt,
+                h_onSrchFocusEvt,
+                h_onSrchBlursEvt,
 
                 h_ChkObject,
                 h_ChkAllObjects,
+                h_pageSizeChange,
                 h_EnableChkCollection,
                 h_DisableChkCollection,
                 h_RemoveChkCollection,
