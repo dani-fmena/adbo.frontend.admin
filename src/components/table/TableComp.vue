@@ -18,6 +18,7 @@
             <!-- TABLE PAGE SIZE -->
             <div class="select-primary mb-3 pagination-select" v-if="hasPageSizeSelector">
                 <select id="table-page-size" name="page_size" class="form-control" @change="h_pageSizeChange($event)">
+                    <!-- !!! You need to sync the default function here with the pageSize reactive value -->
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -126,19 +127,21 @@
     <empty-table-comp v-else/>
 
     <!-- PAGINATION -->
-    <pagination-comp :size="pageSize" :total="68" v-if="data.length > 0"/>
+    <pagination-comp :size="pageSize"
+                     :total="100" v-if="data.length > 0"
+                     v-on:next="h_computePaginationData" />
 </template>
 
 
 <script lang="ts">
-    import { computed, defineComponent, PropType, toRaw, reactive, ref } from 'vue'
+    import { computed, defineComponent, PropType, toRaw, reactive, ref, SetupContext } from 'vue'
     import PaginationComp from './PaginationComp.vue'
     import SwitchCellComp from './SwitchCellComp.vue'
     import EmptyTableComp from './EmptyTableComp.vue'
     import ChkboxTableComp from './ChkboxTableComp.vue'
     import RowActionsComp from './RowActionsComp.vue'
     import TableActionBarComp from './TableActionBarComp.vue'
-    import { BULK_ACTION, ById, IColumnHeader, IIndexable, ITableChkEmit, IChecked } from '@/services/definitions'
+    import { BULK_ACTION, ById, IColumnHeader, IIndexable, ITableChkEmit, IChecked, IPagination } from '@/services/definitions'
     import { BaseButtonComp } from '@/components'
 
 
@@ -188,7 +191,7 @@
             hasPageSizeSelector: {
                 type: Boolean,
                 default: true,
-                description: 'If the table has the page size selector items for the table (5, 10 , 25, eth)'
+                description: 'If the table has the page size (limit) selector items'
             },
             hasSearch: {
                 type: Boolean,
@@ -226,12 +229,14 @@
             'disableIntent',
 
             'bulkActionIntent',
+
+            'nextPage'
         ],
-        setup (props: any, ctx) {
+        setup (props: any, ctx: SetupContext) {
             //region ======== DECLARATIONS ==========================================================
-            const selections = reactive<{ selected: ById<IChecked> }>({ selected: { } })                      // Tiny local state (reactive) to hold the checked object from the table
-            const pageSize = ref<number>(10)                                                                   // Tiny local state (reactive) to hold the page size HTML select
-            const rootChkBox = ref<boolean>(false)                                                            // Tiny local state (reactive) to hold the root checkbox table status, that come in handy for clean the check
+            const selections = reactive<{ selected: ById<IChecked> }>({ selected: { } })                       // Tiny local state (reactive) to hold the checked object from the table
+            const pageSize = ref<number>(10)                                                                   // Tiny local state (reactive) to hold the page size HTML select0
+            const rootChkBox = ref<boolean>(false)                                                             // Tiny local state (reactive) to hold the root checkbox table status, that come in handy for clean the check
             const mode = toRaw(props.actionBarMode)                                                                 // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
             //endregion =============================================================================
 
@@ -266,7 +271,12 @@
             }
             const h_pageSizeChange = (evt: any) => {
                 pageSize.value = +evt.target.value
-                console.log(pageSize.value)
+            }
+            const h_computePaginationData = (nextPage: number) => {
+                ctx.emit('nextPage', {
+                    skip: nextPage == 1 ? 0 : nextPage * pageSize.value - pageSize.value,
+                    limit: pageSize.value
+                } as IPagination)
             }
             //endregion =============================================================================
 
@@ -376,6 +386,7 @@
                 h_EnableChkCollection,
                 h_DisableChkCollection,
                 h_RemoveChkCollection,
+                h_computePaginationData,
 
                 tableClass
             }

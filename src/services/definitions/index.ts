@@ -12,6 +12,7 @@ import {
     OPSKind,
     FormMode,
     TableActionBarMode,
+    IPagination,
     BULK_ACTION
 } from './common-types'
 
@@ -36,5 +37,6 @@ export {
     IBulkData,
     ITableChkEmit,
     IChecked,
+    IPagination,
     ById,
 }

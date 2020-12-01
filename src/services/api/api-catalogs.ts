@@ -8,6 +8,15 @@ export class ApiCatalogs {
         return axios.get(`catalogs/`)
     }
     
+    public static getPag (skip: number = 0, limit: number = 25): AxiosPromise<ICatalog[]> {
+        return axios.get(`catalogs/`, {
+            params: {
+                skip: skip,
+                limit: limit
+            }
+        })
+    }
+    
     public static delete (id: string): AxiosPromise<ICatalog> {
         return axios.delete(`catalogs/${ id }`)
     }

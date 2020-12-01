@@ -59,7 +59,7 @@
     import { PATH_NAMES } from '@/router/paths'
     import { FormMode, IShell } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
-    import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
+    import { GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
     import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
     import useToastify from '@/services/composables/useToastify'
     import useDialogfy from '@/services/composables/useDialogfy'
@@ -120,7 +120,7 @@
 
             //region ======== COMPUTATIONS & GETTERS ================================================
             const cmptdFmode: ComputedRef<string | string[]> = computed(() => fmode)
-            const catalogs: ComputedRef<IShell<ICatalog>> = computed(() => store.getters[CATALOGS_GINVOKER.catalogs])
+            const catalogs: ComputedRef<IShell<ICatalog>> = computed(() => store.getters[GINVOKER.catalogs])
             const iniFormData = cmptdFmode.value === 'create' as FormMode ? mkCatalog() : catalogs.value.dic[id as string]
             //endregion =============================================================================
 

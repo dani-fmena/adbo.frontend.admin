@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-    import { computed, ComputedRef, defineComponent, reactive, watch } from 'vue'
+    import { computed, ComputedRef, defineComponent, reactive, watch, SetupContext } from 'vue'
 
 
     export default defineComponent({
@@ -48,14 +48,14 @@
             size: {
                 type: Number,
                 default: 5,
-                description: 'Selected page size to work with'
+                description: 'Selected page size to work with. This props is the LIMIT int the pagination'
             },
             total: {
                 type: Number,
                 description: 'The total amount of data of all records'
             }
         },
-        setup (props: any) {
+        setup (props: any, ctx: SetupContext) {
             //region ======== LOCAL TYPES ===========================================================
             interface ILState {
                 currentPage: number,
@@ -84,8 +84,6 @@
             })
             //endregion =============================================================================
 
-            console.log(totalPages.value, totalGroups.value)
-
             //region ======== EVENTS HANDLERS =======================================================
             const h_pageClick = (clickedPos: number) => {
                 if (ls.currentPos === clickedPos) return
@@ -108,7 +106,6 @@
                     ls.currentPage -=1
                 }
             }
-
             const _goingRight = () => {
                 if (ls.currentPos === 4) _changePagesRight()                   // we reach the top page of the group, we need to redisplay the group
                 else {                                                        // just passing to next page within the current group
@@ -170,11 +167,8 @@
             //endregion =============================================================================
 
             //region ======== WATCHERS ==============================================================
-            watch(() => ls.currentPage, (newPage, _) => {
-                console.log('watcher ->', newPage)
-            })
-
-            watch(totalPages, () => ls.displayedPages = _getResetPageArray())
+            watch(() => [ls.currentPage, props.size], ([newPage]) => {ctx.emit('next', newPage)})                // Watching for current page and prop.size (limit) selector, if change then request the new page
+            watch(totalPages, () => {ls.displayedPages = _getResetPageArray()})
             //endregion =============================================================================
 
             return {
@@ -186,6 +180,7 @@
                 h_pageClick,
                 h_arrowClick
             }
-        }
+        },
+        emits: ['next']
     })
 </script>

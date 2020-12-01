@@ -22,7 +22,7 @@ export type CatalogAC = {                                                       
 } & Omit<ActionContext<ICatalogState, any>, 'commit'>
 
 export interface TCatalogActions {
-    [CATALOGS_AT.GET_CATALOGS] ({ commit }: CatalogAC): void
+    [CATALOGS_AT.GET_CATALOGS] ({ commit }: CatalogAC, payload: { skip: number | undefined, limit: number | undefined }): void
     [CATALOGS_AT.ADD_CATALOGS] ({ commit }: CatalogAC, payload: { catalog: Partial<ICatalog> }): Promise<ICatalog>
     [CATALOGS_AT.EDIT_CATALOGS] ({ commit }: CatalogAC, payload: { catalog: Partial<ICatalog> }): Promise<ICatalog>
     [CATALOGS_AT.DEL_CATALOGS] ({ commit }: CatalogAC, payload: { id: string }): Promise<ICatalog>

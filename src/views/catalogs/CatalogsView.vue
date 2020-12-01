@@ -21,7 +21,10 @@
                             v-on:enableIntent="h_EnableObject"
                             v-on:disableIntent="h_DisableObject"
 
-                            v-on:bulkActionIntent="h_BulkActionIntent" />
+                            v-on:bulkActionIntent="h_BulkActionIntent"
+
+                            v-on:nextPage="h_nextPage"
+                    />
                 </card-comp>
             </div>
 
@@ -37,8 +40,15 @@
     import { CardComp, TableComp } from '@/components'
     import { useToast } from 'vue-toastification'
     import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
-    import { CATALOGS_GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
-    import { BULK_ACTION, FormMode, HCatalogsTable, IBulkData, TableActionBarMode } from '@/services/definitions'
+    import { GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'
+    import {
+        BULK_ACTION,
+        FormMode,
+        HCatalogsTable,
+        IBulkData,
+        IPagination,
+        TableActionBarMode
+    } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useToastify from '../../services/composables/useToastify'
     import { IShell } from '@/services/definitions/common-types'
@@ -64,10 +74,14 @@
             //endregion =============================================================================
 
             //region ======== FETCHING DATA ACTIONS =================================================
-            store.dispatch(AINVOKER.GET_CATALOGS)
+            store.dispatch(AINVOKER.GET_CATALOGS, {skip: 0, limit: 10})
             //endregion =============================================================================
 
             //region ======== ACTIONS ===============================================================
+            const a_getPage = (pageIngo: IPagination) => {
+                store.dispatch(AINVOKER.GET_CATALOGS, { skip: pageIngo.skip, limit: pageIngo.limit })
+            }
+
             const a_Delete = (catalogId: string): void => {
                 store.dispatch(AINVOKER.DEL_CATALOGS, { id: catalogId })
                 .then((deletedObj: ICatalog) => {
@@ -101,7 +115,7 @@
             //endregion =============================================================================
 
             //region ======== COMPUTATIONS & GETTERS ================================================
-            const catalogs: ComputedRef<IShell<ICatalog>> = computed(() => store.getters[CATALOGS_GINVOKER.catalogs])
+            const catalogs: ComputedRef<IShell<ICatalog>> = computed(() => store.getters[GINVOKER.catalogs])
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
@@ -128,6 +142,10 @@
                 else if (bulkData.actionType === 'DISABLE' as BULK_ACTION) a_bulkDisable(bulkData.ids)
                 else if (bulkData.actionType === 'REMOVE' as BULK_ACTION) a_bulkRemove(bulkData.ids)
             }
+            const h_nextPage = (pInfo: IPagination) => {
+                a_getPage(pInfo)
+                console.log(pInfo)
+            }
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
@@ -144,7 +162,8 @@
                 h_EditObject,
                 h_EnableObject,
                 h_DisableObject,
-                h_BulkActionIntent
+                h_BulkActionIntent,
+                h_nextPage
             }
         }
     })

@@ -87,3 +87,11 @@ export interface IBulkData {
     ids: string[]
     actionType: BULK_ACTION
 }
+
+/***
+ * Pagination data
+ */
+export interface IPagination {
+    skip: number
+    limit: number
+}

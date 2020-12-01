@@ -6,6 +6,6 @@ export type TCatalogsGetters = {
     catalogs (state: ICatalogState): IShell<ICatalog>
 }
 
-export const CATALOGS_GINVOKER = {                                              // Getter Invoker
+export const GINVOKER = {                                              // Getter Invoker
     catalogs: 'catalogs/catalogs',
 }

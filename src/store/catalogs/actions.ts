@@ -6,12 +6,17 @@ import { ICatalogState, ICatalog } from '@/store/types/catalogs/catalogs-types'
 
 
 export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
-    [CATALOGS_AT.GET_CATALOGS] (context: CatalogAC) {
-        ApiCatalogs.getAll().then((response: any) => {
-            context.commit(CATALOGS_MT.CATALOGS_UPDATED, response.data as ICatalog[])
-        }).catch((error) => {
-            console.error(error)
-        })
+    [CATALOGS_AT.GET_CATALOGS] (context: CatalogAC, payload: { skip: number | undefined, limit: number | undefined }) {
+        if(payload && payload.skip !== undefined) {
+            ApiCatalogs.getPag(payload.skip, payload.limit)
+            .then((response: any) => {context.commit(CATALOGS_MT.CATALOGS_UPDATED, response.data as ICatalog[])})
+            .catch((error) => {console.error(error)})
+        }
+        else {
+            ApiCatalogs.getAll()
+            .then((response: any) => {context.commit(CATALOGS_MT.CATALOGS_UPDATED, response.data as ICatalog[])})
+            .catch((error) => {console.error(error)})
+        }
     },
     [CATALOGS_AT.ADD_CATALOGS] (_: CatalogAC, payload: { catalog: Partial<ICatalog> }) {
         return new Promise<ICatalog>((resolve, reject) => {
@@ -22,9 +27,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 resolve(data)
             
             })
-            .catch((error) => {
-                reject(error)
-            })
+            .catch((error) => {reject(error)})
         })
     },
     [CATALOGS_AT.EDIT_CATALOGS] (_: CatalogAC, payload: { catalog: Partial<ICatalog> }) {
@@ -36,9 +39,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 resolve(data)
                 
             })
-            .catch((error) => {
-                reject(error)
-            })
+            .catch((error) => {reject(error)})
         })
     },
     [CATALOGS_AT.DEL_CATALOGS] (context: CatalogAC, payload: { id: string }) {
@@ -52,9 +53,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 resolve(data)
                 
             })
-            .catch((error) => {
-                reject(error)
-            })
+            .catch((error) => {reject(error)})
         })
     },
     [CATALOGS_AT.SET_CATALOGS_STATUS] (context: CatalogAC, payload: { id: string, newStatus: boolean }) {
@@ -66,9 +65,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 resolve()
                 
             })
-            .catch((error) => {
-                reject(error)
-            })
+            .catch((error) => {reject(error)})
         })
     },
     [CATALOGS_AT.BULK_ENABLE_CATALOGS] (context: CatalogAC, payload: { ids: Array<string> }) {
@@ -80,9 +77,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 resolve()
                 
             })
-            .catch((error) => {
-                reject(error)
-            })
+            .catch((error) => {reject(error)})
         })
     },
     [CATALOGS_AT.BULK_DISABLE_CATALOGS] (context: CatalogAC, payload: { ids: Array<string> }) {
@@ -94,9 +89,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 resolve()
                 
             })
-            .catch((error) => {
-                reject(error)
-            })
+            .catch((error) => {reject(error)})
         })
     },
     [CATALOGS_AT.BULK_REMOVE_CATALOGS] (context: CatalogAC, payload: { ids: Array<string> }) {
@@ -108,9 +101,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 resolve()
                 
             })
-            .catch((error) => {
-                reject(error)
-            })
+            .catch((error) => {reject(error)})
         })
     }
 }

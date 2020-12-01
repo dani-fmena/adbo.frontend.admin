@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref, computed } from 'vue'
+    import { defineComponent, ref, computed, SetupContext } from 'vue'
     import { useField } from "vee-validate"
 
 
@@ -73,7 +73,7 @@
             },
             type: String
         },
-        setup (props, cntx) {
+        setup (props, cntx: SetupContext) {
             //region ======== DECLARATIONS ==========================================================
             let isFocused = ref<boolean>(false)
             const { value: inputValue, errorMessage, handleBlur, handleChange, meta } = useField(props.name as string, "", { initialValue: props.value })
