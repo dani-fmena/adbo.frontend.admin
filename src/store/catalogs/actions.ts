@@ -8,13 +8,22 @@ import { ICatalogState, ICatalog } from '@/store/types/catalogs/catalogs-types'
 export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
     [CATALOGS_AT.GET_CATALOGS] (context: CatalogAC, payload: { skip: number | undefined, limit: number | undefined }) {
         if(payload && payload.skip !== undefined) {
-            ApiCatalogs.getPag(payload.skip, payload.limit)
-            .then((response: any) => {context.commit(CATALOGS_MT.CATALOGS_UPDATED, response.data as ICatalog[])})
+            Promise.all([
+                ApiCatalogs.getPag(payload.skip, payload.limit),
+                ApiCatalogs.getCount()
+            ])
+            .then((responses: any) => {
+                const result = [...responses]
+                context.commit(CATALOGS_MT.CATALOGS_UPDATED, result[0].data as ICatalog[])
+                context.commit(CATALOGS_MT.SET_CATALOGS_COUNT, result[1].data as number)
+            })
             .catch((error) => {console.error(error)})
         }
         else {
             ApiCatalogs.getAll()
-            .then((response: any) => {context.commit(CATALOGS_MT.CATALOGS_UPDATED, response.data as ICatalog[])})
+            .then((response: any) => {
+                context.commit(CATALOGS_MT.CATALOGS_UPDATED, response.data as ICatalog[])
+            })
             .catch((error) => {console.error(error)})
         }
     },
@@ -49,6 +58,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 
                 const { data } = result                                 // data is the deleted object retrieved by the api server
                 context.commit(CATALOGS_MT.CATALOG_DELETED, data._id)
+                context.commit(CATALOGS_MT.SET_CATALOGS_COUNT, context.state.count - 1)
     
                 resolve(data)
                 
@@ -98,6 +108,7 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
             .then(() => {
     
                 context.commit(CATALOGS_MT.BULK_REMOVE_CATALOGS, { ids: payload.ids })
+                context.commit(CATALOGS_MT.SET_CATALOGS_COUNT, context.state.count - payload.ids.length)
                 resolve()
                 
             })

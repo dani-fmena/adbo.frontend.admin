@@ -10,3 +10,4 @@ export const HCatalogsTable: Partial<IColumnHeader> [] = [            // H means
     { title: 'Items', toCenter: true, width: 6 },
     { title: 'Actions', toRight: true, width: 40}
 ]
+export const PAGE_SIZE = 10

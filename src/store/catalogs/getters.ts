@@ -10,5 +10,6 @@ import { TCatalogsGetters } from '@/store/types/catalogs/catalogs-getters-types'
 export const getters: GetterTree<ICatalogState, any> & TCatalogsGetters = {
     catalogs: (state: ICatalogState): IShell<ICatalog> => {
         return toShell(state.catalogs)
-    }
+    },
+    count: (state: ICatalogState) => { return state.count }
 }

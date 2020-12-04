@@ -128,7 +128,7 @@
 
     <!-- PAGINATION -->
     <pagination-comp :size="pageSize"
-                     :total="100" v-if="data.length > 0"
+                     :total="count" v-if="data.length > 0"
                      v-on:next="h_computePaginationData" />
 </template>
 
@@ -141,7 +141,7 @@
     import ChkboxTableComp from './ChkboxTableComp.vue'
     import RowActionsComp from './RowActionsComp.vue'
     import TableActionBarComp from './TableActionBarComp.vue'
-    import { BULK_ACTION, ById, IColumnHeader, IIndexable, ITableChkEmit, IChecked, IPagination } from '@/services/definitions'
+    import { BULK_ACTION, ById, IColumnHeader, IIndexable, ITableChkEmit, IChecked, IPagination, PAGE_SIZE } from '@/services/definitions'
     import { BaseButtonComp } from '@/components'
 
 
@@ -173,10 +173,15 @@
                     return acceptedValues.indexOf(value) !== -1
                 }
             },
+            count: {
+                type: Number,
+                default: 0,
+                description: 'The number of all the records/document of this type of entity in the database'
+            },
             data: {
                 type: Object as PropType<IIndexable[]>,
-                default: () => [],
-                description: "Table data"
+                default: [],
+                description: 'The collection of the data for display in the table'
             },
             hasActions: {
                 type: Boolean,
@@ -235,9 +240,9 @@
         setup (props: any, ctx: SetupContext) {
             //region ======== DECLARATIONS ==========================================================
             const selections = reactive<{ selected: ById<IChecked> }>({ selected: { } })                       // Tiny local state (reactive) to hold the checked object from the table
-            const pageSize = ref<number>(10)                                                                   // Tiny local state (reactive) to hold the page size HTML select0
+            const pageSize = ref<number>(PAGE_SIZE)                                                                  // Tiny local state (reactive) to hold the page size HTML select0
             const rootChkBox = ref<boolean>(false)                                                             // Tiny local state (reactive) to hold the root checkbox table status, that come in handy for clean the check
-            const mode = toRaw(props.actionBarMode)                                                                 // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
+            const mode = toRaw(props.actionBarMode)                                                                  // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
             //endregion =============================================================================
 
             //region ======== COMPUTATIONS & GETTERS ================================================
@@ -370,7 +375,6 @@
                 pageSize,
                 selections,
                 rootChkBox,
-
 
                 getNavKey,
                 chkHasValue,

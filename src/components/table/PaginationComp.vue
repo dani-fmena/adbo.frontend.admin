@@ -2,7 +2,7 @@
     <div class="mt-5 d-flex justify-content-center justify-content-sm-between">
 
         <!-- INFO [LEFT] -->
-        <div><p class="card-category">{{ `Showing 1 to 5 of ${total} entries` }}</p></div>
+        <div><p class="card-category">{{ `Showing ${ls.start} to ${ls.end} of ${total} entries` }}</p></div>
 
         <!-- BUTTONS [RIGHT] -->
         <ul class="pagination pagination-no-border">
@@ -61,7 +61,9 @@
                 currentPage: number,
                 currentPos: number,
                 currentGroup: number,                // The number of the group count product of                ,
-                displayedPages: Array<number>
+                displayedPages: Array<number>,
+                start: number,
+                end: number
             }
             //endregion =============================================================================
 
@@ -80,7 +82,10 @@
                 currentPage: 1,                     // current page displayed
                 currentPos: 0,                      // current position fo the page displayed
                 currentGroup: 1,                    // current group displayed. Each group have five pages according, to the top of page that the pagination component can represent at the same time
-                displayedPages: totalPages.value >= 5 ? [1, 2, 3, 4, 5] : Array.from({ length: totalPages.value }, (_, i) => i + 1)
+                displayedPages: totalPages.value >= 5 ? [1, 2, 3, 4, 5] : Array.from({ length: totalPages.value }, (_, i) => i + 1),
+
+                start: 1,                           // used for pagination string info
+                end: props.size                     // used for pagination string info
             })
             //endregion =============================================================================
 
@@ -167,8 +172,14 @@
             //endregion =============================================================================
 
             //region ======== WATCHERS ==============================================================
-            watch(() => [ls.currentPage, props.size], ([newPage]) => {ctx.emit('next', newPage)})                // Watching for current page and prop.size (limit) selector, if change then request the new page
+            watch(() => [ls.currentPage, props.size], ([newPage]) => {
+                ctx.emit('next', newPage)                                                           // Watching for current page and prop.size (limit) selector, if change then request the new page
+
+                ls.start = ls.currentPage === 1 ? ls.currentPage : (ls.currentPage * props.size) - props.size + 1
+                ls.end = ls.start + props.size - 1 > props.total ? props.total : ls.start + props.size - 1
+            })
             watch(totalPages, () => {ls.displayedPages = _getResetPageArray()})
+
             //endregion =============================================================================
 
             return {

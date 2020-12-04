@@ -1,4 +1,4 @@
-import { HCatalogsTable } from './common-data'
+import { HCatalogsTable, PAGE_SIZE } from './common-data'
 import {
     IColumnHeader,
     IBulkData,
@@ -19,6 +19,8 @@ import {
 export {
     // Data Definitions
     HCatalogsTable,
+    PAGE_SIZE,
+    
     
     // Enums
     OPSKind,

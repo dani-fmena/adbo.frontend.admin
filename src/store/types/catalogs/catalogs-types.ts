@@ -10,4 +10,5 @@ export interface ICatalog {
 
 export interface ICatalogState {                                                    // Vuex state
     catalogs: Array<ICatalog>
+    count: number
 }

@@ -10,6 +10,7 @@
                             :actionBarMode="actionBarMode"
                             :columns="columns"
                             :data="catalogs.array"
+                            :count="catalogsCount"
                             :has-actions="true"
 
                             v-on:navCreateIntent="h_NavCreateObj"
@@ -45,6 +46,7 @@
         BULK_ACTION,
         FormMode,
         HCatalogsTable,
+        PAGE_SIZE,
         IBulkData,
         IPagination,
         TableActionBarMode
@@ -74,14 +76,13 @@
             //endregion =============================================================================
 
             //region ======== FETCHING DATA ACTIONS =================================================
-            store.dispatch(AINVOKER.GET_CATALOGS, {skip: 0, limit: 10})
+            store.dispatch(AINVOKER.GET_CATALOGS, { skip: 0, limit: PAGE_SIZE })
             //endregion =============================================================================
 
             //region ======== ACTIONS ===============================================================
             const a_getPage = (pageIngo: IPagination) => {
                 store.dispatch(AINVOKER.GET_CATALOGS, { skip: pageIngo.skip, limit: pageIngo.limit })
             }
-
             const a_Delete = (catalogId: string): void => {
                 store.dispatch(AINVOKER.DEL_CATALOGS, { id: catalogId })
                 .then((deletedObj: ICatalog) => {
@@ -89,7 +90,6 @@
                 })
                 .catch((error) => {tfyBasicFail(error, 'Catalog', 'deletion')})
             }
-
             const a_SetStatus = (catalogId: string, isToEnable: boolean): void => {
                 store.dispatch(AINVOKER.SET_CATALOGS_STATUS, { id: catalogId, newStatus: isToEnable })
                 .then(() => {
@@ -116,6 +116,7 @@
 
             //region ======== COMPUTATIONS & GETTERS ================================================
             const catalogs: ComputedRef<IShell<ICatalog>> = computed(() => store.getters[GINVOKER.catalogs])
+            const catalogsCount: ComputedRef<IShell<ICatalog>> = computed(() => store.getters[GINVOKER.count])
             //endregion =============================================================================
 
             //region ======== EVENTS HANDLERS =======================================================
@@ -142,10 +143,7 @@
                 else if (bulkData.actionType === 'DISABLE' as BULK_ACTION) a_bulkDisable(bulkData.ids)
                 else if (bulkData.actionType === 'REMOVE' as BULK_ACTION) a_bulkRemove(bulkData.ids)
             }
-            const h_nextPage = (pInfo: IPagination) => {
-                a_getPage(pInfo)
-                console.log(pInfo)
-            }
+            const h_nextPage = (pInfo: IPagination) => {a_getPage(pInfo)}
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
@@ -153,6 +151,7 @@
 
             return {
                 catalogs,
+                catalogsCount,
                 columns,
                 actionBarMode,
 

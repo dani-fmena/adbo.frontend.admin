@@ -5,7 +5,8 @@ import { ICatalogState } from '@/store/types/catalogs/catalogs-types'
 
 
 const state: ICatalogState = {
-    catalogs: []
+    catalogs: [],
+    count: 0
 }
 
 export default {
