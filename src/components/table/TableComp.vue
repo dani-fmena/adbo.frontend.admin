@@ -1,7 +1,7 @@
 <template>
     <!-- BUTTONS BAR -->
     <template v-if="hasTopBtnBar">
-        <!-- TODO If you need another kind of action bar function create a dynamic component here -->
+        <!-- TODO If you need another direction of action bar function create a dynamic component here -->
         <table-action-bar-comp :mode="mode"
                                :chkCount="Object.keys(selections.selected).length"
                                v-on:navCreateIntent="$emit('navCreateIntent')"
@@ -18,12 +18,10 @@
             <!-- TABLE PAGE SIZE -->
             <div class="select-primary mb-3 pagination-select" v-if="hasPageSizeSelector">
                 <select id="table-page-size" name="page_size" class="form-control" @change="h_pageSizeChange($event)">
-                    <!-- !!! You need to sync the default function here with the pageSize reactive value -->
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
-                    <option value="0">All</option>
                 </select>
             </div>
 
@@ -75,6 +73,11 @@
                     v-if="!header.hidden"
                     :class="[{'text-right': header.toRight}, {'text-left': header.toLeft}, {'text-center': header.toCenter}]">
                     {{ header.title }}
+
+                    <span @click.prevent="h_changeSort(header)" v-if="header.sorting" class="caret-wrapper">
+                        <i class="fa fa-caret-up sorter" :class="{'active': header.sorting.direction === 'asc'}"></i>
+                        <i class="fa fa-caret-down sorter" :class="{'active': header.sorting.direction === 'desc'}"></i>
+                    </span>
                 </th>
 
             </template>
@@ -85,7 +88,6 @@
         <tbody :class="tbodyClasses">
         <tr v-for="(rowObj, index) in data" :key="index" class="d-md-table-row">
             <template v-for="(header, index) in columns" :key="index">
-
                 <!-- checkbox cell -->
                 <td v-if="header.chk === true" rowspan="1" colspan="1" :style="[{'width': header.width + '%'}]">
                     <chkbox-table-comp :identifier="rowObj['_id']"
@@ -127,9 +129,7 @@
     <empty-table-comp v-else/>
 
     <!-- PAGINATION -->
-    <pagination-comp :size="pageSize"
-                     :total="count" v-if="data.length > 0"
-                     v-on:next="h_computePaginationData" />
+    <pagination-comp v-if="data.length > 0" :size="pageSize" :total="count" v-on:next="h_computePaginationData" />
 </template>
 
 
@@ -141,7 +141,17 @@
     import ChkboxTableComp from './ChkboxTableComp.vue'
     import RowActionsComp from './RowActionsComp.vue'
     import TableActionBarComp from './TableActionBarComp.vue'
-    import { BULK_ACTION, ById, IColumnHeader, IIndexable, ITableChkEmit, IChecked, IPagination, PAGE_SIZE } from '@/services/definitions'
+    import {
+        BULK_ACTION,
+        ById,
+        IColumnHeader,
+        IIndexable,
+        ITableChkEmit,
+        IChecked,
+        IPagination,
+        PAGE_SIZE,
+        SortData
+    } from '@/services/definitions'
     import { BaseButtonComp } from '@/components'
 
 
@@ -235,7 +245,9 @@
 
             'bulkActionIntent',
 
-            'nextPage'
+            'nextPage',
+            'nextSort',
+            'update:columns'
         ],
         setup (props: any, ctx: SetupContext) {
             //region ======== DECLARATIONS ==========================================================
@@ -282,6 +294,38 @@
                     skip: nextPage == 1 ? 0 : nextPage * pageSize.value - pageSize.value,
                     limit: pageSize.value
                 } as IPagination)
+            }
+            // TODO write a docstring
+            const h_changeSort = (clickedSortHeader: Partial<IColumnHeader>) => {
+                // We are passing props.columns with v-model so we chan change the props.column reactive object here in the TableComponent
+                // thanks to the 2-way-data-binding of v-model. This way, we can delegate the responsibility to maintain the column/header data
+                // here to the TableComponent. So the code for sync the header/column sort info is in one place and then entities list
+                // containers (vue files) like CatalogView doesn't have to handle this table related feature.
+
+                //@ts-ignore
+                let newHeadersObj = props.columns.map<Partial<IColumnHeader>>(header => {
+
+                    if (header.title === clickedSortHeader.title && header.sorting !== undefined)
+                    {
+                        switch (header.sorting.direction) {
+                            case 'asc':
+                                header.sorting = { direction: 'desc' }
+                                break
+                            case 'desc':
+                                header.sorting = { direction: 'none' }
+                                break
+                            case 'none':
+                                header.sorting = { direction: 'asc' }
+                                break
+                        }
+                        ctx.emit('nextSort', { header: getNavKey(header), direction: header.sorting.direction } as SortData)
+                    }
+                    else if (header.sorting !== undefined) header.sorting.direction = 'none'
+
+                    return header
+                })
+                ctx.emit('update:columns', newHeadersObj)            // Updating the props here thanks to v-model 2-way-data-binding
+
             }
             //endregion =============================================================================
 
@@ -391,6 +435,7 @@
                 h_DisableChkCollection,
                 h_RemoveChkCollection,
                 h_computePaginationData,
+                h_changeSort,
 
                 tableClass
             }

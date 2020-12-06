@@ -13,14 +13,15 @@ import {
     FormMode,
     TableActionBarMode,
     IPagination,
-    BULK_ACTION
+    BULK_ACTION,
+    SortDir,
+    SortData
 } from './common-types'
 
 export {
     // Data Definitions
     HCatalogsTable,
     PAGE_SIZE,
-    
     
     // Enums
     OPSKind,
@@ -41,4 +42,6 @@ export {
     IChecked,
     IPagination,
     ById,
+    SortDir,
+    SortData
 }

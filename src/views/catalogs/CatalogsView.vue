@@ -8,7 +8,7 @@
                     <table-comp
                             table-type="hover"
                             :actionBarMode="actionBarMode"
-                            :columns="columns"
+                            v-model:columns="columns"
                             :data="catalogs.array"
                             :count="catalogsCount"
                             :has-actions="true"
@@ -25,6 +25,7 @@
                             v-on:bulkActionIntent="h_BulkActionIntent"
 
                             v-on:nextPage="h_nextPage"
+                            v-on:nextSort="h_nextSort"
                     />
                 </card-comp>
             </div>
@@ -34,7 +35,7 @@
 </template>
 
 <script lang="ts">
-    import { computed, ComputedRef, defineComponent } from 'vue'
+    import { computed, ComputedRef, defineComponent, reactive } from 'vue'
     import { useStore } from 'vuex'
     import { useRouter } from 'vue-router'
     import { PATH_NAMES } from '@/router/paths'
@@ -49,11 +50,13 @@
         PAGE_SIZE,
         IBulkData,
         IPagination,
-        TableActionBarMode
+        IShell,
+        IColumnHeader,
+        TableActionBarMode,
+        SortData
     } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useToastify from '../../services/composables/useToastify'
-    import { IShell } from '@/services/definitions/common-types'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
 
 
@@ -68,7 +71,7 @@
             const store = useStore()
             const router = useRouter()
             const toast = useToast()                                       // The toast lib interface
-            const columns = HCatalogsTable
+            const columns = reactive<Array<Partial<IColumnHeader>>>(HCatalogsTable)
             const actionBarMode: TableActionBarMode = 'edr'
 
             const { dfyDeleteConfirmations } = useDialogfy()
@@ -144,6 +147,9 @@
                 else if (bulkData.actionType === 'REMOVE' as BULK_ACTION) a_bulkRemove(bulkData.ids)
             }
             const h_nextPage = (pInfo: IPagination) => {a_getPage(pInfo)}
+            const h_nextSort = (info: SortData) => {
+                console.log(info)
+            }
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
@@ -162,7 +168,8 @@
                 h_EnableObject,
                 h_DisableObject,
                 h_BulkActionIntent,
-                h_nextPage
+                h_nextPage,
+                h_nextSort
             }
         }
     })

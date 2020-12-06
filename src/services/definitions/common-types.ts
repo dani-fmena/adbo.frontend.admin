@@ -20,6 +20,14 @@ export interface Function1<T1, T2 = void> {
     (param1: T1): T2
 }
 
+export type SortDir = {
+    direction: 'asc' | 'desc' | 'none'
+}
+
+export type SortData = {
+    header: string
+} & SortDir
+
 
 /***
  * Interface describing object for datatable headers abstraction.
@@ -29,12 +37,13 @@ export interface IColumnHeader {
     hidden: boolean | undefined
     chk: boolean | undefined                                        // define a checkbox cell / header
     title: string
-    navKey: string | undefined                                      // To v-for can navigate in the data array. if isn't present, lower-cased title be use then
+    navKey: string | undefined                                      // so v-for can navigate in the data array. if isn't present, lower-cased title be use then. It comes in handy when we have a user friendly title different from the real key
     toLeft: boolean | undefined
     toRight: boolean | undefined
     toCenter: boolean | undefined
     width: number | undefined                                       // percent (%)
-    switch: boolean | undefined                                     // If we can use this cell as a switch for enable / disable actions
+    switch: boolean | undefined                                     // if we can use this cell as a switch for enable / disable actions
+    sorting: SortDir | undefined                                    // sorting information of the header
 }
 
 /***

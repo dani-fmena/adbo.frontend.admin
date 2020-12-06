@@ -145,6 +145,7 @@
         },
         methods: {
             //region ======== HANDLERS ==============================================================
+            // TODO review these unused methods
             handleNotificationDropDown (): void {
                 this.activeNotifications = !this.activeNotifications    // toggle
             },
