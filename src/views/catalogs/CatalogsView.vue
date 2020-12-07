@@ -8,7 +8,7 @@
                     <table-comp
                             table-type="hover"
                             :actionBarMode="actionBarMode"
-                            v-model:columns="columns"
+                            :columns="columns"
                             :data="catalogs.array"
                             :count="catalogsCount"
                             :has-actions="true"
@@ -24,8 +24,7 @@
 
                             v-on:bulkActionIntent="h_BulkActionIntent"
 
-                            v-on:nextPage="h_nextPage"
-                            v-on:nextSort="h_nextSort"
+                            v-on:requestIntent="h_queryRequest"
                     />
                 </card-comp>
             </div>
@@ -35,7 +34,7 @@
 </template>
 
 <script lang="ts">
-    import { computed, ComputedRef, defineComponent, reactive } from 'vue'
+    import { computed, ComputedRef, defineComponent } from 'vue'
     import { useStore } from 'vuex'
     import { useRouter } from 'vue-router'
     import { PATH_NAMES } from '@/router/paths'
@@ -49,11 +48,9 @@
         HCatalogsTable,
         PAGE_SIZE,
         IBulkData,
-        IPagination,
         IShell,
-        IColumnHeader,
         TableActionBarMode,
-        SortData
+        IDTQueryBase
     } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
     import useToastify from '../../services/composables/useToastify'
@@ -67,11 +64,11 @@
             TableComp
         },
         setup () {
-            //region ======== DECLARATIONS ==========================================================
+            //region ======== DECLARATIONS & LOCAL STATE ============================================
             const store = useStore()
             const router = useRouter()
             const toast = useToast()                                       // The toast lib interface
-            const columns = reactive<Array<Partial<IColumnHeader>>>(HCatalogsTable)
+            const columns = HCatalogsTable
             const actionBarMode: TableActionBarMode = 'edr'
 
             const { dfyDeleteConfirmations } = useDialogfy()
@@ -83,8 +80,8 @@
             //endregion =============================================================================
 
             //region ======== ACTIONS ===============================================================
-            const a_getPage = (pageIngo: IPagination) => {
-                store.dispatch(AINVOKER.GET_CATALOGS, { skip: pageIngo.skip, limit: pageIngo.limit })
+            const a_getQueryData = (queryData: IDTQueryBase) => {
+                store.dispatch(AINVOKER.GET_CATALOGS, queryData)
             }
             const a_Delete = (catalogId: string): void => {
                 store.dispatch(AINVOKER.DEL_CATALOGS, { id: catalogId })
@@ -146,10 +143,7 @@
                 else if (bulkData.actionType === 'DISABLE' as BULK_ACTION) a_bulkDisable(bulkData.ids)
                 else if (bulkData.actionType === 'REMOVE' as BULK_ACTION) a_bulkRemove(bulkData.ids)
             }
-            const h_nextPage = (pInfo: IPagination) => {a_getPage(pInfo)}
-            const h_nextSort = (info: SortData) => {
-                console.log(info)
-            }
+            const h_queryRequest = (queryData: IDTQueryBase) => {a_getQueryData(queryData)}
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
@@ -168,8 +162,7 @@
                 h_EnableObject,
                 h_DisableObject,
                 h_BulkActionIntent,
-                h_nextPage,
-                h_nextSort
+                h_queryRequest,
             }
         }
     })

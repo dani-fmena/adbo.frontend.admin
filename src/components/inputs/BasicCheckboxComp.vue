@@ -38,7 +38,7 @@
         },
         setup (props, _) {
 
-            //region ======== DECLARATIONS ==========================================================
+            //region ======== DECLARATIONS & LOCAL STATE ============================================
             const { value, handleChange } = useField(props.name as string, "", { initialValue: props.checked })
             //endregion =============================================================================
 

@@ -3,7 +3,7 @@
     <template v-if="hasTopBtnBar">
         <!-- TODO If you need another direction of action bar function create a dynamic component here -->
         <table-action-bar-comp :mode="mode"
-                               :chkCount="Object.keys(selections.selected).length"
+                               :chkCount="Object.keys(ls_selections.selected).length"
                                v-on:navCreateIntent="$emit('navCreateIntent')"
 
                                v-on:enableChkCollIntent="h_EnableChkCollection"
@@ -50,7 +50,7 @@
         <!-- TABLE HEADER -->
         <thead :class="theadClasses">
         <tr>
-            <template v-for="header in columns" :key="header.title">
+            <template v-for="header in ls_columns" :key="header.title">
 
                 <!-- check all cell -->
                 <th v-if="header.chk" colspan="1" rowspan="1">
@@ -59,7 +59,7 @@
                             <input class="form-check-input"
                                    type="checkbox"
                                    v-bind="$attrs"
-                                   :checked="rootChkBox"
+                                   :checked="ls_rootChkBoxState"
                                    @change="h_ChkAllObjects($event)">
                             <span class="form-check-sign"></span>
                         </label>
@@ -75,8 +75,8 @@
                     {{ header.title }}
 
                     <span @click.prevent="h_changeSort(header)" v-if="header.sorting" class="caret-wrapper">
-                        <i class="fa fa-caret-up sorter" :class="{'active': header.sorting.direction === 'asc'}"></i>
-                        <i class="fa fa-caret-down sorter" :class="{'active': header.sorting.direction === 'desc'}"></i>
+                        <i class="fa fa-caret-up sorter" :class="{'active': header.sorting === 'asc'}"></i>
+                        <i class="fa fa-caret-down sorter" :class="{'active': header.sorting === 'desc'}"></i>
                     </span>
                 </th>
 
@@ -87,11 +87,11 @@
         <!-- TABLE BODY -->
         <tbody :class="tbodyClasses">
         <tr v-for="(rowObj, index) in data" :key="index" class="d-md-table-row">
-            <template v-for="(header, index) in columns" :key="index">
+            <template v-for="(header, index) in ls_columns" :key="index">
                 <!-- checkbox cell -->
                 <td v-if="header.chk === true" rowspan="1" colspan="1" :style="[{'width': header.width + '%'}]">
                     <chkbox-table-comp :identifier="rowObj['_id']"
-                                       :checked="selections.selected[rowObj['_id']]"
+                                       :checked="ls_selections.selected[rowObj['_id']]"
                                        v-on:checkIntent="h_ChkObject" />
                 </td>
 
@@ -129,7 +129,7 @@
     <empty-table-comp v-else/>
 
     <!-- PAGINATION -->
-    <pagination-comp v-if="data.length > 0" :size="pageSize" :total="count" v-on:next="h_computePaginationData" />
+    <pagination-comp v-if="data.length > 0" :size="ls_pageSize" :total="count" v-on:next="h_computePaginationData" />
 </template>
 
 
@@ -148,9 +148,8 @@
         IIndexable,
         ITableChkEmit,
         IChecked,
-        IPagination,
         PAGE_SIZE,
-        SortData
+        IDTQueryBase
     } from '@/services/definitions'
     import { BaseButtonComp } from '@/components'
 
@@ -245,15 +244,22 @@
 
             'bulkActionIntent',
 
-            'nextPage',
-            'nextSort',
-            'update:columns'
+            'requestIntent',
         ],
+
         setup (props: any, ctx: SetupContext) {
-            //region ======== DECLARATIONS ==========================================================
-            const selections = reactive<{ selected: ById<IChecked> }>({ selected: { } })                       // Tiny local state (reactive) to hold the checked object from the table
-            const pageSize = ref<number>(PAGE_SIZE)                                                                  // Tiny local state (reactive) to hold the page size HTML select0
-            const rootChkBox = ref<boolean>(false)                                                             // Tiny local state (reactive) to hold the root checkbox table status, that come in handy for clean the check
+            //region ======== DECLARATIONS & LOCAL STATE ============================================
+            const ls_selections = reactive<{ selected: ById<IChecked> }>({ selected: { } })
+            const ls_rootChkBoxState = ref<boolean>(false)
+            const ls_pageSize = ref<number>(PAGE_SIZE)
+            const ls_columns = ref<Array<Partial<IColumnHeader>>>([ ...props.columns ])
+            const ls_dtQueryData: IDTQueryBase = {
+                sortdir: 'none',
+                field: '',
+                skip: 0,
+                limit: PAGE_SIZE
+            }
+
             const mode = toRaw(props.actionBarMode)                                                                  // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
             //endregion =============================================================================
 
@@ -269,63 +275,60 @@
                 inputToggleFocusClass(evt.target.parentElement.parentNode)
             }
             const h_ChkAllObjects = (evt: any) => {
-                selections.selected = updateChckAllToSelection(evt.target.checked, props.data)
+                ls_selections.selected = updateChckAllToSelection(evt.target.checked, props.data)
             }
             const h_ChkObject = (args: ITableChkEmit) => {
-                updateChkSelection(selections.selected, args)
+                updateChkSelection(ls_selections.selected, args)
             }
             const h_EnableChkCollection = () => {
-                ctx.emit('bulkActionIntent', { ids: [...Object.keys(selections.selected)], actionType: 'ENABLE' as BULK_ACTION })
+                ctx.emit('bulkActionIntent', { ids: [...Object.keys(ls_selections.selected)], actionType: 'ENABLE' as BULK_ACTION })
                 cleanCheckBoxes()
             }
             const h_DisableChkCollection = () => {
-                ctx.emit('bulkActionIntent', { ids: [...Object.keys(selections.selected)], actionType: 'DISABLE' as BULK_ACTION })
+                ctx.emit('bulkActionIntent', { ids: [...Object.keys(ls_selections.selected)], actionType: 'DISABLE' as BULK_ACTION })
                 cleanCheckBoxes()
             }
             const h_RemoveChkCollection = () => {
-                ctx.emit('bulkActionIntent', { ids: [...Object.keys(selections.selected)], actionType: 'REMOVE' as BULK_ACTION })
+                ctx.emit('bulkActionIntent', { ids: [...Object.keys(ls_selections.selected)], actionType: 'REMOVE' as BULK_ACTION })
                 cleanCheckBoxes()
             }
             const h_pageSizeChange = (evt: any) => {
-                pageSize.value = +evt.target.value
+                ls_pageSize.value = +evt.target.value
             }
             const h_computePaginationData = (nextPage: number) => {
-                ctx.emit('nextPage', {
-                    skip: nextPage == 1 ? 0 : nextPage * pageSize.value - pageSize.value,
-                    limit: pageSize.value
-                } as IPagination)
+                ls_dtQueryData.skip = nextPage == 1 ? 0 : nextPage * ls_pageSize.value - ls_pageSize.value
+                ls_dtQueryData.limit = ls_pageSize.value
+
+                ctx.emit('requestIntent', ls_dtQueryData)
             }
-            // TODO write a docstring
+            /***
+             * Update sorting information of the headers/columns array (IColumnHeader [])
+             * @param clickedSortHeader Clicked header/column object
+             */
             const h_changeSort = (clickedSortHeader: Partial<IColumnHeader>) => {
-                // We are passing props.columns with v-model so we chan change the props.column reactive object here in the TableComponent
-                // thanks to the 2-way-data-binding of v-model. This way, we can delegate the responsibility to maintain the column/header data
-                // here to the TableComponent. So the code for sync the header/column sort info is in one place and then entities list
-                // containers (vue files) like CatalogView doesn't have to handle this table related feature.
-
-                //@ts-ignore
-                let newHeadersObj = props.columns.map<Partial<IColumnHeader>>(header => {
-
+                ls_columns.value = ls_columns.value.map<Partial<IColumnHeader>>(header => {
                     if (header.title === clickedSortHeader.title && header.sorting !== undefined)
                     {
-                        switch (header.sorting.direction) {
+                        switch (header.sorting) {
                             case 'asc':
-                                header.sorting = { direction: 'desc' }
+                                header.sorting = 'desc'
                                 break
                             case 'desc':
-                                header.sorting = { direction: 'none' }
+                                header.sorting = 'none'
                                 break
                             case 'none':
-                                header.sorting = { direction: 'asc' }
+                                header.sorting = 'asc'
                                 break
                         }
-                        ctx.emit('nextSort', { header: getNavKey(header), direction: header.sorting.direction } as SortData)
+                        ls_dtQueryData.field = getNavKey(header)
+                        ls_dtQueryData.sortdir = header.sorting
+
+                        ctx.emit('requestIntent', ls_dtQueryData)
                     }
-                    else if (header.sorting !== undefined) header.sorting.direction = 'none'
+                    else if (header.sorting !== undefined) header.sorting = 'none'
 
                     return header
                 })
-                ctx.emit('update:columns', newHeadersObj)            // Updating the props here thanks to v-model 2-way-data-binding
-
             }
             //endregion =============================================================================
 
@@ -334,8 +337,8 @@
              * Try to empty the selection reactive var to make unchecked all the checked rows in the table
              */
             const cleanCheckBoxes = () => {
-                rootChkBox.value = false
-                selections.selected = updateChckAllToSelection(false)
+                ls_rootChkBoxState.value = false
+                ls_selections.selected = updateChckAllToSelection(false)
             }
 
             /***
@@ -346,7 +349,7 @@
              * @param data The props containing all the data represented on the table
             */
             const updateChckAllToSelection = (status: boolean, data: Array<IIndexable> | undefined = undefined): ById<IChecked> => {
-                rootChkBox.value = status
+                ls_rootChkBoxState.value = status
 
                 if (status)
                     return data!.reduce<ById<IChecked>>((accumulator, obj) => {
@@ -382,8 +385,8 @@
              * Get navigation key for obtain the row object property value. Like 2D matrix['navigation_key']
              * @param column object describing the header properties
              */
-            const getNavKey = (column: IColumnHeader): string => {
-                return column.navKey !== undefined ? column.navKey : column.title.toLowerCase()
+            const getNavKey = (column: Partial<IColumnHeader>): string => {
+                return column.navKey !== undefined ? column.navKey : column.title!.toLowerCase()
             }
 
             /***
@@ -416,9 +419,10 @@
 
             return {
                 mode,
-                pageSize,
-                selections,
-                rootChkBox,
+                ls_pageSize,
+                ls_selections,
+                ls_rootChkBoxState,
+                ls_columns,
 
                 getNavKey,
                 chkHasValue,

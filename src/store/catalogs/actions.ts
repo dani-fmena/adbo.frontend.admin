@@ -3,13 +3,14 @@ import { ApiCatalogs } from '@/services/api/api-catalogs'
 import { CATALOGS_MT } from '../types/catalogs/catalogs-mutation-types'
 import { CATALOGS_AT, TCatalogActions, CatalogAC } from '../types/catalogs/catalogs-actions-types'
 import { ICatalogState, ICatalog } from '@/store/types/catalogs/catalogs-types'
+import { IDTQueryBase } from '@/services/definitions'
 
 
 export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
-    [CATALOGS_AT.GET_CATALOGS] (context: CatalogAC, payload: { skip: number | undefined, limit: number | undefined }) {
-        if(payload && payload.skip !== undefined) {
+    [CATALOGS_AT.GET_CATALOGS] (context: CatalogAC, payload: IDTQueryBase | undefined) {
+        if (payload !== undefined) {
             Promise.all([
-                ApiCatalogs.getPag(payload.skip, payload.limit),
+                ApiCatalogs.makeQueryRequest(payload),
                 ApiCatalogs.getCount()
             ])
             .then((responses: any) => {

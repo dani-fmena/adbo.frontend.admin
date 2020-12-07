@@ -12,10 +12,9 @@ import {
     OPSKind,
     FormMode,
     TableActionBarMode,
-    IPagination,
     BULK_ACTION,
     SortDir,
-    SortData
+    IDTQueryBase
 } from './common-types'
 
 export {
@@ -40,8 +39,7 @@ export {
     IBulkData,
     ITableChkEmit,
     IChecked,
-    IPagination,
     ById,
     SortDir,
-    SortData
+    IDTQueryBase
 }

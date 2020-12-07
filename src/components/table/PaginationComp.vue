@@ -76,7 +76,7 @@
             )
             //endregion =============================================================================
 
-            //region ======== DECLARATIONS ==========================================================
+            //region ======== DECLARATIONS & LOCAL STATE ============================================
             // ls means local state
             const ls = reactive<ILState>({
                 currentPage: 1,                     // current page displayed

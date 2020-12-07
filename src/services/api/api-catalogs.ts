@@ -1,6 +1,7 @@
 import axios from './api'
 import { AxiosPromise } from 'axios'
 import { ICatalog } from '@/store/types/catalogs/catalogs-types'
+import { IDTQueryBase } from '@/services/definitions'
 
 
 export class ApiCatalogs {
@@ -12,8 +13,8 @@ export class ApiCatalogs {
         return axios.get(`catalogs/count`)
     }
     
-    public static getPag (skip: number = 0, limit: number = 25): AxiosPromise<ICatalog[]> {
-        return axios.get(`catalogs/`, { params: { skip: skip, limit: limit } })
+    public static makeQueryRequest (queryData: IDTQueryBase): AxiosPromise<ICatalog[]> {
+        return axios.get(`catalogs/`, { params: queryData })
     }
     
     public static delete (id: string): AxiosPromise<ICatalog> {

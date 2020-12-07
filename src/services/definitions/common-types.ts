@@ -20,15 +20,6 @@ export interface Function1<T1, T2 = void> {
     (param1: T1): T2
 }
 
-export type SortDir = {
-    direction: 'asc' | 'desc' | 'none'
-}
-
-export type SortData = {
-    header: string
-} & SortDir
-
-
 /***
  * Interface describing object for datatable headers abstraction.
  * This create a flexible configuration for describing how to handle the headers and cell representation.
@@ -97,10 +88,18 @@ export interface IBulkData {
     actionType: BULK_ACTION
 }
 
-/***
- * Pagination data
+/**
+ * Datatable sort header direction
  */
-export interface IPagination {
+export type SortDir = 'asc' | 'desc' | 'none'
+
+/**
+ * This type hold the base query information related to a datatable
+ */
+export interface IDTQueryBase {
+    sortdir: SortDir
+    field: string,
     skip: number
     limit: number
 }
+

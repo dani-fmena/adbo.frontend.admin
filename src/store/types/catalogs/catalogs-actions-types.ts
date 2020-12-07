@@ -1,6 +1,7 @@
 import { ActionContext } from 'vuex'
 import { TCatalogsMutations } from './catalogs-mutation-types'
 import { ICatalog, ICatalogState } from './catalogs-types'
+import { IDTQueryBase } from '@/services/definitions'
 
 
 export enum CATALOGS_AT {
@@ -22,7 +23,7 @@ export type CatalogAC = {                                                       
 } & Omit<ActionContext<ICatalogState, any>, 'commit'>
 
 export interface TCatalogActions {
-    [CATALOGS_AT.GET_CATALOGS] ({ commit }: CatalogAC, payload: { skip: number | undefined, limit: number | undefined }): void
+    [CATALOGS_AT.GET_CATALOGS] ({ commit }: CatalogAC, payload: IDTQueryBase | undefined): void
     [CATALOGS_AT.ADD_CATALOGS] ({ commit }: CatalogAC, payload: { catalog: Partial<ICatalog> }): Promise<ICatalog>
     [CATALOGS_AT.EDIT_CATALOGS] ({ commit }: CatalogAC, payload: { catalog: Partial<ICatalog> }): Promise<ICatalog>
     [CATALOGS_AT.DEL_CATALOGS] ({ commit }: CatalogAC, payload: { id: string }): Promise<ICatalog>

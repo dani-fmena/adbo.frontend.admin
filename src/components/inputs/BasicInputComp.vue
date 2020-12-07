@@ -74,7 +74,7 @@
             type: String
         },
         setup (props, cntx: SetupContext) {
-            //region ======== DECLARATIONS ==========================================================
+            //region ======== DECLARATIONS & LOCAL STATE ============================================
             let isFocused = ref<boolean>(false)
             const { value: inputValue, errorMessage, handleBlur, handleChange, meta } = useField(props.name as string, "", { initialValue: props.value })
             //endregion =============================================================================
