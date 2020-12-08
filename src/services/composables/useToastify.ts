@@ -4,14 +4,38 @@ import { OPSKind } from '@/services/definitions'
 
 export default function useToastify (t: ToastInterface) {
     
-    /***
-     * Inner private function to actually show the error.
-     *
-     * @param msg The error msg to show
-     */
-    function mkError (msg: string)
+    function _mkError (msg: string)
     {
         t.error(msg, { timeout: 5000, position: POSITION.TOP_RIGHT, icon: 'tim-icons icon-alert-circle-exc', })
+    }
+    
+    function _getOpsKind (ops: OPSKind, isPresent: boolean = false): string {
+        let opsKind = '[unknown]'
+    
+        if (ops === 'deletion') opsKind = isPresent ? 'removing' : 'deleted'
+        else if (ops === 'addition') opsKind = isPresent ? 'creating' : 'created'
+        else if (ops === 'enable') opsKind = isPresent ? 'activating' : 'enabled'
+        else if (ops === 'disable') opsKind = isPresent ? 'deactivating' : 'disabled'
+        else if (ops === 'update') opsKind = isPresent ? 'updating' : 'updated'
+        else if (ops === 'request') opsKind = isPresent ? 'requesting' : 'request'
+        
+        return opsKind
+    }
+    
+    function _getDetails (error: any, subject: string = '', subjectName: string = '', isBulk: boolean = false): string {
+        if (error === undefined) {console.error('Error object is undefined'); return '';}
+        
+        let details = error.response.data.detail.description
+        const eCode = error.response.status
+        
+        if (eCode === 400) details = `${ error.response.data.detail }`
+        else if (eCode === 404) details = isBulk
+            ? `Some ${ subject } identifier missing`
+            : `The ${ subject } ${ subjectName } identifier is missing.`
+        else if (eCode === 417 || eCode === 500) details = `${ error.response.data.detail.description }`
+        else if (eCode === 422) details = `Validation error with ${ error.response.data.detail![0].loc[1] }. ${ error.response.data.detail![0].msg }.`
+        
+        return details
     }
     
     
@@ -36,14 +60,7 @@ export default function useToastify (t: ToastInterface) {
      * @param name Object/Entity name was involved int in the api request/operations
      */
     const tfyBasicSuccess = (subject: string, ops: OPSKind, name: undefined | string = undefined): void => {
-        let kind
-    
-        if (ops === 'deletion') kind = 'deleted'
-        else if (ops === 'addition') kind = 'created'
-        else if (ops === 'enable') kind = 'enabled'
-        else if (ops === 'disable') kind = 'disabled'
-        else if (ops === 'updating') kind = 'updated'
-        else kind = '[unknown]'
+        let kind = _getOpsKind(ops)
     
         t.success(`${ subject } ${ name !== undefined && typeof name === 'string' ? name : '' } was ${ kind } successfully.`, {
             timeout: 4000,
@@ -61,33 +78,17 @@ export default function useToastify (t: ToastInterface) {
      * @param name Object/Entity name was involved int in the api request/operations
      */
     const tfyBasicFail = (error: any, subject: string, ops: OPSKind, name: undefined | string = undefined): void => {
-        let kind
-        let details
-        let eName = name !== undefined && typeof name === 'string' ? name : ''
-    
-        if (ops === 'deletion') kind = 'deleting'
-        else if (ops === 'addition') kind = 'creating'
-        else if (ops === 'enable') kind = 'activating'
-        else if (ops === 'disable') kind = 'deactivating'
-        else if (ops === 'updating') kind = 'updating'
-        else kind = '[unknown]'
+        let kind = _getOpsKind(ops, true)
+        let subjectName = name !== undefined && typeof name === 'string' ? name : ''
     
         // Internal backend error with no return
-        if (!error.response)
-        {
-            mkError(`Bulk ${ kind } ${ subject } fail. Something really bad happen on server.`)
+        if (!error.response) {
+            _mkError(`Ops ${ kind } ${ subject } fail. Something really bad happen on server.`)
             return
         }
-    
-        const eCode = error.response.status
-    
-        if (eCode === 400) details = `${ error.response.data.detail }`
-        else if (eCode === 404) details = `The ${ subject } ${ eName } identifier is missing.`
-        else if (eCode === 417 || eCode === 500) details = `${ error.response.data.detail.description }`
-        else if (eCode === 422) details = `Validation error with ${ error.response.data.detail![0].loc[1] }. ${ error.response.data.detail![0].msg }.`
-        else details = error.response.data.detail.description
         
-        mkError(`Ops ${ kind } ${ subject } ${ eName } fail. Error ${eCode}. ${ details }`)
+        let details =_getDetails(error, subject, subjectName, )
+        _mkError(`Ops ${ kind } ${ subject } ${ subjectName } fail. Error ${error.response.status}. ${ details }`)
     }
     
     /***
@@ -98,30 +99,16 @@ export default function useToastify (t: ToastInterface) {
      * @param ops Type of API operation for the feedback
      */
     const tfyBulkFail = (error: any, subject: string, ops: OPSKind): void => {
-        let kind
-        let details
+        let kind = _getOpsKind(ops, true)
         
-        if (ops === 'bulkenable') kind = 'activating'
-        else if (ops === 'bulkdisable') kind = 'deactivating'
-        else if (ops === 'bulkremove') kind = 'removing'
-        else kind = '[unknown]'
-    
         // Internal backend error with no return
-        if (!error.response)
-        {
-            mkError(`Bulk ${ kind } ${ subject } fail. Something really bad happen on server.`)
+        if (!error.response) {
+            _mkError(`Bulk ${ kind } ${ subject } fail. Something really bad happen on server.`)
             return
         }
         
-        const eCode = error.response.status
-    
-        if (eCode === 400) details = `${ error.response.data.detail }`
-        else if (eCode === 404) details = `Some ${ subject } identifier missing`
-        else if (eCode === 417 || eCode === 500) details = `${ error.response.data.detail.description }`
-        else if (eCode === 422) details = `Validation error with ${ error.response.data.detail![0].loc[1] }. ${ error.response.data.detail![0].msg }.`
-        else details = error.response.data.detail
-        
-        mkError(`Bulk ${ kind } ${ subject } fail. Error ${eCode}. ${ details }`)
+        let details = _getDetails(error, subject, '',  true)
+        _mkError(`Bulk ${ kind } ${ subject } fail. Error ${ error.response.status }. ${ details }`)
     }
     
     return {

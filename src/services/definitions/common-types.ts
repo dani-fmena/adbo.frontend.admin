@@ -55,7 +55,7 @@ export type IShell<T> = {
 /***
  * Definition for API operations that requieres a UI toast feedback
  */
-export type OPSKind = 'deletion' | 'addition' | 'updating' | 'enable' | 'disable' | 'bulkenable' | 'bulkdisable' | 'bulkremove'
+export type OPSKind = 'deletion' | 'addition' | 'update' | 'enable' | 'disable' | 'request'
 
 /***
  * Definition for entities forms view mode
@@ -91,15 +91,16 @@ export interface IBulkData {
 /**
  * Datatable sort header direction
  */
-export type SortDir = 'asc' | 'desc' | 'none'
+export type SortDir = 'asc' | 'desc' | ''
 
 /**
  * This type hold the base query information related to a datatable
  */
 export interface IDTQueryBase {
     sortdir: SortDir
-    field: string,
+    field: string
     skip: number
     limit: number
+    search: string
 }
 
