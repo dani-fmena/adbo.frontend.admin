@@ -5,10 +5,6 @@ import { IDTQueryBase } from '@/services/definitions'
 
 
 export class ApiCatalogs {
-    public static getAll (): AxiosPromise<ICatalog[]> {
-        return axios.get(`catalogs/`)
-    }
-    
     public static getCount (): AxiosPromise<number> {
         return axios.get(`catalogs/count`)
     }

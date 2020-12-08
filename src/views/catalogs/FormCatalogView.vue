@@ -103,10 +103,10 @@
             const a_Edit = (newCatalog: Partial<ICatalog>): void => {
                 store.dispatch(AINVOKER.EDIT_CATALOGS, { catalog: newCatalog })
                 .then((catalog: ICatalog) => {
-                    tfyBasicSuccess('Catalog', 'updating', catalog.name)
+                    tfyBasicSuccess('Catalog', 'update', catalog.name)
                     h_Back()
                 })
-                .catch((error) => {tfyBasicFail(error, 'Catalog', 'updating')})
+                .catch((error) => {tfyBasicFail(error, 'Catalog', 'update')})
             }
             const a_Delete = (catalogId: string): void => {
                 store.dispatch(AINVOKER.DEL_CATALOGS, { id: catalogId })

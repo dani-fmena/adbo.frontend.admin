@@ -37,6 +37,7 @@
                            type="text"
                            placeholder="Search"
                            aria-describedby="addon-right addon-left"
+                           @input="debounceListener"
                            @blur="h_onSrchBlursEvt($event)"
                            @focus="h_onSrchFocusEvt($event)">
                 </div>
@@ -74,7 +75,7 @@
                     :class="[{'text-right': header.toRight}, {'text-left': header.toLeft}, {'text-center': header.toCenter}]">
                     {{ header.title }}
 
-                    <span @click.prevent="h_changeSort(header)" v-if="header.sorting" class="caret-wrapper">
+                    <span @click.prevent="h_changeSort(header)" v-if="header.sorting || header.sorting === ''" class="caret-wrapper">
                         <i class="fa fa-caret-up sorter" :class="{'active': header.sorting === 'asc'}"></i>
                         <i class="fa fa-caret-down sorter" :class="{'active': header.sorting === 'desc'}"></i>
                     </span>
@@ -152,6 +153,7 @@
         IDTQueryBase
     } from '@/services/definitions'
     import { BaseButtonComp } from '@/components'
+    import useDebaunce from '@/services/composables/useDebaunce'
 
 
     export default defineComponent({
@@ -253,14 +255,15 @@
             const ls_rootChkBoxState = ref<boolean>(false)
             const ls_pageSize = ref<number>(PAGE_SIZE)
             const ls_columns = ref<Array<Partial<IColumnHeader>>>([ ...props.columns ])
-            const ls_dtQueryData: IDTQueryBase = {
-                sortdir: 'none',
+            let ls_dtQueryData: IDTQueryBase = {
+                sortdir: '',
                 field: '',
                 skip: 0,
-                limit: PAGE_SIZE
+                limit: PAGE_SIZE,
+                search: ''
             }
-
             const mode = toRaw(props.actionBarMode)                                                                  // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
+
             //endregion =============================================================================
 
             //region ======== COMPUTATIONS & GETTERS ================================================
@@ -314,9 +317,9 @@
                                 header.sorting = 'desc'
                                 break
                             case 'desc':
-                                header.sorting = 'none'
+                                header.sorting = ''
                                 break
-                            case 'none':
+                            case '':
                                 header.sorting = 'asc'
                                 break
                         }
@@ -325,11 +328,16 @@
 
                         ctx.emit('requestIntent', ls_dtQueryData)
                     }
-                    else if (header.sorting !== undefined) header.sorting = 'none'
+                    else if (header.sorting !== undefined) header.sorting = ''
 
                     return header
                 })
             }
+            const h_searchChange = (search: string) => {
+                ls_dtQueryData.search = search
+                ctx.emit('requestIntent', ls_dtQueryData)
+            }
+
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
@@ -440,6 +448,8 @@
                 h_RemoveChkCollection,
                 h_computePaginationData,
                 h_changeSort,
+                h_searchChange,
+                ...useDebaunce(h_searchChange),
 
                 tableClass
             }

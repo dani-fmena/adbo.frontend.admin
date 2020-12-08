@@ -53,7 +53,7 @@
         IDTQueryBase
     } from '@/services/definitions'
     import useDialogfy from '@/services/composables/useDialogfy'
-    import useToastify from '../../services/composables/useToastify'
+    import useToastify from '@/services/composables/useToastify'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
 
 
@@ -77,11 +77,13 @@
 
             //region ======== FETCHING DATA ACTIONS =================================================
             store.dispatch(AINVOKER.GET_CATALOGS, { skip: 0, limit: PAGE_SIZE })
+            .catch((error) => {tfyBasicFail(error, 'Catalogs', 'request')})
             //endregion =============================================================================
 
             //region ======== ACTIONS ===============================================================
             const a_getQueryData = (queryData: IDTQueryBase) => {
                 store.dispatch(AINVOKER.GET_CATALOGS, queryData)
+                .catch((error) => {tfyBasicFail(error, 'Catalogs', 'request')})
             }
             const a_Delete = (catalogId: string): void => {
                 store.dispatch(AINVOKER.DEL_CATALOGS, { id: catalogId })
@@ -100,17 +102,17 @@
             const a_bulkEnable = (ids: Array<string>) => {
                 store.dispatch(AINVOKER.BULK_ENABLE_CATALOGS, { ids: ids })
                 .then(() => {tfyBasicSuccess('Catalogs', 'enable')})
-                .catch((error) => {tfyBulkFail(error, 'catalogs', 'bulkenable')})
+                .catch((error) => {tfyBulkFail(error, 'catalogs', 'enable')})
             }
             const a_bulkDisable = (ids: Array<string>) => {
                 store.dispatch(AINVOKER.BULK_DISABLE_CATALOGS, { ids: ids })
                 .then(() => {tfyBasicSuccess('Catalogs', 'disable')})
-                .catch((error) => {tfyBulkFail(error, 'catalogs', 'bulkdisable')})
+                .catch((error) => {tfyBulkFail(error, 'catalogs', 'disable')})
             }
             const a_bulkRemove = (ids: Array<string>) => {
                 store.dispatch(AINVOKER.BULK_REMOVE_CATALOGS, { ids: ids })
                 .then(() => {tfyBasicSuccess('Catalogs', 'deletion')})
-                .catch((error) => {tfyBulkFail(error, 'catalogs', 'bulkremove')})
+                .catch((error) => {tfyBulkFail(error, 'catalogs', 'deletion')})
             }
             //endregion =============================================================================
 

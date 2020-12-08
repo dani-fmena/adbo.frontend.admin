@@ -7,8 +7,8 @@ import { IDTQueryBase } from '@/services/definitions'
 
 
 export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
-    [CATALOGS_AT.GET_CATALOGS] (context: CatalogAC, payload: IDTQueryBase | undefined) {
-        if (payload !== undefined) {
+    [CATALOGS_AT.GET_CATALOGS] (context: CatalogAC, payload: IDTQueryBase) {
+        return new Promise<void>((resolve, reject) => {
             Promise.all([
                 ApiCatalogs.makeQueryRequest(payload),
                 ApiCatalogs.getCount()
@@ -17,16 +17,11 @@ export const actions: ActionTree<ICatalogState, any> & TCatalogActions = {
                 const result = [...responses]
                 context.commit(CATALOGS_MT.CATALOGS_UPDATED, result[0].data as ICatalog[])
                 context.commit(CATALOGS_MT.SET_CATALOGS_COUNT, result[1].data as number)
+                
+                resolve()
             })
-            .catch((error) => {console.error(error)})
-        }
-        else {
-            ApiCatalogs.getAll()
-            .then((response: any) => {
-                context.commit(CATALOGS_MT.CATALOGS_UPDATED, response.data as ICatalog[])
-            })
-            .catch((error) => {console.error(error)})
-        }
+            .catch((error) => {reject(error)})
+        })
     },
     [CATALOGS_AT.ADD_CATALOGS] (_: CatalogAC, payload: { catalog: Partial<ICatalog> }) {
         return new Promise<ICatalog>((resolve, reject) => {

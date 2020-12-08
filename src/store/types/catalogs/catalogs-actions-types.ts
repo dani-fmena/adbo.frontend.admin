@@ -23,14 +23,14 @@ export type CatalogAC = {                                                       
 } & Omit<ActionContext<ICatalogState, any>, 'commit'>
 
 export interface TCatalogActions {
-    [CATALOGS_AT.GET_CATALOGS] ({ commit }: CatalogAC, payload: IDTQueryBase | undefined): void
+    [CATALOGS_AT.GET_CATALOGS] ({ commit }: CatalogAC, payload: IDTQueryBase | undefined): Promise<void>
     [CATALOGS_AT.ADD_CATALOGS] ({ commit }: CatalogAC, payload: { catalog: Partial<ICatalog> }): Promise<ICatalog>
     [CATALOGS_AT.EDIT_CATALOGS] ({ commit }: CatalogAC, payload: { catalog: Partial<ICatalog> }): Promise<ICatalog>
     [CATALOGS_AT.DEL_CATALOGS] ({ commit }: CatalogAC, payload: { id: string }): Promise<ICatalog>
-    [CATALOGS_AT.SET_CATALOGS_STATUS] ({ commit }: CatalogAC, payload: { id: string }): void
-    [CATALOGS_AT.BULK_ENABLE_CATALOGS] ({ commit }: CatalogAC, payload: { ids: Array<string> }): void
-    [CATALOGS_AT.BULK_DISABLE_CATALOGS] ({ commit }: CatalogAC, payload: { ids: Array<string> }): void
-    [CATALOGS_AT.BULK_REMOVE_CATALOGS] ({ commit }: CatalogAC, payload: { ids: Array<string> }): void
+    [CATALOGS_AT.SET_CATALOGS_STATUS] ({ commit }: CatalogAC, payload: { id: string }): Promise<void>
+    [CATALOGS_AT.BULK_ENABLE_CATALOGS] ({ commit }: CatalogAC, payload: { ids: Array<string> }): Promise<void>
+    [CATALOGS_AT.BULK_DISABLE_CATALOGS] ({ commit }: CatalogAC, payload: { ids: Array<string> }): Promise<void>
+    [CATALOGS_AT.BULK_REMOVE_CATALOGS] ({ commit }: CatalogAC, payload: { ids: Array<string> }): Promise<void>
     // [CATALOGS_AT.ADD_PRODUCTS]({ commit }: AugmentedActionContext, payload: number): Promise<number>
 }
 
