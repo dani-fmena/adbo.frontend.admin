@@ -1,7 +1,7 @@
 <template>
     <!-- BUTTONS BAR -->
     <template v-if="hasTopBtnBar">
-        <!-- TODO If you need another direction of action bar function create a dynamic component here -->
+        <!-- If you need another direction of action bar function create a dynamic component here -->
         <table-action-bar-comp :mode="mode"
                                :chkCount="Object.keys(ls_selections.selected).length"
                                v-on:navCreateIntent="$emit('navCreateIntent')"
@@ -12,12 +12,12 @@
     </template>
 
     <!-- SEARCH & PAGE SIZE BAR -->
-    <template v-if="(hasPageSizeSelector || hasSearch) && data.length > 0">
+    <template v-if="hasPageSizeSelector || hasSearch">
         <div class="table-action-bars col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
 
             <!-- TABLE PAGE SIZE -->
             <div class="select-primary mb-3 pagination-select" v-if="hasPageSizeSelector">
-                <select id="table-page-size" name="page_size" class="form-control" @change="h_pageSizeChange($event)">
+                <select id="table-page-size" v-if="data.length > 0" name="page_size" class="form-control" @change="h_pageSizeChange($event)">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -272,10 +272,10 @@
 
             //region ======== EVENTS HANDLERS =======================================================
             const h_onSrchFocusEvt = (evt: any) => {
-                inputToggleFocusClass(evt.target.parentElement.parentNode)
+                if(evt.target.value.length < 4) inputToggleFocusClass(evt.target.parentElement.parentNode)
             }
             const h_onSrchBlursEvt = (evt: any) => {
-                inputToggleFocusClass(evt.target.parentElement.parentNode)
+                if(evt.target.value.length < 4) inputToggleFocusClass(evt.target.parentElement.parentNode)
             }
             const h_ChkAllObjects = (evt: any) => {
                 ls_selections.selected = updateChckAllToSelection(evt.target.checked, props.data)
