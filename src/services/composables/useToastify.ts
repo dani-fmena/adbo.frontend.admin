@@ -25,14 +25,15 @@ export default function useToastify (t: ToastInterface) {
     function _getDetails (error: any, subject: string = '', subjectName: string = '', isBulk: boolean = false): string {
         if (error === undefined) {console.error('Error object is undefined'); return '';}
         
-        let details = error.response.data.detail.description
+        let details = error.response.data.detail.msg
         const eCode = error.response.status
         
         if (eCode === 400) details = `${ error.response.data.detail }`
+        if (eCode === 401) details = `${ error.response.data.detail }`
         else if (eCode === 404) details = isBulk
             ? `Some ${ subject } identifier missing`
             : `The ${ subject } ${ subjectName } identifier is missing.`
-        else if (eCode === 417 || eCode === 500) details = `${ error.response.data.detail.description }`
+        else if (eCode === 417 || eCode === 500) details = `${ error.response.data.detail.msg }`
         else if (eCode === 422) details = `Validation error with ${ error.response.data.detail![0].loc[1] }. ${ error.response.data.detail![0].msg }.`
         
         return details
