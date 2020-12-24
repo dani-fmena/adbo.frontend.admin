@@ -1,5 +1,4 @@
 import { ActionTree } from 'vuex'
-import axios from '@/services/api/api'
 import { AUTH_AT, TAuthActions, AuthAC } from '@/store/types/auth/auth-actions-types'
 import { AUTH_MT } from  '@/store/types/auth/auth-mutation-types'
 import { IAuthFormData, IAuthState } from '@/store/types/auth/auth-types'
@@ -14,8 +13,8 @@ export const actions: ActionTree<IAuthState, any> & TAuthActions = {
                 const at = response.data.access_token
                 
                 if (at.length > 10) {
-                    context.commit(AUTH_MT.AUTH_LOGGED_IN, undefined)
-                    axios.defaults.headers['Authorization'] = `Bearer ${ at }`          // Setting Bearer Token
+                    context.commit(AUTH_MT.AUTH_LOGGED_IN, at)
+                    ApiAuth.setAccessToken(at)
                 }
     
                 resolve()
@@ -25,6 +24,6 @@ export const actions: ActionTree<IAuthState, any> & TAuthActions = {
     },
     [AUTH_AT.LOGOUT] (context: AuthAC) {
         context.commit(AUTH_MT.AUTH_LOGGED_OUT, undefined)
-        delete axios.defaults.headers['Authorization']                                  // Removing Bearer Token
+        ApiAuth.removeAccessToken()
     }
 }

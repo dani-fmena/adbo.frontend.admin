@@ -6,6 +6,7 @@ import { IAuthState } from '@/store/types/auth/auth-types'
 
 const state: IAuthState = {
     logIn: false,
+    at: ''
 }
 
 export default {

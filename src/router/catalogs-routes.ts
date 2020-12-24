@@ -7,19 +7,19 @@ export const catalogRoutes: Array<RouteRecordRaw> = [
     {
         path: PATHS.catalogs,
         name: PATH_NAMES.catalogs,
-        component: () => import('../views/catalogs/CatalogsView.vue'),
-        meta: { layout: BaseDashboardLay }
+        component: () => import(/* webpackChunkName: "CatalogsView" */ '../views/catalogs/CatalogsView.vue'),
+        meta: { layout: BaseDashboardLay, reqAuth: true }
     },
     {
         path: PATHS.catalogsForm,
         name: PATH_NAMES.catalogsForm,
-        component: () => import('../views/catalogs/FormCatalogView.vue'),
-        meta: { layout: BaseDashboardLay }
+        component: () => import(/* webpackChunkName: "FormCatalogView" */ '../views/catalogs/FormCatalogView.vue'),
+        meta: { layout: BaseDashboardLay, reqAuth: true }
     },
     {
         path: PATHS.catalogsDetails,
         name: PATH_NAMES.catalogsDetails,
-        component: () => import('../views/catalogs/DetailsCatalogView.vue'),
-        meta: { layout: BaseDashboardLay }
+        component: () => import(/* webpackChunkName: "DetailsCatalogView" */ '../views/catalogs/DetailsCatalogView.vue'),
+        meta: { layout: BaseDashboardLay, reqAuth: true }
     }
 ]

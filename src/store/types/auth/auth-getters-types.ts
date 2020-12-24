@@ -1,13 +1,12 @@
-import { ICatalog, ICatalogState } from '@/store/types/catalogs/catalogs-types'
-import { IShell } from '@/services/definitions'
+import { IAuthState } from '@/store/types/auth/auth-types'
 
 
-export type TCatalogsGetters = {
-    catalogs (state: ICatalogState): IShell<ICatalog>
-    count (state: ICatalogState): number
+export type TAuthGetters = {
+    isAuth (state: IAuthState): boolean
+    at (state: IAuthState): string
 }
 
 export const GINVOKER = {                                              // Getter Invoker
-    catalogs: 'catalogs/catalogs',
-    count: 'catalogs/count'
+    isAuth: 'auth/isAuth',
+    at: 'auth/at'
 }

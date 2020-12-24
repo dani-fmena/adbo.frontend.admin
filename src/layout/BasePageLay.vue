@@ -3,7 +3,7 @@
         <div class="content-page">
 
             <router-link class="nav-item" to="/default" tag="li">
-                <!-- Triying to force, you can ask why the router-link element isn't render properly -->
+                <!-- Trying to force, you can ask why the router-link element isn't render properly -->
                 <!--<a class="nav-link">-->
                 <!--    <i class="tim-icons icon-chart-pie-36"></i>-->
                 <!--    <p>Testa</p>-->

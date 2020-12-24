@@ -7,6 +7,6 @@ export enum AUTH_MT {
 }
 
 export type TAuthMutations<S = IAuthState> = {
-    [AUTH_MT.AUTH_LOGGED_IN] (state: S): void
+    [AUTH_MT.AUTH_LOGGED_IN] (state: S, access_tk: string): void
     [AUTH_MT.AUTH_LOGGED_OUT] (state: S): void
 }

@@ -4,10 +4,12 @@ import { IAuthState } from '@/store/types/auth/auth-types'
 
 
 export const mutations: MutationTree<IAuthState> & TAuthMutations = {
-    [AUTH_MT.AUTH_LOGGED_IN] (state: IAuthState) {
+    [AUTH_MT.AUTH_LOGGED_IN] (state: IAuthState, access_tk: string) {
         state.logIn = true
+        state.at = access_tk
     },
     [AUTH_MT.AUTH_LOGGED_OUT] (state: IAuthState) {
         state.logIn = false
+        state.at = ''
     },
 }

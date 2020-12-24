@@ -7,12 +7,10 @@
 
     <card-comp title="Login" card-type="auto-margin">
         <form>
-            <div class="form-group has-label">
-                <label for="user"> Email address </label>
+            <div class="form-group">
                 <basic-input-comp id="user" name="username" type="text" placeholder="User"/>
             </div>
             <div class="form-group has-label">
-                <label for="password"> Password </label>
                 <basic-input-comp id="password" name="password" type="password" placeholder="Password" v-on:keydown.enter="h_LoginIntent"/>
             </div>
         </form>

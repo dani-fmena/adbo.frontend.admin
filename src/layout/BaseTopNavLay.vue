@@ -109,8 +109,10 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
+    import { useStore, Store } from 'vuex'
     import { ModalComp, DropdownComp } from '../components'
     import { PATHS } from '@/router/paths'
+    import { AINVOKER } from '@/store/types/auth/auth-actions-types'
 
 
     interface INavData {
@@ -118,6 +120,7 @@
         showMenu: boolean,
         searchModalVisible: boolean,
         searchQuery: string
+        store: Store<any>
     }
 
     export default defineComponent({
@@ -131,7 +134,8 @@
                 activeNotifications: false,
                 showMenu: false,
                 searchModalVisible: false,
-                searchQuery: ''
+                searchQuery: '',
+                store: useStore()
             }
         },
         computed: {
@@ -147,9 +151,8 @@
         methods: {
             //region ======== HANDLERS ==============================================================
             handleLogOutIntent (): void {
-                // TODO quita el token, trata de poner ambos metodos (quitar y poner en un servicio del auth)
+                this.store.dispatch(AINVOKER.LOGOUT)                            // Removing bearer header
                 this.$router.push(PATHS.login)
-                console.log('logout clicked')
             },
             // TODO review these unused methods
             handleNotificationDropDown (): void {

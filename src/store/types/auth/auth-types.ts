@@ -1,5 +1,6 @@
 export interface IAuthState {                                                    // Vuex state
     logIn: boolean
+    at: string
 }
 
 export interface IAuthResponse {

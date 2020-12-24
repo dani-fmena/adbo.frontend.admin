@@ -1,15 +1,11 @@
 import { GetterTree } from 'vuex'
-import { IShell } from '@/services/definitions'
-import { toShell } from '@/services/helpers/help-conversion'
-import { ICatalogState, ICatalog } from '@/store/types/catalogs/catalogs-types'
-import { TCatalogsGetters } from '@/store/types/catalogs/catalogs-getters-types'
+import { IAuthState } from '@/store/types/auth/auth-types'
+import { TAuthGetters } from '@/store/types/auth/auth-getters-types'
 
 
 // const catalogs: Getter<ICatalogState, unknown> = (state: ICatalogState): ICatalog[] => state.catalogs
 
-export const getters: GetterTree<ICatalogState, any> & TCatalogsGetters = {
-    catalogs: (state: ICatalogState): IShell<ICatalog> => {
-        return toShell(state.catalogs)
-    },
-    count: (state: ICatalogState) => { return state.count }
+export const getters: GetterTree<IAuthState, any> & TAuthGetters = {
+    isAuth: (state: IAuthState): boolean => { return state.logIn },
+    at: (state: IAuthState): string => { return state.at }
 }
