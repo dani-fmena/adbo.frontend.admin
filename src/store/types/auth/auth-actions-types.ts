@@ -5,6 +5,7 @@ import { IAuthState, IAuthFormData } from './auth-types'
 
 export enum AUTH_AT {
     LOGIN = 'LOGIN',
+    LOGOUT = 'LOGOUT',
 }
 
 export type AuthAC = {                                                                                               // Auth Action Context is an augmented/specific action extend from vue action context
@@ -16,8 +17,10 @@ export type AuthAC = {                                                          
 
 export interface TAuthActions {
     [AUTH_AT.LOGIN] ({ commit }: AuthAC, payload: IAuthFormData): Promise<void>
+    [AUTH_AT.LOGOUT] ({ commit }: AuthAC ): void
 }
 
 export const AINVOKER = {                                      // Actions Invoker
     [AUTH_AT.LOGIN]: 'auth/' + AUTH_AT.LOGIN,
+    [AUTH_AT.LOGOUT]: 'auth/' + AUTH_AT.LOGOUT,
 }

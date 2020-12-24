@@ -7,4 +7,7 @@ export const mutations: MutationTree<IAuthState> & TAuthMutations = {
     [AUTH_MT.AUTH_LOGGED_IN] (state: IAuthState) {
         state.logIn = true
     },
+    [AUTH_MT.AUTH_LOGGED_OUT] (state: IAuthState) {
+        state.logIn = false
+    },
 }

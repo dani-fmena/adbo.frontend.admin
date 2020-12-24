@@ -75,7 +75,7 @@
                         </li>
                     </dropdown-comp>
 
-                    <!--    -->
+                    <!--  -->
                     <dropdown-comp tag="li" class="nav-item" title-tag="a" menu-classes="dropdown-navbar" :menu-on-right="true">
                         <template v-slot:title>
                             <a slot="title" href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="true">
@@ -96,7 +96,7 @@
                         </li>
                         <div class="dropdown-divider"></div>
                         <li class="nav-link">
-                            <a href="#" class="nav-item dropdown-item">Log out</a>
+                            <a href="#" class="nav-item dropdown-item" v-on:click="handleLogOutIntent">Log out</a>
                         </li>
                     </dropdown-comp>
 
@@ -110,6 +110,7 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
     import { ModalComp, DropdownComp } from '../components'
+    import { PATHS } from '@/router/paths'
 
 
     interface INavData {
@@ -145,6 +146,11 @@
         },
         methods: {
             //region ======== HANDLERS ==============================================================
+            handleLogOutIntent (): void {
+                // TODO quita el token, trata de poner ambos metodos (quitar y poner en un servicio del auth)
+                this.$router.push(PATHS.login)
+                console.log('logout clicked')
+            },
             // TODO review these unused methods
             handleNotificationDropDown (): void {
                 this.activeNotifications = !this.activeNotifications    // toggle
@@ -175,5 +181,4 @@
 </script>
 
 <style scoped>
-
 </style>

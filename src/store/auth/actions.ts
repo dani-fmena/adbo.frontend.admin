@@ -15,7 +15,7 @@ export const actions: ActionTree<IAuthState, any> & TAuthActions = {
                 
                 if (at.length > 10) {
                     context.commit(AUTH_MT.AUTH_LOGGED_IN, undefined)
-                    axios.defaults.headers['Authorization'] = `Bearer ${ at }`
+                    axios.defaults.headers['Authorization'] = `Bearer ${ at }`          // Setting Bearer Token
                 }
     
                 resolve()
@@ -23,4 +23,8 @@ export const actions: ActionTree<IAuthState, any> & TAuthActions = {
             .catch((error) => {reject(error)})
         })
     },
+    [AUTH_AT.LOGOUT] (context: AuthAC) {
+        context.commit(AUTH_MT.AUTH_LOGGED_OUT, undefined)
+        delete axios.defaults.headers['Authorization']                                  // Removing Bearer Token
+    }
 }

@@ -13,7 +13,7 @@
             </div>
             <div class="form-group has-label">
                 <label for="password"> Password </label>
-                <basic-input-comp id="password" name="password" type="password" placeholder="Password"/>
+                <basic-input-comp id="password" name="password" type="password" placeholder="Password" v-on:keydown.enter="h_LoginIntent"/>
             </div>
         </form>
 
@@ -29,11 +29,13 @@
     import { useStore } from 'vuex'
     import { useRouter } from 'vue-router'
     import { useForm } from 'vee-validate'
+    import { useToast } from 'vue-toastification'
     import { BaseButtonComp, BasicInputComp, CardComp } from '@/components'
     import { IAuthFormData } from '@/store/types/auth/auth-types'
     import { AINVOKER } from '@/store/types/auth/auth-actions-types'
     import { VSCHEMA } from '@/views/auth/validation'
     import { PATH_NAMES } from '@/router/paths'
+    import useToastify from '@/services/composables/useToastify'
 
 
     export default defineComponent({
@@ -47,6 +49,9 @@
             //region ======== DECLARATIONS & LOCAL STATE ============================================
             const store = useStore()
             const router = useRouter()
+            const toast = useToast()                                        // The toast lib interface
+
+            const { tfyAuthFail } = useToastify(toast)
             const { handleSubmit } = useForm<IAuthFormData>({ validationSchema: VSCHEMA })
             //endregion =============================================================================
 
@@ -54,7 +59,7 @@
             const a_reqAccess = (data: IAuthFormData) => {
                 store.dispatch(AINVOKER.LOGIN, data)
                 .then(() => { goToDashboard() })
-                .catch((error) => { console.log(error) })
+                .catch((error) => { tfyAuthFail(error) })
             }
             //endregion =============================================================================
 

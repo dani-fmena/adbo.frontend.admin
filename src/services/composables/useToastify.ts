@@ -4,9 +4,9 @@ import { OPSKind } from '@/services/definitions'
 
 export default function useToastify (t: ToastInterface) {
     
-    function _mkError (msg: string)
+    function _mkError (msg: string, position = POSITION.TOP_RIGHT)
     {
-        t.error(msg, { timeout: 5000, position: POSITION.TOP_RIGHT, icon: 'tim-icons icon-alert-circle-exc', })
+        t.error(msg, { timeout: 5000, position: position, icon: 'tim-icons icon-alert-circle-exc', })
     }
     
     function _getOpsKind (ops: OPSKind, isPresent: boolean = false): string {
@@ -92,6 +92,16 @@ export default function useToastify (t: ToastInterface) {
         _mkError(`Ops ${ kind } ${ subject } ${ subjectName } fail. Error ${error.response.status}. ${ details }`)
     }
     
+    const tfyAuthFail = (error: any): void => {
+        const eCode = error.response.status
+        let details
+    
+        if (eCode === 401 || eCode === 404) details = `User or credential isn't valid. Try again.`
+        else details = `Something went wrong in the authentication process`
+        
+        _mkError(details, POSITION.TOP_CENTER)
+    }
+    
     /***
      * Cast a toast for a fail api BULK operation / request
      *
@@ -114,6 +124,7 @@ export default function useToastify (t: ToastInterface) {
     
     return {
         tfyPrimary,
+        tfyAuthFail,
         tfyBulkFail,
         tfyBasicFail,
         tfyBasicSuccess,

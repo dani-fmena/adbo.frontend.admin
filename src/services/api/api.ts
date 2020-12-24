@@ -19,6 +19,9 @@ customInstance.interceptors.request.use(config => {
     a!.setAttribute('class', a!.className + ' mp-4-nprogress')
     Nprogress.start()
     return config
+}, error => {
+    Nprogress.done()
+    return Promise.reject(error)
 })
 
 // before a response
@@ -27,6 +30,9 @@ customInstance.interceptors.response.use(response => {
     a!.setAttribute('class', 'main-panel ps mp-stylized');
     Nprogress.done()
     return response
+}, error => {
+    Nprogress.done()
+    return Promise.reject(error)
 })
 
 export default customInstance
