@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import store from '@/store'
 import { catalogRoutes } from './catalogs-routes'
+import { usersRoutes } from './users-routes'
 import { BasePageLay, BaseDashboardLay } from '../layout'
 import { PATHS, PATH_NAMES } from './paths'
 import { GINVOKER } from '@/store/types/auth/auth-getters-types'
@@ -20,6 +21,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "DashboardView" */ '../views/DashboardView.vue'),
         meta: { layout: BaseDashboardLay, reqAuth: true }
     },
+    ...usersRoutes,
     ...catalogRoutes,
     {
         path: PATHS.default,

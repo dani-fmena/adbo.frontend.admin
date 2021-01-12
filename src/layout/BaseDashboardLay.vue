@@ -1,12 +1,12 @@
 <template>
 
     <!-- SIDEBAR -->
-    <side-bar-plug-comp>
+    <sidebar-plug-comp>
         <template v-slot:links>
             <sidebar-link-plug-comp :to="{ name: nDashboard }" :name="nDashboard" icon="tim-icons icon-chart-pie-36" />
             <sidebar-link-plug-comp :to="{ name: nCatalog }" :name="nCatalog" icon="tim-icons icon-components" />
         </template>
-    </side-bar-plug-comp>
+    </sidebar-plug-comp>
 
     <div id="topper-border-cont" class="main-panel mp-stylized">
         <!-- NAV BAR -->

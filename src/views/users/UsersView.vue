@@ -58,7 +58,7 @@
 
 
     export default defineComponent({
-        name: 'CatalogsView',
+        name: 'UsersView',
         components: {
             CardComp,
             TableComp

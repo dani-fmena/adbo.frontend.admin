@@ -22,7 +22,7 @@ const SidebarPlugin = {
     install (app: any) {
     
         app.config.globalProperties.$sidebar = SidebarStore
-        app.component('side-bar-plug-comp', SidebarPlugComp)
+        app.component('sidebar-plug-comp', SidebarPlugComp)
         app.component('sidebar-link-plug-comp', SidebarLinkPlugComp)
     }
 }

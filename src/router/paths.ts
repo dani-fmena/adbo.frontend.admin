@@ -8,6 +8,10 @@ export class PATHS {
     static readonly catalogs = '/catalogs'
     static readonly catalogsForm = '/catalogs/:fmode/:id?'              // fmode -> form mode
     static readonly catalogsDetails = '/catalogs/details/:id'
+    
+    static readonly users = '/users'
+    static readonly usersForm = '/users/:fmode/:id?'
+    static readonly usersDetails = '/users/details/:id'
 }
 
 export class PATH_NAMES {
@@ -19,4 +23,8 @@ export class PATH_NAMES {
     static readonly catalogs = 'Catalogs'
     static readonly catalogsForm = 'Edit Catalogs'
     static readonly catalogsDetails = 'Catalogs Details'
+    
+    static readonly users = 'Users'
+    static readonly usersForm = 'Edit User'
+    static readonly usersDetails = 'User Details'
 }
