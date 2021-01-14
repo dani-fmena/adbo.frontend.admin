@@ -18,12 +18,6 @@
             <!-- ACTUAL LINKS -->
             <ul class="nav">
                 <slot name="links">
-                    <sidebar-link-plug-comp v-for="(link,index) in sidebarLinks"
-                                            :key="index"
-                                            :to="link.path"
-                                            :name="link.name"
-                                            :icon="link.icon">
-                    </sidebar-link-plug-comp>
                 </slot>
             </ul>
 
@@ -70,12 +64,6 @@
             activeColor: {
                 type: String,
                 default: 'success'
-
-                // FIXME i don't know why if we uncomment this, then the IDE/Typescript assist goes mad with the props
-                /*validator (value: string): boolean {
-                    const acceptedValues = ['primary', 'info', 'success', 'warning', 'danger']
-                    return acceptedValues.indexOf(value) !== -1
-                }*/
             },
             sidebarLinks: {
                 type: Array,
@@ -98,7 +86,7 @@
                 }
             }
         },
-        // provider / react context like
+        // provider, react context like
         provide () {
             return {
                 autoClose: this.autoClose,

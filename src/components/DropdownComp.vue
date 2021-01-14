@@ -1,9 +1,5 @@
 <template>
-    <component :is="tag"
-               class="dropdown"
-               :class="{show:isOpen}"
-               @click.prevent="h_ToggleDropdown"
-               v-click-outside="closeDropDown">
+    <component :is="tag" class="dropdown" :class="{show:isOpen}" @click.prevent="h_ToggleDropdown" v-click-outside="closeDropDown">
 
         <slot name="title-container" :is-open="isOpen">
             <component :is="titleTag"

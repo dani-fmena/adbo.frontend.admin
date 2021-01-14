@@ -3,8 +3,20 @@
     <!-- SIDEBAR -->
     <sidebar-plug-comp>
         <template v-slot:links>
-            <sidebar-link-plug-comp :to="{ name: nDashboard }" :name="nDashboard" icon="tim-icons icon-chart-pie-36" />
-            <sidebar-link-plug-comp :to="{ name: nCatalog }" :name="nCatalog" icon="tim-icons icon-components" />
+
+            <sidebar-link-plug-comp :to="{ name: nDashboard }" :name="nDashboard" icon="tim-icons icon-chart-pie-36" :sub="false"/>
+            <sidebar-link-plug-comp :to="{ name: nCatalog }" :name="nCatalog" icon="tim-icons icon-components" :sub="false"/>
+
+            <!-- USERS -->
+            <sidebar-group-plug-comp name="Users" icon="tim-icons icon-chart-pie-36">
+                <template v-slot:sublinks>
+                    <sidebar-link-plug-comp :to="{ name: nCatalog }" :name="nCatalog" icon="B"/>
+                    <sidebar-link-plug-comp :to="{ name: nCatalog }" :name="nCatalog" icon="A"/>
+                </template>
+            </sidebar-group-plug-comp>
+
+            <sidebar-link-plug-comp :to="{ name: nDashboard }" :name="nDashboard" icon="tim-icons icon-chart-pie-36" :sub="false"/>
+
         </template>
     </sidebar-plug-comp>
 

@@ -1,13 +1,24 @@
 <template>
     <component :is="tag" @click.prevent="hideSideBar" class="nav-item" v-bind="$attrs" custom v-slot="{ href, route, navigate, isActive, isExactActive }">
-        <li role="link" class="nav-item" :class="[isActive && 'active router-link-active', isExactActive && 'router-link-exact-active']">
-            <a class="nav-link" :href="href" @click="navigate">
+
+        <li :class="[isActive && 'active router-link-active', isExactActive && 'router-link-exact-active']">
+            <a class="nav-link" :class="[!sub && 'main-link']" :href="href" @click="navigate">
+
                 <slot>
-                    <i v-if="icon" :class="icon"></i>
-                    <p>{{name}}</p>
+                    <!--MAIN LINK-->
+                    <template v-if="icon && !sub">
+                        <i :class="icon"></i><p>{{ name }}</p>
+                    </template>
+
+                    <!--SUB LINK-->
+                    <template v-else-if="icon && sub === true">
+                        <span class="sub-link-letter" style="margin-left: 6%">{{ icon }}</span><span class="sub-link" style="margin-left: 12%">{{ name }}</span>
+                    </template>
                 </slot>
+
             </a>
         </li>
+
     </component>
 </template>
 
@@ -21,6 +32,11 @@
         props: {
             name: String,
             icon: String,
+            sub: {
+                type: Boolean,
+                default: true,
+                description: 'If the link a sub link or main sidebar link',
+            },
             tag: {
                 type: String,
                 default: 'router-link'
@@ -30,12 +46,6 @@
             autoClose: {
                 default: true
             },
-            addLink: {
-                default: () => {}
-            },
-            removeLink: {
-                default: () => {}
-            }
         },
         methods: {
             hideSideBar(): void {
@@ -43,14 +53,5 @@
                 if(this.autoClose) this.$sidebar.displaySidebar(false);
             },
         },
-        mounted (): void {
-            //@ts-ignore
-            if (this.addLink) this.addLink(this)
-        },
-        beforeUnmount (): void {
-            if (this.$el && this.$el.parentNode) this.$el.parentNode.removeChild(this.$el)
-            //@ts-ignore
-            if (this.removeLink) this.removeLink(this);
-        }
     })
 </script>

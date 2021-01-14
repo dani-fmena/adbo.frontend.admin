@@ -184,10 +184,16 @@
                 color: $white;
             }
 
+            &.active > a.main-link:not([data-toggle="collapse"]) {
+                &:before {
+                    top: 22px;
+                }
+            }
+
             &.active > a:not([data-toggle="collapse"]) {
                 background: transparent;
 
-                i, p {
+                i, p, span.sub-link {
                     color: white;
                 }
 
@@ -196,7 +202,7 @@
                     position: absolute;
                     height: 6px;
                     width: 6px;
-                    top: 22px;
+                    top: 18px;
                     left: -4px;
                     background: $white;
                     border-radius: 50%;
@@ -208,7 +214,7 @@
                 box-shadow: none;
                 color: $white;
 
-                i {
+                i, span.sub-link {
                     color: $white;
                 }
 
@@ -256,6 +262,25 @@
             height: auto;
             white-space: nowrap;
             @extend .animation-transition-general;
+        }
+
+        span.sub-link {
+            margin: 0;
+            font-weight: $font-weight-bold;
+            color: rgba($white, 0.8);
+            line-height: 26px;
+            position: relative;
+            height: auto;
+            white-space: nowrap;
+            @extend .animation-transition-general;
+        }
+
+        span.sub-link-letter {
+            font-size: 14px;
+            float: left;
+            text-align: center;
+            color: $opacity-5;
+            position: relative;
         }
 
         i {

@@ -21,3 +21,10 @@
     transform: translateX(20px);
     opacity: 0;
 }
+
+// tweak for sidebar transition
+.collapsable {
+    height: 0;
+    overflow: hidden;
+    transition: 0.3s;
+}

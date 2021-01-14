@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import SidebarPlugComp from './SidebarPlugComp.vue'
+import SidebarGroupPlugComp from './SidebarGroupPlugComp.vue'
 import SidebarLinkPlugComp from './SidebarLinkPlugComp.vue'
 
 
@@ -23,6 +24,7 @@ const SidebarPlugin = {
     
         app.config.globalProperties.$sidebar = SidebarStore
         app.component('sidebar-plug-comp', SidebarPlugComp)
+        app.component('sidebar-group-plug-comp', SidebarGroupPlugComp)
         app.component('sidebar-link-plug-comp', SidebarLinkPlugComp)
     }
 }
