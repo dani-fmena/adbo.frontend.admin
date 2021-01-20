@@ -28,3 +28,28 @@
     overflow: hidden;
     transition: 0.3s;
 }
+
+// sidebar carets animation alternative
+// There is another alternative https://v3.vuejs.org/guide/transitions-state.html#animating-state-with-watchers but  I don't want to install another lib
+@keyframes caret-rotate {
+    0% { transform: rotate(-180deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.caret-rotate-enter-active {
+    animation: caret-rotate 0.3s;
+}
+
+.caret-rotate-leave-active {
+    animation: caret-rotate 0.3s reverse;
+}
+
+.caret-up-fade-enter-active,
+.caret-up-fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.caret-up-fade-enter-from,
+.caret-up-fade-leave-to {
+    opacity: 0;
+}

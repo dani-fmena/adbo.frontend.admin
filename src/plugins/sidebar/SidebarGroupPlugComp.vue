@@ -3,7 +3,16 @@
         <a class="nav-link" @click="h_ToggleDropdown">
             <slot>
                 <i v-if="icon" :class="icon"></i>
-                <p>{{name}}</p>
+                <p>
+                    {{name}}
+                    <transition name="caret-rotate">
+                        <b v-if="!isOpen" class="caret"></b>
+                    </transition>
+                    <!-- This is an alternative solution, yo can go only with the carets above -->
+                    <transition name="caret-up-fade">
+                        <b v-if="isOpen" class="caret" style="transform: rotate(180deg)"></b>
+                    </transition>
+                </p>
             </slot>
         </a>
 
@@ -48,7 +57,6 @@
                 this.$refs[this.$props.name!].style.display = 'block'
 
                 // @ts-ignore
-                // this.computedHeight = getComputedStyle(this.$refs[this.$props.name!]).height
                 this.computedHeight = this.$refs[this.$props.name!].children![0].children.length * 46 + 'px'
 
                 // @ts-ignore
@@ -67,4 +75,3 @@
 
 <style scoped lang="scss">
 </style>
-
