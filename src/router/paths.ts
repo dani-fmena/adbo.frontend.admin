@@ -12,6 +12,9 @@ export class PATHS {
     static readonly users = '/users'
     static readonly usersForm = '/users/:fmode/:id?'
     static readonly usersDetails = '/users/details/:id'
+    static readonly roles = '/roles'
+    static readonly rolesForm = '/roles/:fmode/:id?'
+    static readonly rolesDetails = '/roles/details/:id'
 }
 
 export class PATH_NAMES {
@@ -27,4 +30,7 @@ export class PATH_NAMES {
     static readonly users = 'Users'
     static readonly usersForm = 'Edit User'
     static readonly usersDetails = 'User Details'
+    static readonly roles = 'Roles'
+    static readonly rolesForm = 'Edit Roles'
+    static readonly rolesDetails = 'Roles Details'
 }

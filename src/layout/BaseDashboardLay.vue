@@ -10,12 +10,10 @@
             <!-- USERS -->
             <sidebar-group-plug-comp name="Users" icon="tim-icons icon-chart-pie-36">
                 <template v-slot:sublinks>
-                    <sidebar-link-plug-comp :to="{ name: nCatalog }" :name="nCatalog" icon="B"/>
-                    <sidebar-link-plug-comp :to="{ name: nCatalog }" :name="nCatalog" icon="A"/>
+                    <sidebar-link-plug-comp :to="{ name: nUsers }" :name="nUsers" icon="U"/>
+                    <sidebar-link-plug-comp :to="{ name: nRoles }" :name="nRoles" icon="R"/>
                 </template>
             </sidebar-group-plug-comp>
-
-            <sidebar-link-plug-comp :to="{ name: nDashboard }" :name="nDashboard" icon="tim-icons icon-chart-pie-36" :sub="false"/>
 
         </template>
     </sidebar-plug-comp>
@@ -45,7 +43,9 @@
 
     interface IRouteNames {
         nDashboard: string,
+        nUsers: string
         nCatalog: string,
+        nRoles: string,
     }
 
     export default defineComponent({
@@ -53,7 +53,9 @@
         data () : IRouteNames {
             return {
                 nDashboard: PATH_NAMES.dashboard,
-                nCatalog: PATH_NAMES.catalogs
+                nCatalog: PATH_NAMES.catalogs,
+                nUsers: PATH_NAMES.users,
+                nRoles: PATH_NAMES.roles,
             }
         },
         components: {

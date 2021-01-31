@@ -8,10 +8,10 @@
                     <transition name="caret-rotate">
                         <b v-if="!isOpen" class="caret"></b>
                     </transition>
-                    <!-- This is an alternative solution, yo can go only with the carets above -->
-                    <transition name="caret-up-fade">
-                        <b v-if="isOpen" class="caret" style="transform: rotate(180deg)"></b>
-                    </transition>
+                     <!--This is an alternative solution, yo can go only with the carets of above -->
+                    <!--<transition name="caret-up-fade">-->
+                    <!--    <b v-if="isOpen" class="caret" style="transform: rotate(180deg)"></b>-->
+                    <!--</transition>-->
                 </p>
             </slot>
         </a>
@@ -45,6 +45,7 @@
         methods: {
             h_ToggleDropdown (): void {this.isOpen = !this.isOpen},
             _initHeight (): void {
+                // This is hacky and ugly, but works, and it's execute only once per group, so I think is not that bad
                 // An alternative way to do this -> https://github.com/ivanvermeyen/vue-collapse-transition | https://jsfiddle.net/rezaxdi/sxgyj1f4/3/ | https://markus.oberlehner.net/blog/transition-to-height-auto-with-vue/
 
                 // @ts-ignore

@@ -44,6 +44,7 @@
     animation: caret-rotate 0.3s reverse;
 }
 
+//This is for animate the upper caret when the sub group close
 .caret-up-fade-enter-active,
 .caret-up-fade-leave-active {
     transition: opacity 0.5s ease;

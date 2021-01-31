@@ -67,7 +67,7 @@
 
 
     export default defineComponent({
-        name: 'EditCatalogView',
+        name: 'FormCatalogView',
         components: {
             Field,
             CardComp,
