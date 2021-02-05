@@ -1,7 +1,7 @@
 <template>
 
     <!-- SIDEBAR -->
-    <sidebar-plug-comp>
+    <sidebar-plug-comp :autoClose="true">
         <template v-slot:links>
 
             <sidebar-link-plug-comp :to="{ name: nDashboard }" :name="nDashboard" icon="tim-icons icon-chart-pie-36" :sub="false"/>

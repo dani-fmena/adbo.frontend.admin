@@ -1,8 +1,8 @@
 <template>
-    <component :is="tag" @click.prevent="hideSideBar" class="nav-item" v-bind="$attrs" custom v-slot="{ href, route, navigate, isActive, isExactActive }">
+    <component :is="tag" class="nav-item" v-bind="$attrs" v-slot="{ href, route, navigate, isActive, isExactActive }">
 
         <li :class="[isActive && 'active router-link-active', isExactActive && 'router-link-exact-active']">
-            <a class="nav-link" :class="[!sub && 'main-link']" :href="href" @click="navigate">
+            <a class="nav-link" :class="[!sub && 'main-link']" :href="href" @click.prevent="hideSideBar(navigate)">
 
                 <slot>
                     <!--MAIN LINK-->
@@ -24,6 +24,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
+    import { Function0 } from '@/services/definitions'
 
 
     export default defineComponent({
@@ -47,10 +48,12 @@
                 default: true
             },
         },
-        methods: {
-            hideSideBar(): void {
+        methods:{
+            hideSideBar(go: Function0): void {
                 //@ts-ignore
                 if(this.autoClose) this.$sidebar.displaySidebar(false);
+
+                go() // do navigation
             },
         },
     })

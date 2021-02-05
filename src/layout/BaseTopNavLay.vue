@@ -115,6 +115,7 @@
     import { AINVOKER } from '@/store/types/auth/auth-actions-types'
 
 
+    // TODO Pass this state data to the general store / state manager code. See data below.
     interface INavData {
         activeNotifications: boolean,
         showMenu: boolean,
@@ -154,20 +155,9 @@
                 this.store.dispatch(AINVOKER.LOGOUT)                            // Removing bearer header
                 this.$router.push(PATHS.login)
             },
-            // TODO review these unused methods
-            handleNotificationDropDown (): void {
-                this.activeNotifications = !this.activeNotifications    // toggle
-            },
-            handleCloseNotificationDropDown (): void {
-                this.activeNotifications = false
-            },
             handleSidebarToggle (): void {
                 //@ts-ignore
                 this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
-            },
-            handleHideSideBar (): void {
-                //@ts-ignore
-                this.$sidebar.displaySidebar(false)
             },
             handleMenuToggle (): void {
                 this.showMenu = !this.showMenu
@@ -175,9 +165,6 @@
             //endregion =============================================================================
 
             //region ======== HELPERS ===============================================================
-            capitalizeFirstLetter (text: string): string {
-                return text.charAt(0).toUpperCase() + text.slice(1);
-            },
             //endregion =============================================================================
         }
     })

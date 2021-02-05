@@ -36,7 +36,6 @@
         windowWidth: number,
         isWindows: boolean,
         hasAutoHeight: boolean,
-        links: Array<typeof SidebarLinkPlugComp>
     }
 
     export default defineComponent({
@@ -49,7 +48,6 @@
                 windowWidth: 0,
                 isWindows: false,
                 hasAutoHeight: false,
-                links: []
             }
         },
         props: {
@@ -65,33 +63,15 @@
                 type: String,
                 default: 'success'
             },
-            sidebarLinks: {
-                type: Array,
-                default: (): [] => []
-            },
             autoClose: {
                 type: Boolean,
                 default: true
-            }
-        },
-        methods: {
-            addLink (link: any): void {
-                const index = this.$slots['links']!().indexOf(link.$vnode)
-                this.links.splice(index, 0, link)
-            },
-            removeLink (link: typeof SidebarLinkPlugComp): void {
-                const index = this.links.indexOf(link)
-                if (index > -1) {
-                    this.links.splice(index, 1)
-                }
             }
         },
         // provider, react context like
         provide () {
             return {
                 autoClose: this.autoClose,
-                addLink: this.addLink,
-                removeLink: this.removeLink
             }
         },
     })

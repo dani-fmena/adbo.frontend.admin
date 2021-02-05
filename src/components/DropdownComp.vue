@@ -66,6 +66,7 @@
                 isOpen: false
             }
         },
+        emits: ['change'],
         methods: {
             h_ToggleDropdown (): void {
                 this.isOpen = !this.isOpen

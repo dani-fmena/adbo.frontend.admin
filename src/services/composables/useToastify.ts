@@ -93,7 +93,7 @@ export default function useToastify (t: ToastInterface) {
     }
     
     const tfyAuthFail = (error: any): void => {
-        const eCode = error.response.status
+        const eCode = error.response !== undefined ? error.response.status : undefined
         let details
     
         if (eCode === 401 || eCode === 404) details = `User or credential isn't valid. Try again.`

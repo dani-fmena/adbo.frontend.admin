@@ -82,6 +82,7 @@
                 description: "The count of the selected/checked items",
             },
         },
+        emits: ['navCreateIntent', 'enableChkCollIntent', 'disableChkCollIntent', 'removeChkCollIntent']
     })
 </script>
 

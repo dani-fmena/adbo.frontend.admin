@@ -35,5 +35,6 @@
                 description: 'Row object identifier/id'
             }
         },
+        emits: ['detailsIntent', 'editIntent', 'deleteIntent']
     })
 </script>

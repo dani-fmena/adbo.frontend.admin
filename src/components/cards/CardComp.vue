@@ -81,6 +81,7 @@
             h_Click (evt: Event) {
                 this.$emit('doClick', evt)
             }
-        }
+        },
+        emits: ['doClick']
     })
 </script>
