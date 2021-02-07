@@ -1,4 +1,4 @@
-export class PATHS {
+export class RoutePaths {
     static readonly login = '/'
     
     static readonly dashboard = '/dashboard'
@@ -23,14 +23,14 @@ export class PATH_NAMES {
     static readonly default = 'Default'
     static readonly about = 'About'
     
-    static readonly catalogs = 'Catalogs'
-    static readonly catalogsForm = 'Edit Catalogs'
-    static readonly catalogsDetails = 'Catalogs Details'
+    static readonly catalogs = 'catalogs'
+    static readonly catalogsForm = 'catalog-edit'
+    static readonly catalogsDetails = 'catalog-details'
     
-    static readonly users = 'Users'
+    static readonly users = 'users'
     static readonly usersForm = 'Edit User'
     static readonly usersDetails = 'User Details'
-    static readonly roles = 'Roles'
+    static readonly roles = 'roles'
     static readonly rolesForm = 'Edit Roles'
     static readonly rolesDetails = 'Roles Details'
 }

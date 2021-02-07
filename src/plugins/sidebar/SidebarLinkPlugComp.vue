@@ -53,7 +53,7 @@
                 //@ts-ignore
                 if(this.autoClose) this.$sidebar.displaySidebar(false);
 
-                go() // do navigation
+                go() // do navigation, is the vue-router navigate method
             },
         },
     })

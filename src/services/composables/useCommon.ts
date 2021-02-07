@@ -1,4 +1,4 @@
-
+/* COMMON FUNCTIONS */
 
 export default function useCommon () {
     

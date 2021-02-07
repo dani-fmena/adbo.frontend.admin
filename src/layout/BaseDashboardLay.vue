@@ -4,14 +4,14 @@
     <sidebar-plug-comp :autoClose="true">
         <template v-slot:links>
 
-            <sidebar-link-plug-comp :to="{ name: nDashboard }" :name="nDashboard" icon="tim-icons icon-chart-pie-36" :sub="false"/>
-            <sidebar-link-plug-comp :to="{ name: nCatalog }" :name="nCatalog" icon="tim-icons icon-components" :sub="false"/>
+            <sidebar-link-plug-comp :to="{ name: rnDashboard }" :name="$t('routes.' + rnDashboard)" icon="tim-icons icon-chart-pie-36" :sub="false"/>
+            <sidebar-link-plug-comp :to="{ name: rnCatalog }" :name="$t('routes.' + rnCatalog)" icon="tim-icons icon-components" :sub="false"/>
 
             <!-- USERS -->
-            <sidebar-group-plug-comp name="Users" icon="tim-icons icon-chart-pie-36">
+            <sidebar-group-plug-comp :name="$t('routes.' + rnUsers)" icon="tim-icons icon-chart-pie-36">
                 <template v-slot:sublinks>
-                    <sidebar-link-plug-comp :to="{ name: nUsers }" :name="nUsers" icon="U"/>
-                    <sidebar-link-plug-comp :to="{ name: nRoles }" :name="nRoles" icon="R"/>
+                    <sidebar-link-plug-comp :to="{ name: rnUsers }" :name="$t('routes.' + rnUsers)" icon="U"/>
+                    <sidebar-link-plug-comp :to="{ name: rnRoles }" :name="$t('routes.' + rnRoles)" icon="R"/>
                 </template>
             </sidebar-group-plug-comp>
 
@@ -35,27 +35,27 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    import { PATH_NAMES } from '@/router/paths'
+    import { PATH_NAMES } from '@/services/definitions/route-paths'
     import PerfectScrollbar from 'perfect-scrollbar'
     import FooterContent from './FooterContentLay.vue'
     import BaseTopNavLay from './BaseTopNavLay.vue'
 
 
     interface IRouteNames {
-        nDashboard: string,
-        nUsers: string
-        nCatalog: string,
-        nRoles: string,
+        rnDashboard: string,
+        rnUsers: string
+        rnCatalog: string,
+        rnRoles: string,
     }
 
     export default defineComponent({
         name: 'BaseDashboardLay',
         data () : IRouteNames {
             return {
-                nDashboard: PATH_NAMES.dashboard,
-                nCatalog: PATH_NAMES.catalogs,
-                nUsers: PATH_NAMES.users,
-                nRoles: PATH_NAMES.roles,
+                rnDashboard: PATH_NAMES.dashboard,
+                rnCatalog: PATH_NAMES.catalogs,
+                rnUsers: PATH_NAMES.users,
+                rnRoles: PATH_NAMES.roles,
             }
         },
         components: {

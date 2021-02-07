@@ -6,6 +6,7 @@ export default {
     //endregion =============================================================================
     
     //region ======== OTHERS ================================================================
-    adm_system: 'Sistema de Administración'
+    adm_system: 'Sistema de Administración',
+    'footer-copyright': 'hecho con ❤ por'
     //endregion =============================================================================
 }

@@ -1,3 +1,4 @@
+/* OBJECTS CREATIONS */
 import { ICatalog } from '@/store/types/catalogs/catalogs-types'
 
 

@@ -1,10 +1,11 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-absolute"
-         :class="{'bg-white': showMenu, 'navbar-transparent': !showMenu}">
+    <nav class="navbar navbar-expand-lg navbar-absolute" :class="{'bg-white': showMenu, 'navbar-transparent': !showMenu}">
+
         <div class="container-fluid">
 
             <!-- KEBAB & BURGER BUTTONS -->
             <div class="navbar-wrapper">
+
                 <div class="navbar-toggle d-inline" :class="{toggled: $sidebar.showSidebar}">
                     <button type="button"
                             class="navbar-toggler"
@@ -15,7 +16,9 @@
                         <span class="navbar-toggler-bar bar3"></span>
                     </button>
                 </div>
-                <a class="navbar-brand" href="#">{{routeName}}</a>
+
+                <a class="navbar-brand" href="#">{{ routeName }}</a>
+
             </div>
             <button class="navbar-toggler" type="button"
                     @click="handleMenuToggle"
@@ -80,10 +83,9 @@
                         <template v-slot:title>
                             <a slot="title" href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="true">
                                 <div class="photo"><img src="../assets/imgs/anime3.png"></div>
+
                                 <b class="caret d-none d-lg-block d-xl-block"></b>
-                                <p class="d-lg-none">
-                                    Log out
-                                </p>
+                                <p class="d-lg-none">Menu</p>
                             </a>
                         </template>
 
@@ -96,7 +98,7 @@
                         </li>
                         <div class="dropdown-divider"></div>
                         <li class="nav-link">
-                            <a href="#" class="nav-item dropdown-item" v-on:click="handleLogOutIntent">Log out</a>
+                            <a href="#" class="nav-item dropdown-item" v-on:click="handleLogOutIntent">{{ common.cap($t('routes.logout')) }}</a>
                         </li>
                     </dropdown-comp>
 
@@ -111,17 +113,21 @@
     import { defineComponent } from 'vue'
     import { useStore, Store } from 'vuex'
     import { ModalComp, DropdownComp } from '../components'
-    import { PATHS } from '@/router/paths'
+    import { RoutePaths } from '@/services/definitions'
     import { AINVOKER } from '@/store/types/auth/auth-actions-types'
+    import useCommon from '@/services/composables/useCommon'
 
 
-    // TODO Pass this state data to the general store / state manager code. See data below.
     interface INavData {
+        // TODO Pass this state data to the general store / state manager code. See data below.
         activeNotifications: boolean,
         showMenu: boolean,
         searchModalVisible: boolean,
         searchQuery: string
+
+        // Do not move this from here
         store: Store<any>
+        common: any
     }
 
     export default defineComponent({
@@ -136,24 +142,25 @@
                 showMenu: false,
                 searchModalVisible: false,
                 searchQuery: '',
-                store: useStore()
+
+                store: useStore(),
+                common: useCommon(),
             }
         },
         computed: {
             routeName (): string {
                 const { name } = this.$route
-                const { cname } = this.$route.params            // Translation Name of the Route, this is used when we need to specify a name programmatically
+                const { cname } = this.$route.params            // Translation Name of the Route, this is used when we need to specify a name programmatically, cname = custom name
 
-                if (cname !== undefined && typeof cname === "string") return cname
-
-                return name as string
+                if (cname !== undefined && typeof cname === "string") return this.$t('routes.' + cname)
+                else return this.$t('routes.' + String(name))
             }
         },
         methods: {
             //region ======== HANDLERS ==============================================================
             handleLogOutIntent (): void {
-                this.store.dispatch(AINVOKER.LOGOUT)                            // Removing bearer header
-                this.$router.push(PATHS.login)
+                this.store.dispatch(AINVOKER.LOGOUT)                            // Removing bearer header token
+                this.$router.push(RoutePaths.login)
             },
             handleSidebarToggle (): void {
                 //@ts-ignore

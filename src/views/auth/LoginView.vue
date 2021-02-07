@@ -33,7 +33,7 @@
     import { IAuthFormData } from '@/store/types/auth/auth-types'
     import { AINVOKER } from '@/store/types/auth/auth-actions-types'
     import { VSCHEMA } from '@/views/auth/validation'
-    import { PATH_NAMES } from '@/router/paths'
+    import { PATH_NAMES } from '@/services/definitions/route-paths'
     import useToastify from '@/services/composables/useToastify'
     import useCommon from '@/services/composables/useCommon'
 

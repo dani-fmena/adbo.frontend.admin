@@ -56,7 +56,7 @@
     import { BasicInputComp, CardComp, FormActionsBtnComp, BasicCheckboxComp } from '@/components'
     import { useToast } from 'vue-toastification'
     import { VSCHEMA } from './validation'
-    import { PATH_NAMES } from '@/router/paths'
+    import { PATH_NAMES } from '@/services/definitions/route-paths'
     import { FormMode, IShell } from '@/services/definitions'
     import { ICatalog } from '@/store/types/catalogs/catalogs-types'
     import { GINVOKER } from '@/store/types/catalogs/catalogs-getters-types'

@@ -5,7 +5,7 @@ import router from '@/router'
 //@ts-ignore
 import Nprogress from 'nprogress'
 import { AINVOKER } from '@/store/types/auth/auth-actions-types'
-import { PATHS } from '@/router/paths'
+import { RoutePaths } from '@/services/definitions/route-paths'
 
 
 Nprogress.configure({ trickleSpeed: 1500, showSpinner: false, easing: 'ease', speed: 500 })
@@ -50,7 +50,7 @@ customInstance.interceptors.response.use(response => {
     // Handling Expired Token, when token expires, the user will be auth (according tho the state) and the store will have an access token, yet the token will bie invalid for the backend 'cause it's expiration time. So we need to handle this
     if (error.response !== undefined && error.response.status === 401) {
         store.dispatch(AINVOKER.LOGOUT)
-        router.push(PATHS.login)
+        router.push(RoutePaths.login)
     }
     
     return Promise.reject(error)

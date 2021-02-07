@@ -37,7 +37,7 @@
     import { computed, ComputedRef, defineComponent } from 'vue'
     import { useStore } from 'vuex'
     import { useRouter } from 'vue-router'
-    import { PATH_NAMES } from '@/router/paths'
+    import { PATH_NAMES } from '@/services/definitions/route-paths'
     import { CardComp, TableComp } from '@/components'
     import { useToast } from 'vue-toastification'
     import { AINVOKER } from '@/store/types/catalogs/catalogs-actions-types'
@@ -123,7 +123,7 @@
 
             //region ======== EVENTS HANDLERS =======================================================
             const h_NavCreateObj = () => {
-                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: 'create' as FormMode, id: '', cname: 'Create Catalog' } })                     // cname means custom nam
+                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: 'create' as FormMode, id: '', cname: 'catalog-create' } })
             }
             const h_DeleteObj = (objectId: string) => {
                 dfyDeleteConfirmations('Catalog', objectId, a_Delete, catalogs.value.dic[objectId].name)
@@ -132,7 +132,7 @@
                 router.push({ name: PATH_NAMES.catalogsDetails, params: { id: objectId } })
             }
             const h_EditObject = (objectId: string) => {
-                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: 'edit' as FormMode, id: objectId, cname: 'Edit Catalog'  } })
+                router.push({ name: PATH_NAMES.catalogsForm, params: { fmode: 'edit' as FormMode, id: objectId, cname: PATH_NAMES.catalogsForm  } })
             }
             const h_EnableObject = (objectId: string) => {
                 a_SetStatus(objectId, true)

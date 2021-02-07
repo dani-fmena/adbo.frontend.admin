@@ -1,3 +1,4 @@
+import { RoutePaths, PATH_NAMES } from './route-paths'
 import { HCatalogsTable, PAGE_SIZE } from './common-data'
 import {
     IColumnHeader,
@@ -18,6 +19,10 @@ import {
 } from './common-types'
 
 export {
+    // Routes
+    RoutePaths,
+    PATH_NAMES,
+    
     // Data Definitions
     HCatalogsTable,
     PAGE_SIZE,
