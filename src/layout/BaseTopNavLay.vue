@@ -48,7 +48,7 @@
                                 :centered="false"
                                 :show-close="true">
                         <template v-slot:header>
-                            <input v-model="searchQuery" type="text" class="form-control" id="inlineFormInputGroup" :placeholder="$t('forms.ph-search').toUpperCase()">
+                            <input v-model="searchQuery" type="text" class="form-control" id="inlineFormInputGroup" :placeholder="$t('data.ph-search').toUpperCase()">
                         </template>
                     </modal-comp>
 

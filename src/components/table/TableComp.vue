@@ -35,7 +35,7 @@
                 </span>
                     <input class="form-control"
                            type="text"
-                           :placeholder="cap($t('forms.ph-search'))"
+                           :placeholder="cap($t('data.ph-search'))"
                            aria-describedby="addon-right addon-left"
                            @input="debounceListener"
                            @blur="h_onSrchBlursEvt($event)"

@@ -8,10 +8,10 @@
     <card-comp card-type="auto-margin">
         <form>
             <div class="form-group">
-                <basic-input-comp id="user" name="username" type="text" :placeholder="$t('forms.ph-user')"/>
+                <basic-input-comp id="user" name="username" type="text" :placeholder="$t('data.ph-user')"/>
             </div>
             <div class="form-group has-label">
-                <basic-input-comp id="password" name="password" type="password" :placeholder="$t('forms.ph-pass')" v-on:keydown.enter="h_LoginIntent"/>
+                <basic-input-comp id="password" name="password" type="password" :placeholder="$t('data.ph-pass')" v-on:keydown.enter="h_LoginIntent"/>
             </div>
         </form>
 

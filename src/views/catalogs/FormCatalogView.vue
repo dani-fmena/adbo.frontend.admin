@@ -26,7 +26,7 @@
                         <div class="row">
                             <label class="text-sm-left text-md-right col-md-3 col-form-label">{{ $t('data.isEnable') }}</label>
                             <div class="col-md-9">
-                                <basic-checkbox-comp name="isEnable" :checked="iniFormData.isEnable" :labels="['Active', 'Disabled']" />
+                                <basic-checkbox-comp name="isEnable" :checked="iniFormData.isEnable" :labels="[$t('others.enable'), $t('others.disabled')]" />
                             </div>
                         </div>
                     </form>

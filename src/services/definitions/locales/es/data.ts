@@ -9,7 +9,7 @@ export default {
     _id: 'ID',
     id: '@:data._id',     // This is a linked msg check 👉🏽 https://vue-i18n.intlify.dev/guide/essentials/syntax.html#linked-messages
     Name: 'Nombre',
-    isEnable: 'Activo',
+    isEnable: 'Estado',
     
     // Catalogs
     size: 'Tamaño(MB)',
