@@ -21,7 +21,7 @@ export interface Function1<T1, T2 = void> {
 }
 
 /***
- * Interface describing object for datatable headers abstraction.
+ * Interface to describe object for datatable headers abstraction.
  * This create a flexible configuration for describing how to handle the headers and cell representation.
  */
 export interface IColumnHeader {

@@ -1,9 +1,12 @@
 import routes from './routes'
-import forms from './forms'
+import btn from './btn'
+import data from './data'
 import others from './others'
+
 
 export default {
     routes,
-    forms,
+    btn,
+    data,
     others
 }

@@ -1,10 +1,4 @@
 export default {
-    //region ======== COMMONS ===============================================================
-    user: 'user',
-    pass: 'password',
-    login: 'login',
-    //endregion =============================================================================
-    
     //region ======== OTHERS ================================================================
     adm_system: 'Admin System',
     'footer-copyright': 'made with ❤ by'

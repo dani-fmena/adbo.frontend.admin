@@ -7,9 +7,9 @@
             <div class="col-1 p-0" style="text-align: end">
                 <base-button-comp
                         icon
-                        @doClick="$emit('navCreateIntent')"
                         buttonType="primary"
-                        title="Create New">
+                        :title="$t('btn.tip-create-new')"
+                        @doClick="$emit('navCreateIntent')">
                     <i class="tim-icons icon-simple-add"></i>
                 </base-button-comp>
             </div>
@@ -23,37 +23,38 @@
                     <base-button-comp
                             icon
                             class="mr-1"
-                            @doClick="$emit('enableChkCollIntent')"
                             buttonType="success"
-                            title="Enable Selection">
+                            :title="$t('btn.tip-enable-sel')"
+                            @doClick="$emit('enableChkCollIntent')">
                         <i class="tim-icons icon-check-2"></i>
                     </base-button-comp>
                     <base-button-comp
                             icon
                             class="ml-1 mr-1"
-                            @doClick="$emit('disableChkCollIntent')"
                             buttonType="warning"
-                            title="Disable Selection">
+                            :title="$t('btn.tip-disable-sel')"
+                            @doClick="$emit('disableChkCollIntent')">
                         <i class="tim-icons icon-simple-remove"></i>
                     </base-button-comp>
                     <base-button-comp
                             icon
                             class="ml-1"
-                            @doClick="$emit('removeChkCollIntent')"
                             buttonType="danger"
-                            title="Remove Selection">
+                            :title="$t('btn.tip-remove-sel')"
+                            @doClick="$emit('removeChkCollIntent')">
                         <i class="tim-icons icon-trash-simple"></i>
                     </base-button-comp>
                     </div>
                 </transition>
             </div>
 
+            <!-- ALWAYS SHOWED -->
             <div class="col-1 p-0" style="text-align: end">
                 <base-button-comp
                         icon
-                        @doClick="$emit('navCreateIntent')"
                         buttonType="primary"
-                        title="Create New">
+                        :title="$t('btn.tip-create-new')"
+                        @doClick="$emit('navCreateIntent')">
                     <i class="tim-icons icon-simple-add"></i>
                 </base-button-comp>
             </div>

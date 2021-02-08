@@ -48,7 +48,7 @@
                                 :centered="false"
                                 :show-close="true">
                         <template v-slot:header>
-                            <input v-model="searchQuery" type="text" class="form-control" id="inlineFormInputGroup" placeholder="SEARCH">
+                            <input v-model="searchQuery" type="text" class="form-control" id="inlineFormInputGroup" :placeholder="$t('forms.ph-search').toUpperCase()">
                         </template>
                     </modal-comp>
 
@@ -122,10 +122,10 @@
         // TODO Pass this state data to the general store / state manager code. See data below.
         activeNotifications: boolean,
         showMenu: boolean,
-        searchModalVisible: boolean,
-        searchQuery: string
 
         // Do not move this from here
+        searchQuery: string
+        searchModalVisible: boolean,
         store: Store<any>
         common: any
     }
@@ -140,9 +140,9 @@
             return {
                 activeNotifications: false,
                 showMenu: false,
-                searchModalVisible: false,
-                searchQuery: '',
 
+                searchQuery: '',
+                searchModalVisible: false,
                 store: useStore(),
                 common: useCommon(),
             }

@@ -10,6 +10,7 @@ export default {
     [PATH_NAMES.catalogs]: 'Catalogs',
     [PATH_NAMES.catalogsForm]: 'Edit Catalog',
     'catalog-create': 'Create Catálogo',
+    [PATH_NAMES.catalogsDetails]: 'Catalog Details',
     //endregion =============================================================================
     
     //region ======== USERS =================================================================

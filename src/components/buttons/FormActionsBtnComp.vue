@@ -7,9 +7,9 @@
                     @click.prevent="$emit('deleteIntent', $event)"
                     class="mr-md-2"
                     buttonType="danger"
-                    title="Remove the Catalog">
+                    :title="$t('btn.tip-remove-entity')">
                 <i class="tim-icons icon-trash-simple" style="padding-bottom: 2px; padding-right: 4px;"/>
-                DELETE
+                {{ $t('btn.val-del') }}
             </base-button-comp>
         </div>
         <div class="col-md-10 text-md-right">
@@ -17,16 +17,16 @@
                     @click.prevent="$emit('cancelIntent', $event)"
                     class="mr-sm0 mr-sm-2"
                     buttonType="default"
-                    title="Do nothing">
+                    :title="$t('btn.tip-cancel')">
                 <i class="tim-icons icon-simple-remove" style="padding-bottom: 2px; padding-right: 4px;"/>
-                CANCEL
+                {{ $t('btn.val-cancel') }}
             </base-button-comp>
 
             <button @click.prevent="$emit('saveIntent', $event)"
                     class="btn btn-primary ml-sm-0 ml-sm-2"
-                    title="Save the catalog">
+                    :title="$t('btn.tip-save')">
                 <i class="tim-icons icon-check-2" style="padding-bottom: 2px; padding-right: 4px;"/>
-                SAVE
+                {{ $t('btn.val-save') }}
             </button>
         </div>
     </div>

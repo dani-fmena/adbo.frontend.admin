@@ -102,6 +102,7 @@
                 this.$emit("close")
             }
         },
+        emits: ['close', 'update:show'],
         watch: {
             show (val, _) {                                                                 // parameters val & oldVal
                 let documentClasses = document.body.classList                               // direct document manipulation

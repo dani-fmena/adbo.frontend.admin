@@ -35,7 +35,7 @@
                 </span>
                     <input class="form-control"
                            type="text"
-                           placeholder="Search"
+                           :placeholder="cap($t('forms.ph-search'))"
                            aria-describedby="addon-right addon-left"
                            @input="debounceListener"
                            @blur="h_onSrchBlursEvt($event)"
@@ -73,8 +73,12 @@
                     rowspan="1"
                     v-if="!header.hidden"
                     :class="[{'text-right': header.toRight}, {'text-left': header.toLeft}, {'text-center': header.toCenter}]">
-                    {{ header.title }}
 
+                    <!-- printing the header with i18n -->
+                    <!--{{ header.title }}-->
+                    {{ header.navKey ? $t('data.' + header.navKey) : $t('data.' + header.title) }}
+
+                    <!-- printing the sorters carets -->
                     <span @click.prevent="h_changeSort(header)" v-if="header.sorting || header.sorting === ''" class="caret-wrapper">
                         <i class="fa fa-caret-up sorter" :class="{'active': header.sorting === 'asc'}"></i>
                         <i class="fa fa-caret-down sorter" :class="{'active': header.sorting === 'desc'}"></i>
@@ -153,6 +157,7 @@
         IDTQueryBase
     } from '@/services/definitions'
     import { BaseButtonComp } from '@/components'
+    import useCommon from '@/services/composables/useCommon'
     import useDebaunce from '@/services/composables/useDebaunce'
 
 
@@ -264,6 +269,7 @@
             }
             const mode = toRaw(props.actionBarMode)                                                                  // Returns the raw, original object of a reactive or readonly proxy. This is an escape hatch that can be used to temporarily read without incurring proxy access/tracking overhead or write without triggering changes.
 
+            const { cap } = useCommon()
             //endregion =============================================================================
 
             //region ======== COMPUTATIONS & GETTERS ================================================
@@ -451,7 +457,9 @@
                 h_searchChange,
                 ...useDebaunce(h_searchChange),
 
-                tableClass
+                tableClass,
+
+                cap
             }
         }
     })

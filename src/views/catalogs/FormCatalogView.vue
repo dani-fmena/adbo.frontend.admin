@@ -17,14 +17,14 @@
                         </div>
 
                         <div class="row">
-                            <label class="text-sm-left text-md-right col-md-3 col-form-label">Name</label>
+                            <label class="text-sm-left text-md-right col-md-3 col-form-label">{{ $t('data.Name') }}</label>
                             <div class="col-md-9">
                                 <basic-input-comp placeholder="The name of the catalog" name="name" type="text" />
                             </div>
                         </div>
 
                         <div class="row">
-                            <label class="text-sm-left text-md-right col-md-3 col-form-label">Status</label>
+                            <label class="text-sm-left text-md-right col-md-3 col-form-label">{{ $t('data.isEnable') }}</label>
                             <div class="col-md-9">
                                 <basic-checkbox-comp name="isEnable" :checked="iniFormData.isEnable" :labels="['Active', 'Disabled']" />
                             </div>

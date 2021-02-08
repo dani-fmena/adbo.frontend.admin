@@ -25,6 +25,7 @@
                 // @ts-ignore
                 this.$emit('checkIntent', { newStatus: evt.target!.checked, id: this.identifier } as ITableChkEmit)
             }
-        }
+        },
+        emits: ['checkIntent']
     })
 </script>

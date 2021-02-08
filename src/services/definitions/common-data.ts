@@ -6,7 +6,7 @@ export const HCatalogsTable: Partial<IColumnHeader> [] = [            // H means
     { title: 'Id', navKey: '_id', hidden: true },
     { title: 'Name', sorting: '' },
     { title: 'Active', toCenter: true, navKey: 'isEnable', switch: true },
-    { title: 'Size(MB)', navKey: 'size', width: 10, sorting: ''},
+    { title: 'Size(MB)', navKey: 'size', width: 12, sorting: ''},
     { title: 'Items', toCenter: true, width: 10 },
     { title: 'Actions', toRight: true, width: 40}
 ]

@@ -10,6 +10,7 @@
         <div class="card-header" v-if="$slots.header || title || hasFormBackBtn" :class="headerClasses">
             <slot name="header">
                 <button v-if="hasFormBackBtn"
+                        :title="$t('btn.tip-back')"
                         class="btn btn-icon btn-primary"
                         @click.prevent="h_Click">
                     <i class="tim-icons icon-minimal-left"></i>
@@ -78,8 +79,7 @@
             },
         },
         methods: {
-            h_Click (evt: Event) {
-                this.$emit('doClick', evt)
+            h_Click (evt: Event) {this.$emit('doClick', evt)
             }
         },
         emits: ['doClick']
